@@ -56,7 +56,7 @@ with open('weatherCodes.txt', 'r') as weatherCodes:
 if codeDictionary[weatherID[0]] == '-':							# If weather in 3 hours is raining, close the top of protection unit
 	print("win")
 
-
+###
 
 
 ### Save weather data to a file, save only if had to close top and time and why
