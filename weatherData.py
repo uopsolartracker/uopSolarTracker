@@ -5,13 +5,14 @@ import urllib.request											# urllib for python3, need to get url of OpenWea
 															# https://docs.python.org/3/library/urllib.request.html#urllib.request.Request
 import json													# Default data from API is in JSON format so need this module to parse it
 															# https://docs.python.org/3/library/json.html?highlight=json#module-json
-#import time													# Used to get a current timestamp
 import datetime												# Used to get a human-readable timestamp
 															# https://docs.python.org/3/library/datetime.html#module-datetime
 from collections import OrderedDict								# Used to order the JSON data from the API in the same order it is imported as. Otherwise, output is unordered
 #import contextlib
 
-### Request weather data (JSON) from OpenWeatherMap.com
+#TODO add exception handling
+
+### Request weather data (comes in JSON format) from OpenWeatherMap.com
 zipCode = "90210"															# University of the Pacific zipcode = 95211
 APIKey = "849eb6e48e5b5e037e1cb47efea60d62"
 
@@ -50,12 +51,11 @@ def getWeather():
 	jsonStringForecast = json.loads(apiResponseForecast, object_pairs_hook=OrderedDict)
 	jsonStringWeather = json.loads(apiResponseWeather, object_pairs_hook=OrderedDict)
 
-	# TODO: make a loop to loop over however many weather ID's there are. we are using about 40 but make it work for any value
 	### Parse the JSON strings for ID and time
 	# Parse the forecast data into a list	
 	forecastID = [ ]
 	forecastTime = [ ]
-	for i in range(30):
+	for i in range(jsonStringForecast['cnt']):
 		forecastID.append(jsonStringForecast['list'][i]['weather'][0]['id'])			# Create a list of forecasted weather ID's
 		forecastTime.append(jsonStringForecast['list'][i]['dt'])					# Create a list of forecast time data, API gives time in UTC (unix)
 		#print("i = ", i, " WeatherID = ", weatherID[i])
@@ -64,20 +64,19 @@ def getWeather():
 	# Parse the current weather data
 	weatherID = jsonStringWeather['weather'][0]['id']
 	weatherTime = jsonStringWeather['dt']
-	print("ID = ", weatherID, " Time = ", weatherTime)
 
 	### Check if is raining or might rain
-	if idCodeDictionary[forecastID[0]] == 'x' or idCodeDictionary[weatherID] == 'x':	# If weather in 3 hours or now is raining, close the top of protection unit
-		return 1
-	else:
-		return 0
+	for i in range(jsonStringForecast['cnt']):
+		if idCodeDictionary[forecastID[0]] == 'x' or idCodeDictionary[weatherID] == 'x':	# If weather in 3 hours or now is raining, close the top of protection unit
+			#TODO Save weather data to a file, save only if had to close top and time and why
+			return 1
+		else:
+			return 0
 	
 ######
 
 if __name__ == '__main__':
 	getWeather()
 
-### Save weather data to a file, save only if had to close top and time and why
-# Keep data for only 1 week?
 
 
