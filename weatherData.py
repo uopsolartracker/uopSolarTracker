@@ -55,23 +55,37 @@ def getWeather():
 	# Parse the forecast data into a list	
 	forecastID = [ ]
 	forecastTime = [ ]
-	for i in range(jsonStringForecast['cnt']):
+	for i in range(jsonStringForecast['cnt']):									# 'cnt' is the count of lines returned by the API
 		forecastID.append(jsonStringForecast['list'][i]['weather'][0]['id'])			# Create a list of forecasted weather ID's
 		forecastTime.append(jsonStringForecast['list'][i]['dt'])					# Create a list of forecast time data, API gives time in UTC (unix)
 		#print("i = ", i, " WeatherID = ", weatherID[i])
 		#print("i = ", i, " Time = ", forecastTime[i])	
-	
+
+
+		tt = datetime.datetime(jsonStringForecast['dt_txt'])
+
+
+		print(tt)
 	# Parse the current weather data
 	weatherID = jsonStringWeather['weather'][0]['id']
 	weatherTime = jsonStringWeather['dt']
 
+	#TODO: Make sure all times are local times
+	#TODO: Capture weather/forecast data every ten minutes up to three hours. close if raining during that time. open if no rain for 1 hour after rain stops and no rain for three hours
 	### Check if is raining or might rain
-	for i in range(jsonStringForecast['cnt']):
-		if idCodeDictionary[forecastID[0]] == 'x' or idCodeDictionary[weatherID] == 'x':	# If weather in 3 hours or now is raining, close the top of protection unit
-			#TODO Save weather data to a file, save only if had to close top and time and why
-			return 1
-		else:
-			return 0
+	outFile = open('Close_Top_Logs.txt', 'a')									# Open file to prepare for write
+	#for i in range(jsonStringForecast['cnt']):									# Use the for loop if want forcast for more than three hours ahead, each iteration is 3 hours more
+	if idCodeDictionary[forecastID[0]] == 'x' or idCodeDictionary[weatherID] == 'x':	# If weather in 3 hours or now is raining, close the top of protection unit
+		#captureTime = datetime.datetime.fromtimestamp(forecastTime[i])		# Get time of projected forecast
+		#forecastDescription = descriptionCodeDictionary[forecastID[i]]			# Get reason for closing top from the code dictionary
+		#outFile.write(captureTime, "	", forecastDescription)					# Write to file
+		#outFile.close()													# Close file
+		print("Id codeDict = ", idCodeDictionary[forecastID[0]], "	", descriptionCodeDictionary[forecastID[0]])
+		print("ForecastID: ", forecastID[0])
+		print("WeatherDict = ",  idCodeDictionary[weatherID])
+		print("WeatherID: ", weatherID)
+		return 1
+	return 0
 	
 ######
 
