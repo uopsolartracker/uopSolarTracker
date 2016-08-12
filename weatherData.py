@@ -37,9 +37,13 @@ with open('weatherCodes.txt', 'r') as weatherCodes:
 def getWeather():
 	### Timestamps
 	time1 = datetime.datetime.utcnow()											# UTC time for timestamp
-	t1 = datetime.datetime.timestamp(time1)									# use datetime to make a timestamp of previous timestamp into a float type
+	utcStamp = datetime.datetime.timestamp(time1)
 	californiaTime = datetime.datetime.now()									# Cali time for timestamp
-	#print("TIME = ", californiaTime)
+	t1 = datetime.datetime.timestamp(californiaTime)									# use datetime to make a timestamp of previous timestamp into a float type
+	#print("Local time = ", californiaTime)
+	#print("UTC time = ", time1)
+	#print("Local timestamp = ", t1)
+	#print("UTC timestamp = ", utcStamp)
 	
 	### Request and read the API page
 	# urlopen returns a bytes object so decode it so it can be read by the JSON module
@@ -57,20 +61,60 @@ def getWeather():
 	forecastTime = [ ]
 	for i in range(jsonStringForecast['cnt']):									# 'cnt' is the count of lines returned by the API
 		forecastID.append(jsonStringForecast['list'][i]['weather'][0]['id'])			# Create a list of forecasted weather ID's
-		forecastTime.append(jsonStringForecast['list'][i]['dt'])					# Create a list of forecast time data, API gives time in UTC (unix)
-		#print("i = ", i, " WeatherID = ", weatherID[i])
-		#print("i = ", i, " Time = ", forecastTime[i])	
+		
+		### Convert API time of forecast (UNIX) to local time and save in list
+		# First convert to a string in local time
+		forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][i]['dt'])
+		# Next convert the local time string to a local time timstamp
+		forecastLocalTimestamp = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()
+		# Create a list of forecast time timestamp data
+		forecastTime.append(forecastLocalTimestamp)
 
 
-		tt = datetime.datetime(jsonStringForecast['dt_txt'])
+		############################ ERROR CHECKING AND CONVERSION TESTING ############################
+		
+		#time1 = datetime.datetime.utcnow()											# UTC time for timestamp in readable format
+		#utcStamp = datetime.datetime.timestamp(time1)								# gives a float
+		#californiaTime = datetime.datetime.now()									# Cali time for timestamp
+		#t1 = datetime.datetime.timestamp(californiaTime)							# float type
+		#print("	Local time now= ", californiaTime)
+		#print("UTC time = ", time1)
+		#print("Local timestamp = ", t1)
+		#print("UTC timestamp = ", utcStamp)		
 
+		#localTime = datetime.datetime.fromtimestamp(jsonStringForecast['list'][i]['dt'])
+		#print("Forecast Local Text = ", localTime)
+		#print("Forecast UTC Text = ", datetime.datetime.utcfromtimestamp(jsonStringForecast['list'][i]['dt']))
 
-		print(tt)
+		#a = datetime.datetime.strptime(str(localTime), "%Y-%m-%d %H:%M:%S").timestamp()
+		#print('Forecast Local time as timestamp = ', a)
+		#print('Forecast UTC as timestamp = ', forecastTime[i])
+		#b = datetime.datetime.fromtimestamp(a)
+		#print("Forcast Local time back to text = ", b)
+		#print("Forecast UTC time back to text = ", datetime.datetime.utcfromtimestamp(forecastTime[i]))
+
+		###########################################################################################
+
 	# Parse the current weather data
 	weatherID = jsonStringWeather['weather'][0]['id']
-	weatherTime = jsonStringWeather['dt']
+	weatherLocalTime = datetime.datetime.fromtimestamp(jsonStringWeather['dt'])
+		
+	############################ ERROR CHECKING AND CONVERSION TESTING ############################
+	
+	#print("Weather time UTC timestamp = ", weatherTime)
+	#weatherUTCStamp = datetime.datetime.utcfromtimestamp(weatherTime)
+	#print("Text Weather UTC =", weatherUTCStamp)
+	#lt = datetime.datetime.fromtimestamp(weatherTime)
+	#print("Text Weather Now = ", lt)
+	#c = datetime.datetime.strptime(str(lt), "%Y-%m-%d %H:%M:%S").timestamp()
+	#print("Weather time Now timestamp = ", c)
+	#weatherUTCtxt = jsonStringWeather['dt_txt']
+	#print("Weather UTC Text = ", weatherUTCtxt)
+	#print("Timestamp now = ", datetime.datetime.strptime(str(weatherUTCStamp), "%Y-%m-%d %H:%M:%S").timestamp())
+	#print("Time Text Now = ", )
+			
+	###########################################################################################
 
-	#TODO: Make sure all times are local times
 	#TODO: Capture weather/forecast data every ten minutes up to three hours. close if raining during that time. open if no rain for 1 hour after rain stops and no rain for three hours
 	### Check if is raining or might rain
 	outFile = open('Close_Top_Logs.txt', 'a')									# Open file to prepare for write
