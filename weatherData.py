@@ -8,21 +8,52 @@ import json													# Default data from API is in JSON format so need this m
 import datetime												# Used to get a human-readable timestamp
 															# https://docs.python.org/3/library/datetime.html#module-datetime
 from collections import OrderedDict								# Used to order the JSON data from the API in the same order it is imported as. Otherwise, output is unordered
-import time
-#import contextlib
 
 #TODO add exception handling
+#TODO: save top closing data to file/webpage, when and why it closed
+#TODO: logic to account for sudden weather/forecast changes
 
 # Time Defines
 oneHour = 3600.0									# Seconds
+#eightAM = 
 closeTopCoverCodes = [0, 0, 0, 0, 0, 0, 0]					# List of state of the top cover of protection unit being closed and state of rain
-													# FORMAT: closeTopCoverCodes = [close/open, Now, next API point, nextTime, +1h, 24h, +3h after 24h]
-													#							  =  [	0	   ,	1  ,           2	      ,	       3	,   4   ,   5   ,   	     6  	   ]
+													# FORMAT: closeTopCoverCodes = [closed/open, now, next API point, 24h, 24h + 3h, time, nextTime, ]
+													#							  =  [      	   0	     ,   1   ,           2	        ,    3  ,        4      ,   5    ,        6        ]
+													# [0] closed/open	: Status of top cover. Also gets set to send command to open or close the top
+													# 				: 0 = closed
+													# 				: 1 = open
+													# [1] now		: Status of current weather (Ask yourself, is there bad weather?)
+													# 				: 0 = no, not bad weather
+													# 				: 1 = yes, bad weather
+													# [2] next API Point : Status of forecast of next closest API forecast capture point. The API gives forecasts
+													#			  	    in 3 hour increments starting at 2AM PST (12AM UTC).
+													#				    EXAMPLE: If get forecast data from API at 3:23AM, the next closest forecast time given
+													#				    by the API is 5AM (3 hours from 2AM). 
+													# 				: 0 = not bad weather
+													# 				: 1 = bad weather
+													# [3] 24h		: Status of forecast 24 hours from now
+													# 				: 0 = not bad weather
+													# 				: 1 = bad weather
+													# [4] 24h + 3h 	: Status of forecast 24 hours + next API point past 24 hours. Might not be raining 24h from
+													#				  now but may be raining 24h + 1 minute from now. So dont want top to open then start raining.
+													# 				: 0 = not bad weather
+													# 				: 1 = bad weather
+topCoverCodes = {
+				"status": 0,
+				"now": 0,
+				"nextAPIPoint": 0,
+				"dayTime": 0,
+				"currentWeatherTime": 0.0,
+				"gap1start": 0.0,
+				"gap1end": 0.0,
+				"gap2start": 0.0,
+				"gap2end": 0.0
+				}
 
 	### Bad weather Truth Table ###
 	# No bad weather = 0
 	# Bad weather = 1
-	# Now | NextAPIpoint | +1h | 24h | +3h || Allow Open for that Day
+	# closed/opened | Now | NextAPIpoint | +1h | 24h | +3h || Allow Open for that Day
 	# --------------------------------------------------------------------------------------
 	#    0    |           0           |   0   |    0   |   0    ||        		1
 	#    0    |           0           |   0   |    0   |   1    ||        		0
@@ -31,7 +62,6 @@ closeTopCoverCodes = [0, 0, 0, 0, 0, 0, 0]					# List of state of the top cover 
 	#    0    |           1           |   X   |    X   |   X    ||        		0
 	#    1    |           X           |   X   |    X   |   X    ||        		0
 
-print("Declared = ", closeTopCoverCodes)
 ### Request weather data (comes in JSON format) from OpenWeatherMap.com
 zipCode = "90210"															# University of the Pacific zipcode = 95211
 APIKey = "849eb6e48e5b5e037e1cb47efea60d62"
@@ -90,33 +120,21 @@ def getWeatherForTop(closeTopCoverCodes):
 	
 	# Check ID against ID code file to see if bad weather
 	if idCodeDictionary[weatherID] == 'x':
-		closeTopCoverCodes[1] = 1
-		return closeTopCoverCodes
+		#closeTopCoverCodes[1] = 1
+		topCoverCodes['now'] = 1
+		topCoverCodes['currentWeatherTime'] = weatherLocalTimestamp
+		return topCoverCodes		
+		#return closeTopCoverCodes
 	return closeTopCoverCodes
 
 def getForecastForTop(closeTopCoverCodes):
 	"""Returns a list of codes of weather to open the top cover of the protection unit or not"""
 
-	print("In forecast = ", closeTopCoverCodes)
-
-	### Timestamps
-	time1 = datetime.datetime.utcnow()											# UTC time for timestamp
-	utcStamp = datetime.datetime.timestamp(time1)
-	californiaTime = datetime.datetime.now()									# Cali time for timestamp
-	t1 = datetime.datetime.timestamp(californiaTime)							# use datetime to make a timestamp of previous timestamp into a float type
-	#print("Local time = ", californiaTime)
-	#print("UTC time = ", time1)
-	#print("Local timestamp = ", t1)
-	#print("UTC timestamp = ", utcStamp)
-		
-	# Get the API response of the forecast data
+	### Get the API response of the forecast data
 	url = forecastURL
 	jsonStringForecast = requestAPI(url)
 
-	################# Parse the JSON strings for ID and time ################# 
-	#################									#################
-
-	# Parse the forecast data into a list	
+	### Parse the forecast data into a lists
 	forecastID = [ ]
 	forecastTime = [ ]
 	for i in range(jsonStringForecast['cnt']):									# 'cnt' is the count of lines returned by the API
@@ -131,6 +149,33 @@ def getForecastForTop(closeTopCoverCodes):
 		forecastTime.append(forecastLocalTimestamp)
 
 		print(i, ":	ID: ", forecastID[i], "	Time: ", forecastLocalTimeString, "	Stamp: ", forecastTime[i])
+
+	### 1) Check if night or day ( day = anytime between 8:10am and 4:50pm)
+	getTimeOfDay(topCoverCodes)
+	### 2) 
+	if topCoverCodes['dayTime'] == 0:		# Night time
+		### Gather forecast for the day ahead		
+		nextAPIPoint = jsonStringForecast['list'][0]['weather'][0]['id']
+		#eightAM = jsonStringForecast['list'][0]['dt']
+		j = 0		
+		while x = True:		
+			forecastLocalTimeString = str(datetime.datetime.fromtimestamp(jsonStringForecast['list'][j]['dt']))		# gives in local time
+			forecastLocalTimeString.split()		# split at space that separates data and time
+			if forecastLocalTimeString[1] == '08:00:00'		
+				# -> mark time when 8
+				# -> check rain at 8, 11, 2pm, 5pm
+				# -> find gaps if rain
+				# -> ... follow notebook code ...
+				x = False	
+
+			j = j + 1
+			# Next convert the local time string to a local time timstamp
+			#forecastLocalTimestamp = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()
+					
+		if idCodeDictionary[nextAPIPoint] == 'x':									#check bad weather at 8am using idCodeDict and jsonString by looking for dt_text
+
+	elif topCoverCodes['dayTime'] == 1:		# Day time
+
 
 		############################ ERROR CHECKING AND CONVERSION TESTING ############################
 		
@@ -182,13 +227,14 @@ def getForecastForTop(closeTopCoverCodes):
 			
 	###########################################################################################
 
-	#TODO: Capture weather/forecast data every ten minutes up to three hours. close if raining during that time. open if no rain for 1 hour after rain stops and no rain for three hours
-	### Check if is raining or might rain
-	nextAPIPoint = forecastID[0]
+	#outFile = open('Close_Top_Logs.txt', 'a')									# Open file to prepare for write
 
-	outFile = open('Close_Top_Logs.txt', 'a')									# Open file to prepare for write
 
-	### Check if bad weather at next API forecast capture point
+
+
+#################################################################################################
+	####### OLD LOGIC
+	nextAPIPoint = forecastID[0]											# First index is next API capture point of forecast
 	if idCodeDictionary[nextAPIPoint] == 'x':									# If weather in 3 hours or now is raining, close the top of protection unit
 		closeTopCoverCodes[2] = 1
 	else:
@@ -213,6 +259,33 @@ def getForecastForTop(closeTopCoverCodes):
 			closeTopCoverCodes[6] = 1
 
 	return closeTopCoverCodes
+######################################################################################################
+
+
+def getTopCoverStatus(closeTopCoverCodes):
+	""" Sets open/close index based on other closeTopCoverCodes indicies and returns closeTopCoverCodes to the main function """
+	
+	#if closeTopCoverCodes[0] == 0 and closeTopCoverCodes [5] != 0:
+
+def getTimeOfDay(topCoverCodes):
+	""" Sets time index to 1 if between 8am and 4pm when there is light. This allows top to open if during the day. """
+	
+	### Get todays 8AM and 4PM time stamp
+	eightTenAMString = str(datetime.date.today()) + ' 08:10:0'
+	eightTenAM = datetime.datetime.strptime(eightTenAMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+	fourFiftyPMString = str(datetime.date.today()) + ' 16:50:0'
+	fourFiftyPM = datetime.datetime.strptime(fourFiftyPMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+
+	### Get time stamp for current time
+	timeString = datetime.datetime.now()											# Cali date and time datetime string
+	timeFloat = datetime.datetime.timestamp(timeString)								# Convert to float time stamp
+
+	### Set index if during day
+	if timeFloat >= eightTenAM and timeFloat <= fourFiftyPM:
+		topCoverCodes['dayTime'] = 1
+		return topCoverCodes
+	topCoverCodes['dayTime'] = 0
+	return topCoverCodes
 	
 	
 ################################
