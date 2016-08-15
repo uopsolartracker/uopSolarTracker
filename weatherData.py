@@ -40,14 +40,18 @@ closeTopCoverCodes = [0, 0, 0, 0, 0, 0, 0]					# List of state of the top cover 
 													# 				: 1 = bad weather
 topCoverCodes = {
 				"status": 0,
+				"dayTime": 0,
 				"now": 0,
 				"nextAPIPoint": 0,
-				"dayTime": 0,
+				"eightAM": 0,
+				"elevenAM": 0,
+				"twoPM": 0,
+				"fivePM": 0,
 				"currentWeatherTime": 0.0,
-				"gap1start": 0.0,
-				"gap1end": 0.0,
-				"gap2start": 0.0,
-				"gap2end": 0.0
+				"eightAMTimestamp": 0.0,
+				"elevenAMTimestamp": 0.0,
+				"twoPMTimestamp": 0.0,
+				"fivePMTimestamp": 0.0,
 				}
 
 	### Bad weather Truth Table ###
@@ -153,29 +157,54 @@ def getForecastForTop(closeTopCoverCodes):
 	### 1) Check if night or day ( day = anytime between 8:10am and 4:50pm)
 	getTimeOfDay(topCoverCodes)
 	### 2) 
-	if topCoverCodes['dayTime'] == 0:		# Night time
-		### Gather forecast for the day ahead		
-		nextAPIPoint = jsonStringForecast['list'][0]['weather'][0]['id']
-		#eightAM = jsonStringForecast['list'][0]['dt']
+	if topCoverCodes['dayTime'] == 0:							# Night time
+		### Gather forecast for the day ahead starting at 8AM		
+		#nextAPIPoint = jsonStringForecast['list'][0]['weather'][0]['id']
+		x = True
 		j = 0		
-		while x = True:		
+		while x == True:		
 			forecastLocalTimeString = str(datetime.datetime.fromtimestamp(jsonStringForecast['list'][j]['dt']))		# gives in local time
-			forecastLocalTimeString.split()		# split at space that separates data and time
-			if forecastLocalTimeString[1] == '08:00:00'		
-				# -> mark time when 8
-				# -> check rain at 8, 11, 2pm, 5pm
-				# -> find gaps if rain
+			if forecastLocalTimeString[11:] == "08:00:00":		
+				### Get forecast between 8am - 5pm. TODO: Make function for the 4 if statements?
+				# [j] = 8am, [j+1] = 11am, [j+2] = 2pm, [j+3] = 5pm
+				if idCodeDictionary[jsonStringForecast['list'][j]['weather'][0]['id']] == 'x':
+					topCoverCodes["eightAM"] = 1
+
+				if idCodeDictionary[jsonStringForecast['list'][j+1]['weather'][0]['id']] == 'x':
+					topCoverCodes["elevenAM"] = 1
+
+				if idCodeDictionary[jsonStringForecast['list'][j+2]['weather'][0]['id']] == 'x':
+					topCoverCodes["twoPM"] = 1	
+
+				if idCodeDictionary[jsonStringForecast['list'][j+3]['weather'][0]['id']] == 'x':
+					topCoverCodes["fivePM"] = 1
+				
+				### Fill 8-5 timestamps with real times. Convert and save the times
+				# 8AM
+				forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][j]['dt'])
+				topCoverCodes["eightAMTimestamp"] = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()	
+				# 11AM
+				forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][j+1]['dt'])
+				topCoverCodes["elevenAMTimestamp"] = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()
+				# 2PM
+				forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][j+2]['dt'])
+				topCoverCodes["twoPMTimestamp"] = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()	
+				# 5PM				
+				forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][j+3]['dt'])
+				topCoverCodes["fivePMTimestamp"] = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()	
+				
+		########### LEFT OFF HERE, WORKING ON processForecastConditions FUNCTION
+				### Set gaps of time when good weather
+				processForecastConditions(topCoverCodes)
 				# -> ... follow notebook code ...
 				x = False	
 
 			j = j + 1
 			# Next convert the local time string to a local time timstamp
 			#forecastLocalTimestamp = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()
-					
-		if idCodeDictionary[nextAPIPoint] == 'x':									#check bad weather at 8am using idCodeDict and jsonString by looking for dt_text
-
-	elif topCoverCodes['dayTime'] == 1:		# Day time
-
+			
+	elif topCoverCodes['dayTime'] == 1:							# Day time
+		print("place holder")
 
 		############################ ERROR CHECKING AND CONVERSION TESTING ############################
 		
@@ -286,7 +315,60 @@ def getTimeOfDay(topCoverCodes):
 		return topCoverCodes
 	topCoverCodes['dayTime'] = 0
 	return topCoverCodes
+
+def processForecastConditions(topCoverCodes):
+	"""This function sets the times to allow the top cover to open based on when there is good weather in the daytime."""
+
+	# bad weather == 1
+	# Could have bad weather befre a 1 or after so only okay to open if 2 consecutive 0's 
+	# 8AM | 11AM | 2PM | 5PM || Allow Open for that Day
+	# ------------------------------------------------------------------------
+# 0	#    0    |     0     |    0    |    0    || 	8:10am - 4:50pm
+# 1	#    0    |     0     |    0    |    1    || 	8:10am - 1:50pm
+# 2	#    0    |     0     |    1    |    0    || 	8:10am - 10:50am
+# 3	#    0    |     0     |    1    |    1    || 	8:10am - 10:50am
+# 4	#    0    |     1     |    0    |    0    || 	2:10pm - 4:50pm
+	#    0    |     1     |    0    |    1    ||  		     0
+	#    0    |     1     |    1    |    0    ||  		     0
+	#    0    |     1     |    1    |    1    ||  		     0
+# 8	#    1    |     0     |    0    |    0    || 	11:10am - 4:50pm
+	#    1    |     0     |    0    |    1    ||  		     0
+	#    1    |     0     |    1    |    0    ||  		     0
+	#    1    |     0     |    1    |    1    ||  		     0
+#12 #    1    |     1     |    0    |    0    || 	2:10pm - 4:50pm
+	#    1    |     1     |    0    |    1    ||  		     0
+	#    1    |     1     |    1    |    0    ||  		     0
+	#    1    |     1     |    1    |    1    ||  		     0	
 	
+	# 0
+	if topCoverCodes["eightAM"] == 0 and topCoverCodes["elevenAM"] == 0 and topCoverCodes["twoPM"] == 0 and topCoverCodes["fivePM"] == 0:
+		print("PLACE HOLDER")
+		# grab date from dt, 
+		# grab time from dt
+		# add ten min or subtract ten min from time
+		# concat with date to give a date and time when to actually start to open top
+		# save to topCoverCodes
+		# return?
+	# 1
+	elif topCoverCodes["eightAM"] == 0 and topCoverCodes["elevenAM"] == 0 and topCoverCodes["twoPM"] == 0 and topCoverCodes["fivePM"] == 1:
+		print("PLACE HOLDER")
+	# 2
+	elif topCoverCodes["eightAM"] == 0 and topCoverCodes["elevenAM"] == 0 and topCoverCodes["twoPM"] == 1 and topCoverCodes["fivePM"] == 0:
+		print("PLACE HOLDER")
+	# 3
+	elif topCoverCodes["eightAM"] == 0 and topCoverCodes["elevenAM"] == 0 and topCoverCodes["twoPM"] == 1 and topCoverCodes["fivePM"] == 1:
+		print("PLACE HOLDER")
+	# 4
+	elif topCoverCodes["eightAM"] == 0 and topCoverCodes["elevenAM"] == 1 and topCoverCodes["twoPM"] == 0 and topCoverCodes["fivePM"] == 0:
+		print("PLACE HOLDER")
+	# 8
+	elif topCoverCodes["eightAM"] == 1 and topCoverCodes["elevenAM"] == 0 and topCoverCodes["twoPM"] == 0 and topCoverCodes["fivePM"] == 0:
+		print("PLACE HOLDER")
+	# 12
+	elif topCoverCodes["eightAM"] == 1 and topCoverCodes["elevenAM"] == 1 and topCoverCodes["twoPM"] == 0 and topCoverCodes["fivePM"] == 0:
+		print("PLACE HOLDER")
+
+	return topCoverCodes
 	
 ################################
 
