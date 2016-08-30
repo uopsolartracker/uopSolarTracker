@@ -60,6 +60,11 @@ print("Init topCoverCodes = ", topCoverCodes)
 
 #example http://api.openweathermap.org/data/2.5/weather?q=65065us&APPID=849eb6e48e5b5e037e1cb47efea60d62
 
+### Description: Gets current weather
+### Input: None
+### Output: None
+### Example:
+### 	Call getWeatherForTop() from main --> sets topCoverCodes.currentStatus = 0 (good weather) or 1 (bad weather)
 def getWeatherForTop(topCoverCodes):
 	""" Returns curtent weather ID and time """
 	
