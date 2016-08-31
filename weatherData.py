@@ -184,10 +184,16 @@ def findOpenTimes(topCoverCodes, jsonStringForecast):
 	""" Top Level to find times to allow th top cover to open """
 
 	### 1) Gather forecast for the day ahead starting at 8AM
+	# Gather the forecast by iterating through the JSON string to find the time and weather ID of each 3-hour
+	# forecast increment given by the API. Each iteration is 3 hours later and there is no forecast inbeween
+	# each 3 hours timeframe.
 	exitLoop = False
+	# j is used as the iterator to iterate through the JSON string
 	j = 0		
 	# Loop until day time then fill truth table for open top times
 	while exitLoop == False:
+		# At each iteration, check if have reached an 8AM forecast then capture its weather and time.
+		# If iteration started between 8AM-5PM, the data up to 5PM will be captured only.
 		exitLoop = fillTable(topCoverCodes, jsonStringForecast, j)
 		j = j + 1
 	
@@ -283,7 +289,7 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 		### Get forecast between 11am - 5pm.
 		# [j] = 11am, [j+1] = 2pm, [j+2] = 5pm
 		# Fills truth table inputs
-		
+	
 		if idCodeDictionary[jsonStringForecast['list'][j]['weather'][0]['id']] == 'x':
 			topCoverCodes["weatherElevenAM"] = 1
 
@@ -313,6 +319,7 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 		### Get forecast between 2pm - 5pm.
 		# [j] = 2pm, [j+1] = 5pm
 		# Fills truth table inputs
+
 		if idCodeDictionary[jsonStringForecast['list'][j]['weather'][0]['id']] == 'x':
 			topCoverCodes["weatherTwoPM"] = 1	
 
@@ -336,6 +343,7 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 		### Get forecast at 5pm.
 		# [j] = 5pm
 		# Fills truth table inputs
+
 		if idCodeDictionary[jsonStringForecast['list'][j]['weather'][0]['id']] == 'x':
 			topCoverCodes["weatherFivePM"] = 1
 		
@@ -427,8 +435,8 @@ def processForecastConditions(topCoverCodes):
 
 ### Description: Resets weather binary and timestamps to avoid incorrect truth table inputs on next interation of 
 ###		 acquiring the forecast
-### Flow: 		1) Check what needs to be reset and reset it
-### Input: topCoverCodes,r 
+### Flow: 		1) Check what needs to be reset based on r and reset it
+### Input: topCoverCodes, r 
 ### Output: none
 ### Example:
 ### 	Call this function from processForecastConditions() and fillTable() to clear used data
