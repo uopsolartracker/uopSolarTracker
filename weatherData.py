@@ -62,7 +62,8 @@ print("Init topCoverCodes = ", topCoverCodes)
 #example http://api.openweathermap.org/data/2.5/weather?q=65065us&APPID=849eb6e48e5b5e037e1cb47efea60d62
 
 ### Description: Gets current weather and sets badWeatherNow attribute. Is to be called from main.
-### Flow: 	--> Call forecast API 
+### Flow: 	--> Get time of day
+###		--> Call forecast API 
 ###		--> Parse incoming JSON 
 ###		--> Convert times to local time
 ###		--> Check API weather code against code in idCodeDictionary to see if bad weather
@@ -73,8 +74,12 @@ print("Init topCoverCodes = ", topCoverCodes)
 ### 	Call getWeatherForTop() from main --> sets topCoverCodes.topCurrentStatus = 0 (good weather) or 1 (bad weather)
 def getWeatherForTop(topCoverCodes):
 	""" Sets current weather ID and time """
-	
-	print("In weather topCoverCodes= ", topCoverCodes)	
+
+	print("Inside getWEATHERfortop......................")		
+
+	# Get time of day
+	getTimeOfDay()
+
 	# Get the API response of the current weather data
 	url = weatherURL
 	jsonStringWeather = requestAPI(url)
@@ -83,13 +88,13 @@ def getWeatherForTop(topCoverCodes):
 	weatherID = jsonStringWeather['weather'][0]['id']
 	weatherLocalTimeString = datetime.datetime.fromtimestamp(jsonStringWeather['dt'])	# Local time datetime.datetime type string
 	weatherLocalTimestamp = datetime.datetime.strptime(str(weatherLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()	# float type
-	#print("Current ID: ", weatherID, "	Time: ", weatherLocalTimeString, "	Stamp: ", weatherLocalTimestamp)
+	print("Current ID: ", weatherID, "	Time: ", weatherLocalTimeString, "	Stamp: ", weatherLocalTimestamp)
 	
 	# Check ID against ID code file to see if bad weather, x = bad weather in text file
 	if idCodeDictionary[weatherID] == 'x':
 		topCoverCodes['badWeatherNow'] = 1
 		topCoverCodes['currentWeatherTime'] = weatherLocalTimestamp
-		return topCoverCodes		
+			
 	return topCoverCodes
 
 ### Description: Gets current forecast and sets time-gap to allow top to open. Is to be called from main.
@@ -108,7 +113,7 @@ def getWeatherForTop(topCoverCodes):
 def getForecastForTop(topCoverCodes):
 	"""Returns a list of codes of weather to open the top cover of the protection unit or not"""
 	
-	print("In weather topCoverCodes= ", topCoverCodes)	
+	print("Inside getForecastForTop...............")	
 	
 	### 1) Get the API response of the forecast data
 	url = forecastURL
@@ -131,22 +136,26 @@ def getForecastForTop(topCoverCodes):
 		print(i, ":	ID: ", forecastID[i], "	Time: ", forecastLocalTimeString, "	Stamp: ", forecastTime[i])
 
 	### 2) Check if night or day ( day = anytime between 8:10am and 4:50pm), sets ['dayTime'] = 1/0
-	getTimeOfDay(topCoverCodes)
+	getTimeOfDay()
+	#print("getTimeOfDay in FORECAST = ", topCoverCodes)
 	### 2.1) Night time
 	if topCoverCodes['dayTime'] == 0:
+		print("NIGHT")
 		### 2.1.1) Find times to open the top cover
-		findOpenTimes(topCoverCodes, jsonStringForecast)			
-		return topCoverCodes
+		findOpenTimes(jsonStringForecast)			
 	### 2.2) Day time
 	elif topCoverCodes['dayTime'] == 1:
+		print("DAY")
 		### 2.2.1) Check weather now
-		getWeatherForTop(topCoverCodes)
+		getWeatherForTop(topCoverCodes)		
 		if topCoverCodes['badWeatherNow'] == 1:
+			print("BADWEATHER")
 			### 2.2.2) # Close the top now if bad weather. TODO: Maybe hard code a 'close top' command to Arduino here or create an interrupt
 			topCoverCodes['topCurrentStatus'] = 0
 		### 2.2.3) Find times to open the top
-		findOpenTimes(topCoverCodes, jsonStringForecast)			
-		return topCoverCodes
+		findOpenTimes(jsonStringForecast)		
+
+	return topCoverCodes
 	
 	#outFile = open('Close_Top_Logs.txt', 'a')									# Open file to prepare for write
 
@@ -169,7 +178,7 @@ def requestAPI(url):
 
 	return jsonString
 
-def getTopCoverStatus(topCoverCodes):
+def getTopCoverStatus():
 	""" Sets open/close index based on other closeTopCoverCodes indicies and returns closeTopCoverCodes to the main function """
 
 ### Description: Finds all good weather time-gaps and sets a time to allow top to open based on when
@@ -180,8 +189,10 @@ def getTopCoverStatus(topCoverCodes):
 ### Output: none
 ### Example:
 ### 	Call this function from getForecastForTop() to see when to open the top cover
-def findOpenTimes(topCoverCodes, jsonStringForecast):
+def findOpenTimes(jsonStringForecast):
 	""" Top Level to find times to allow th top cover to open """
+
+	print("Inside findOPENtimes")
 
 	### 1) Gather forecast for the day ahead starting at 8AM
 	# Gather the forecast by iterating through the JSON string to find the time and weather ID of each 3-hour
@@ -194,11 +205,11 @@ def findOpenTimes(topCoverCodes, jsonStringForecast):
 	while exitLoop == False:
 		# At each iteration, check if have reached an 8AM forecast then capture its weather and time.
 		# If iteration started between 8AM-5PM, the data up to 5PM will be captured only.
-		exitLoop = fillTable(topCoverCodes, jsonStringForecast, j)
+		exitLoop = fillTable(jsonStringForecast, j)
 		j = j + 1
 	
 	### 2) Set gaps of time when good weather
-	processForecastConditions(topCoverCodes)	
+	processForecastConditions()	
 	
 	return
 
@@ -210,7 +221,7 @@ def findOpenTimes(topCoverCodes, jsonStringForecast):
 ### Output: topCoverCodes
 ### Example:
 ### 	Call this function from getForecastForTop() to set times when there is good weather during the daytime so top can open
-def getTimeOfDay(topCoverCodes):
+def getTimeOfDay():
 	""" Sets time index to 1 if currently between 8:10am and 4:50pm when there is light. This allows top to open if during the day. """
 	
 	### 1) Get todays 8:10AM and 4:50PM timestamp
@@ -226,10 +237,11 @@ def getTimeOfDay(topCoverCodes):
 	### 3) Set index if during day
 	if timeFloat >= eightTenAM and timeFloat <= fourFiftyPM:
 		topCoverCodes['dayTime'] = 1
-		return topCoverCodes
+		#print("DAY = ", topCoverCodes['dayTime'])
+		return
 	topCoverCodes['dayTime'] = 0
 	
-	return topCoverCodes
+	return
 
 ### Description: Sets weather status at 8am, 11am, 2pm, and/or 5pm by checking time at the current
 ###		 iteration of j from findOpenTimes function. j is iterated until 8am, 11am, 2pm, or 5pm
@@ -243,8 +255,10 @@ def getTimeOfDay(topCoverCodes):
 ### Output: true/false
 ### Example:
 ### 	Call this function from findOpenTimes() to set truth table to be processed to find then time-gaps are
-def fillTable(topCoverCodes, jsonStringForecast, j):
+def fillTable(jsonStringForecast, j):
 	""" Saves time of day to open top and sets up truth table for when there is bad weather. """ 
+
+	print("Inside FILLTABLE")
 
 	###TODO: Maybe make a function for the code below.
 	### 1) Save time of j iteration that was passed in. It could be 8am, 11am, 2pm, or 5pm
@@ -256,6 +270,8 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 		# [j] = 8am, [j+1] = 11am, [j+2] = 2pm, [j+3] = 5pm
 		# Fills truth table inputs, x = bad weather
 		
+		print("In fillTable 8AM")
+
 		### 2.1) Fill truth table inputs
 		if idCodeDictionary[jsonStringForecast['list'][j]['weather'][0]['id']] == 'x':
 			topCoverCodes["weatherEightAM"] = 1
@@ -283,12 +299,16 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 		forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][j+3]['dt'])
 		topCoverCodes["fivePMTimestamp"] = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()
 
-		print("In fillTable topCoverCodes= ", topCoverCodes)	
+		print("TopCoverCodes = ", topCoverCodes)
+		print(" ")
+	
 		return True
 	elif forecastLocalTimeString[11:] == "11:00:00":		
 		### Get forecast between 11am - 5pm.
 		# [j] = 11am, [j+1] = 2pm, [j+2] = 5pm
 		# Fills truth table inputs
+
+		print("In fillTable 11AM")
 	
 		if idCodeDictionary[jsonStringForecast['list'][j]['weather'][0]['id']] == 'x':
 			topCoverCodes["weatherElevenAM"] = 1
@@ -310,15 +330,19 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 		forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][j+2]['dt'])
 		topCoverCodes["fivePMTimestamp"] = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()
 		
-		### 2.3) Set other values to 0 so that combination will get processed correctly
-		resetCodesAndTimes(topCoverCodes, 1)
+		print("TopCoverCodes = ", topCoverCodes)
+		print(" ")
 
-		print("In fillTable topCoverCodes= ", topCoverCodes)	
+		### 2.3) Set other values to 0 so that combination will get processed correctly
+		resetCodesAndTimes(1)
+
 		return True
 	elif forecastLocalTimeString[11:] == "14:00:00":		
 		### Get forecast between 2pm - 5pm.
 		# [j] = 2pm, [j+1] = 5pm
 		# Fills truth table inputs
+	
+		print("In fillTable 2PM")
 
 		if idCodeDictionary[jsonStringForecast['list'][j]['weather'][0]['id']] == 'x':
 			topCoverCodes["weatherTwoPM"] = 1	
@@ -334,15 +358,19 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 		forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][j+1]['dt'])
 		topCoverCodes["fivePMTimestamp"] = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()
 		
-		### Set other values to 0 so that combination will get processed correctly
-		resetCodesAndTimes(topCoverCodes, 2)
+		print("TopCoverCodes = ", topCoverCodes)
+		print(" ")
 
-		print("In fillTable topCoverCodes= ", topCoverCodes)	
+		### Set other values to 0 so that combination will get processed correctly
+		resetCodesAndTimes(2)
+
 		return True
 	elif forecastLocalTimeString[11:] == "17:00:00":		
 		### Get forecast at 5pm.
 		# [j] = 5pm
 		# Fills truth table inputs
+	
+		print("In fillTable 5PM")
 
 		if idCodeDictionary[jsonStringForecast['list'][j]['weather'][0]['id']] == 'x':
 			topCoverCodes["weatherFivePM"] = 1
@@ -352,11 +380,14 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 		forecastLocalTimeString = datetime.datetime.fromtimestamp(jsonStringForecast['list'][j+1]['dt'])
 		topCoverCodes["fivePMTimestamp"] = datetime.datetime.strptime(str(forecastLocalTimeString), "%Y-%m-%d %H:%M:%S").timestamp()
 		
-		### Set other values to 0 so that combination will get processed correctly
-		resetCodesAndTimes(topCoverCodes, 3)
+		print("TopCoverCodes = ", topCoverCodes)
+		print(" ")
 
-		print("In fillTable topCoverCodes= ", topCoverCodes)	
+		### Set other values to 0 so that combination will get processed correctly
+		resetCodesAndTimes(3)
+
 		return True
+	
 	return False
 
 ### Description: Sets time-gaps of good weather based on saved times of forecast. Truth table will be filled by this point.
@@ -366,8 +397,10 @@ def fillTable(topCoverCodes, jsonStringForecast, j):
 ### Output: topCoverCodes
 ### Example:
 ### 	Call this function from findOpenTimes() to get the time-gaps of when to open the top
-def processForecastConditions(topCoverCodes):
+def processForecastConditions():
 	"""This function sets the time period to allow the top cover to open based on when there is good weather in the daytime."""
+
+	print("Inside processFORECASTCONDITIONS")
 
 		# bad weather == 1
 		# Could have bad weather before a 1 or after so only okay to open if 2 consecutive 0's 
@@ -393,6 +426,10 @@ def processForecastConditions(topCoverCodes):
 	### 1) Set any time-gap times reduced by 10min on each side
 	# 0
 	if topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 0:
+		print("In process, #0")
+		#IF DAYTIME:
+		#	FIND NEXT NON RAINING POINT TO START OPEN FROM THERE
+
 		# topCoverCodes["eightAMTimestamp"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
 		 #topCoverCodes["fivePMTimestamp"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
 		topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
@@ -400,38 +437,44 @@ def processForecastConditions(topCoverCodes):
 
 	# 1
 	elif topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 1:
-		 topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
-		 topCoverCodes["gapEnd"] =  topCoverCodes["twoPMTimestamp"] - TENMINUTES
+		print("In process, #1")
+		topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
+		topCoverCodes["gapEnd"] =  topCoverCodes["twoPMTimestamp"] - TENMINUTES
 	
 	# 2
 	elif topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 1 and topCoverCodes["weatherFivePM"] == 0:
-		 topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
-		 topCoverCodes["gapEnd"] =  topCoverCodes["elevenAMTimestamp"] - TENMINUTES
+		print("In process, #2")
+		topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
+		topCoverCodes["gapEnd"] =  topCoverCodes["elevenAMTimestamp"] - TENMINUTES
 
 	# 3
 	elif topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 1 and topCoverCodes["weatherFivePM"] == 1:
-		 topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
-		 topCoverCodes["gapEnd"] =  topCoverCodes["elevenAMTimestamp"] - TENMINUTES
+		print("In process, #3")
+		topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
+		topCoverCodes["gapEnd"] =  topCoverCodes["elevenAMTimestamp"] - TENMINUTES
 
 	# 4
 	elif topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 1 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 0:
-		 topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
-		 topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		print("In process, #4")
+		topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
+		topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
 
 	# 8
 	elif topCoverCodes["weatherEightAM"] == 1 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 0:
-		 topCoverCodes["gapStart"] =  topCoverCodes["elevenAMTimestamp"] + TENMINUTES
-		 topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		print("In process, #8")
+		topCoverCodes["gapStart"] =  topCoverCodes["elevenAMTimestamp"] + TENMINUTES
+		topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
 
 	# 12
 	elif topCoverCodes["weatherEightAM"] == 1 and topCoverCodes["weatherElevenAM"] == 1 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 0:
-		 topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
-		 topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		print("In process, #12")
+		topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
+		topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
 
 	### 2) Clear all values for next time to get processed. Only need to preserve gap times.
-	resetCodesAndTimes(topCoverCodes, 4)
-	print("In processForecastConditions topCoverCodes= ", topCoverCodes)	
-	return topCoverCodes
+	resetCodesAndTimes(4)
+	#print("In processForecastConditions topCoverCodes= ", topCoverCodes)	
+	return
 
 ### Description: Resets weather binary and timestamps to avoid incorrect truth table inputs on next interation of 
 ###		 acquiring the forecast
@@ -440,20 +483,24 @@ def processForecastConditions(topCoverCodes):
 ### Output: none
 ### Example:
 ### 	Call this function from processForecastConditions() and fillTable() to clear used data
-def resetCodesAndTimes(topCoverCodes, r):
+def resetCodesAndTimes(r):
 	""" This code resets the codes for the truth table and dates and times for upcoming forecasts so will be restarted when forecast called again. """
 
-	print("In RESET")
+	print("Inside RESET")
+
 	### 1) Check what needs to be reset and reset it
 	if r == 1:
+		print("In reset, 1")
 		topCoverCodes['weatherEightAM'] = 0
 		topCoverCodes['eightAMTimestamp'] = 0.0
 	elif r == 2:
+		print("In reset, 2")
 		topCoverCodes['weatherEightAM'] = 0
 		topCoverCodes['weatherElevenAM'] = 0
 		topCoverCodes['eightAMTimestamp'] = 0.0
 		topCoverCodes['elevenAMTimestamp'] = 0.0
 	elif r == 3:
+		print("In reset, 3")
 		topCoverCodes['weatherEightAM'] = 0
 		topCoverCodes['weatherElevenAM'] = 0
 		topCoverCodes['weatherTwoPM'] = 0
@@ -461,6 +508,7 @@ def resetCodesAndTimes(topCoverCodes, r):
 		topCoverCodes['elevenAMTimestamp'] = 0.0
 		topCoverCodes['twoPMTimestamp'] = 0.0
 	elif r == 4:
+		print("In reset, 4")
 		topCoverCodes['weatherEightAM'] = 0
 		topCoverCodes['weatherElevenAM'] = 0
 		topCoverCodes['weatherTwoPM'] = 0
@@ -477,9 +525,9 @@ def resetCodesAndTimes(topCoverCodes, r):
 if __name__ == '__main__':
 	getWeatherForTop(topCoverCodes)
 	getForecastForTop(topCoverCodes)
-	getTopCoverStatus(topCoverCodes)
-	getTimeOfDay(topCoverCodes)
-	fillTable(topCoverCodes, jsonStringForecast, j)
-	processForecastConditions(topCoverCodes)
+	#getTopCoverStatus(topCoverCodes)
+	#getTimeOfDay()
+	#fillTable(topCoverCodes, jsonStringForecast, j)
+	#processForecastConditions(topCoverCodes)
 
 
