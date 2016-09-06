@@ -3,6 +3,7 @@
 import weatherData
 
 ### Initialization
+# Start logging feature
 # Set up serial connection with Uno
 # Make sure WIFI is working
 # Connect to server
