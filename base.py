@@ -4,8 +4,6 @@ import logging # We'll need this for all our logging purposes
 from time import strftime, localtime
 
 # TODO: Find a way to name the classes which inherit from base, without feeding in names for the logging handlers and files
-# TODO: Test base class works properly, particularly the logging features
-# TODO: Do multiple instances of logging interfere with each other when accessing the terminal? (I don't think so)
 # TODO: Once the above is complete, bless this or change as needed
 
 ### Description: A "base" class from which all other objects will inherit. This will keep the logging centralized
