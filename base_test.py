@@ -8,7 +8,7 @@ class test(base.base): # Inheriting from the base class, from the base module (s
 		print ("Hey, I can print to the console too!")
 
 if __name__ == '__main__':
-	mytest = test()
+	mytest = test("test")
 	mytest.LogM(10, "This is a debug mesasage")
 	mytest.LogM(20, "This is an info mesasage")
 	mytest.LogM(30, "This is a warning mesasage")

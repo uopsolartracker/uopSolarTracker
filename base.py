@@ -10,7 +10,7 @@ from time import strftime, localtime
 ### Flow: --> None
 ### Input: log_filename
 ### Output: None
-### Example: class MyModule(base)
+### Example: class MyModule(base.base)
 class base:
     # Formatting the output to be "2016:09:01 18:42:10 -- module_name:func_name -- the message"
     FORMAT = '%(asctime)s -- %(module)s:%(funcName)s:%(levelname)s -- %(message)s'
@@ -24,9 +24,13 @@ class base:
     #
     # The best part of this is we do not need to specify whether to output to the console, file, or both, 
     # since the handlers will automatically filter the logging statements based on level
-    def __init__(self):
+    #
+    # The input, log_filename, can not only specify the output file's name, but the folder path as well.
+    # This is possiible because the variable is used to prepend the name, with the timestamp coming afterwards
+    # For example, both "test" and "C:/my/file/path/test" work as names
+    def __init__(self,log_filename):
         self.Log_inst = logging.getLogger(strftime("%a, %d %b %Y %H:%M:%S", localtime()))
-        log_filename = strftime("%Y %d %b %H-%M-%S", localtime()) + '.txt'
+        log_filename = log_filename + '__' + strftime("%Y-%d-%m", localtime()) + '.txt'
         logging.basicConfig(level='DEBUG',format=self.FORMAT, datefmt=self.DATEFORMAT,filename=log_filename)
 
         # Set a handler, at the INFO level to output to the console
