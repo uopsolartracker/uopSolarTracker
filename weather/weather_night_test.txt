@@ -1,0 +1,1536 @@
+Test file for getWeatherForTop() during the night
+Current time of test:  2016-09-11 00:31:16.019108
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  200 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  201 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  202 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  210 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  211 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  212 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  221 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  230 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  231 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  232 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  300 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  301 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  302 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  310 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  311 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  312 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  313 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  314 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  321 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  500 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  501 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  502 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  503 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  504 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  511 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  520 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  521 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  522 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  531 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  600 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  601 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  602 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  611 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  612 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  615 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  616 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  620 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  621 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  622 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  701 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  711 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  721 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  731 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  741 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  751 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  761 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  762 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  771 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  781 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  800 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  801 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  802 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  803 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  804 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  900 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  901 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  902 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  903 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  904 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  905 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  906 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  951 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  952 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  953 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  954 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  955 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  956 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  957 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  958 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  959 Status:  - 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 0,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  960 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  961 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
+Night testing.........................
+Inside getWEATHERfortop......................
+Current ID:  962 Status:  x 	Time:  2016-09-11 05:00:00 	Stamp:  1473595200.0
+TopCoverCodes =  {
+    "badWeatherNow": 1,
+    "currentWeatherTime": 1473595200.0,
+    "dayTime": 0,
+    "eightAMTimestamp": 0.0,
+    "elevenAMTimestamp": 0.0,
+    "fivePMTimestamp": 0.0,
+    "gapEnd": 0.0,
+    "gapStart": 0.0,
+    "nextAPIPoint": 0,
+    "topCurrentStatus": 0,
+    "twoPMTimestamp": 0.0,
+    "weatherEightAM": 0,
+    "weatherElevenAM": 0,
+    "weatherFivePM": 0,
+    "weatherTwoPM": 0
+}
+
