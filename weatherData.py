@@ -18,6 +18,7 @@ from collections import OrderedDict								# Used to order the JSON data from th
 
 # Time Defines (seconds)
 TENMINUTES = 600.0
+THREEHOURS = 10800
 
 topCoverCodes = {
 			"topCurrentStatus": 0,		# Status of top cover: 	0 = closed, 1 = open
@@ -427,53 +428,134 @@ def processForecastConditions():
 	# 0
 	if topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 0:
 		print("In process, #0")
-		#IF DAYTIME:
-		#	FIND NEXT NON RAINING POINT TO START OPEN FROM THERE
-
-		# topCoverCodes["eightAMTimestamp"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
-		 #topCoverCodes["fivePMTimestamp"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
-		topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
-		topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		# If daytime, find when to start the gap time
+		if topCoverCodes["dayTime"] == 1:
+			gap_day_time(0)
+		elif topCoverCodes["dayTime"] == 0:
+			topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
 
 	# 1
 	elif topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 1:
 		print("In process, #1")
-		topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
-		topCoverCodes["gapEnd"] =  topCoverCodes["twoPMTimestamp"] - TENMINUTES
+		if topCoverCodes["dayTime"] == 1:
+			gap_day_time(1)
+		elif topCoverCodes["dayTime"] == 0:		
+			topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["twoPMTimestamp"] - TENMINUTES
 	
 	# 2
 	elif topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 1 and topCoverCodes["weatherFivePM"] == 0:
 		print("In process, #2")
-		topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
-		topCoverCodes["gapEnd"] =  topCoverCodes["elevenAMTimestamp"] - TENMINUTES
+		if topCoverCodes["dayTime"] == 1:
+			gap_day_time(2)
+		elif topCoverCodes["dayTime"] == 0:
+			topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["elevenAMTimestamp"] - TENMINUTES
 
 	# 3
 	elif topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 1 and topCoverCodes["weatherFivePM"] == 1:
 		print("In process, #3")
-		topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
-		topCoverCodes["gapEnd"] =  topCoverCodes["elevenAMTimestamp"] - TENMINUTES
+		if topCoverCodes["dayTime"] == 1:
+			gap_day_time(3)
+		elif topCoverCodes["dayTime"] == 0:		
+			topCoverCodes["gapStart"] =  topCoverCodes["eightAMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["elevenAMTimestamp"] - TENMINUTES
 
 	# 4
 	elif topCoverCodes["weatherEightAM"] == 0 and topCoverCodes["weatherElevenAM"] == 1 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 0:
 		print("In process, #4")
-		topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
-		topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		if topCoverCodes["dayTime"] == 1:
+			gap_day_time(4)
+		elif topCoverCodes["dayTime"] == 0:		
+			topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
 
 	# 8
 	elif topCoverCodes["weatherEightAM"] == 1 and topCoverCodes["weatherElevenAM"] == 0 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 0:
 		print("In process, #8")
-		topCoverCodes["gapStart"] =  topCoverCodes["elevenAMTimestamp"] + TENMINUTES
-		topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		if topCoverCodes["dayTime"] == 1:
+			gap_day_time(8)
+		elif topCoverCodes["dayTime"] == 0:		
+			topCoverCodes["gapStart"] =  topCoverCodes["elevenAMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
 
 	# 12
 	elif topCoverCodes["weatherEightAM"] == 1 and topCoverCodes["weatherElevenAM"] == 1 and topCoverCodes["weatherTwoPM"] == 0 and topCoverCodes["weatherFivePM"] == 0:
 		print("In process, #12")
-		topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
-		topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		if topCoverCodes["dayTime"] == 1:
+			gap_day_time(12)
+		elif topCoverCodes["dayTime"] == 0:		
+			topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
 
 	### 2) Clear all values for next time to get processed. Only need to preserve gap times.
 	resetCodesAndTimes(4)
 	#print("In processForecastConditions topCoverCodes= ", topCoverCodes)	
+	return
+
+### Description: If forecast called during the day, this code sets up the time gaps to allow
+###		the top cover to open.
+### Flow: 		1) Get current time
+###			2) Get timestamps at 8, 11, 2, 5
+###			3) Set gap times based on truthTableVal
+### Input: truthTableVal
+### Output: none
+### Example:
+### 	Call this function from processForecastConditions() to set the gap times if doing so
+###	during the daytime.
+def gap_day_time(truthTableVal):
+	""" This code ... """
+	
+	# Get timestamp for current time
+	timeString = datetime.datetime.now()											# Cali date and time datetime string
+	timeFloat = datetime.datetime.timestamp(timeString)								# Convert to float time stamp
+			
+	# Eight AM
+	eightAMString = str(datetime.date.today()) + ' 08:00:0'
+	eightAM = datetime.datetime.strptime(eightAMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+	# Eleven AM			
+	elevenAMString = str(datetime.date.today()) + ' 11:00:0'
+	elevenAM = datetime.datetime.strptime(elevenAMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+	# Two PM		
+	twoPMString = str(datetime.date.today()) + ' 14:00:0'
+	twoPM = datetime.datetime.strptime(twoPMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+	# Five PM			
+	fivePMString = str(datetime.date.today()) + ' 17:00:0'
+	fivePM = datetime.datetime.strptime(fivePMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+
+	if truthTableVal == 0:
+		if timefloat > eightAM and timefloat < elevenAM:
+			topCoverCodes["gapStart"] =  topCoverCodes["elevenAMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		elif timefloat > elevenAM and timefloat < twoPM:
+			topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		elif timefloat > twoPM and timefloat < fivePM:
+			topCoverCodes["gapStart"] = 0
+			topCoverCodes["gapEnd"] = 0
+			topCoverCodes["topCurrentStatus"] = 0
+	elif truthTableVal == 1:
+		if timefloat > eightAM and timefloat < elevenAM:
+			topCoverCodes["gapStart"] =  topCoverCodes["elevenAMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		else:
+			topCoverCodes["gapStart"] = 0
+			topCoverCodes["gapEnd"] = 0
+			topCoverCodes["topCurrentStatus"] = 0
+	elif truthTableVal == 2 or truthTableVal == 3 or truthTableVal == 4 or truthTableVal == 12:
+		topCoverCodes["gapStart"] = 0
+		topCoverCodes["gapEnd"] = 0
+		topCoverCodes["topCurrentStatus"] = 0
+	elif truthTableVal == 8:
+		if timefloat > elevenAM and timefloat < twoPM:
+			topCoverCodes["gapStart"] =  topCoverCodes["twoPMTimestamp"] + TENMINUTES
+			topCoverCodes["gapEnd"] =  topCoverCodes["fivePMTimestamp"] - TENMINUTES
+		else:
+			topCoverCodes["gapStart"] = 0
+			topCoverCodes["gapEnd"] = 0
+			topCoverCodes["topCurrentStatus"] = 0
+
 	return
 
 ### Description: Resets weather binary and timestamps to avoid incorrect truth table inputs on next interation of 
