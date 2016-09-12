@@ -133,14 +133,27 @@ def getWeatherForTop(idcode_test, timeStamp_test):
 ### Output: topCoverCodes
 ### Example:
 ### 	Call getForecastForTop() from main --> check gap times to see when to open top, assumung there is a gap
-def getForecastForTop():
+def getForecastForTop(idcode_test_8am, idcode_test_11am, idcode_test_2pm, idcode_test_5pm, timeStamp_test):
 	"""Returns a list of codes of weather to open the top cover of the protection unit or not"""
 	
 	print("Inside getForecastForTop...............")	
+
+	testDict["forecastID_8am_test"] = idcode_test_8am		### TEST
+	print("8am = ", testDict["forecastID_8am_test"])
+	testDict["forecastID_11am_test"] = idcode_test_11am		### TEST
+	print("11am = ", testDict["forecastID_11am_test"])
+	testDict["forecastID_2pm_test"] = idcode_test_2pm		### TEST
+	print("2pm = ", testDict["forecastID_2pm_test"])
+	testDict["forecastID_5pm_test"] = idcode_test_5pm		### TEST
+	print("5pm = ", testDict["forecastID_5pm_test"])
+	
+	testDict["timeStamp_test"] = timeStamp_test 				### TEST
+	print("Timestamp before setting = ", timeStamp_test)
+
 	
 	### 1) Get the API response of the forecast data
-	url = forecastURL
-	jsonStringForecast = requestAPI(url)
+	#url = forecastURL
+	jsonStringForecast = get_json_forecast_TEST(timeStamp_test)	### TEST
 
 	### Parse the forecast data into a lists TODO: PROB DONT NEED THIS SECTION
 	forecastID = [ ]
@@ -636,14 +649,79 @@ def get_json_weather_TEST():
 	weatherString = {"coord":{"lon":-92.64,"lat":38.2},"weather":[{"id":testDict["weatherID_test"],"main":"Clear","description":"clear sky","icon":"01d"}],"base":"cmc stations","main":{"temp":291.12,"pressure":1022,"humidity":87,"temp_min":289.15,"temp_max":292.59},"wind":{"speed":1.5,"deg":150},"clouds":{"all":1},"dt":testDict["timeStamp_test"],"sys":{"type":1,"id":1645,"message":0.0029,"country":"US","sunrise":1471865549,"sunset":1471913586},"id":4394281,"name":"Lake Ozark","cod":200}
 	return weatherString
 
-#def get_json_forecast_TEST():
+def get_json_forecast_TEST(time):
 
+	timeStrings = [0]
+	tstamps = [0]
+	codes = [0]
+
+	if time == '2am':
+		timeStrings[0] = str(datetime.date.today()) + " 02:00:00"
+		tstamps[0] = datetime.datetime.strptime(timeStrings[0], "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+		codes[0] = 800
+		print("Timestamp = ", tstamps[0], "	Time String = ", timeStrings[0], "		ID = ", codes[0])
+	elif time == '5am':
+		timeStrings[0] = str(datetime.date.today()) + " 05:00:00"
+		tstamps[0] = datetime.datetime.strptime(timeStrings[0], "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+		codes[0] = 800
+		print("Timestamp = ", tstamps[0], "	Time String = ", timeStrings[0], "		ID = ", codes[0])
+	elif time == '8am':
+		timeStrings[0] = str(datetime.date.today()) + " 08:00:00"
+		tstamps[0] = datetime.datetime.strptime(timeStrings[0], "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+		codes[0] = 800
+		print("Timestamp = ", tstamps[0], "	Time String = ", timeStrings[0], "		ID = ", codes[0])
+	elif time == '11am':
+		timeStrings[0] = str(datetime.date.today()) + " 11:00:00"
+		tstamps[0] = datetime.datetime.strptime(timeStrings[0], "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+		codes[0] = 800
+		print("Timestamp = ", tstamps[0], "	Time String = ", timeStrings[0], "		ID = ", codes[0])
+	elif time == '2pm':
+		timeStrings[0] = str(datetime.date.today()) + " 14:00:00"
+		tstamps[0] = datetime.datetime.strptime(timeStrings[0], "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+		codes[0] = 800
+		print("Timestamp = ", tstamps[0], "	Time String = ", timeStrings[0], "		ID = ", codes[0])
+	elif time == '5pm':
+		timeStrings[0] = str(datetime.date.today()) + " 17:00:00"
+		tstamps[0] = datetime.datetime.strptime(timeStrings[0], "%Y-%m-%d %H:%M:%S").timestamp()	# float type
+		codes[0] = 800
+		print("Timestamp = ", tstamps[0], "	Time String = ", timeStrings[0], "		ID = ", codes[0])
+
+	for i in range(1,10):
+		tstamps.append(tstamps[i-1] + THREEHOURS)
+		timeStrings.append(str(datetime.datetime.fromtimestamp(tstamps[i])))
+		if timeStrings[i][11:] == '08:00:00':
+			codes.append(testDict["forecastID_8am_test"])
+		elif timeStrings[i][11:] == '11:00:00':
+			codes.append(testDict["forecastID_11am_test"])
+		elif timeStrings[i][11:] == '14:00:00':
+			codes.append(testDict["forecastID_2pm_test"])
+		elif timeStrings[i][11:] == '17:00:00':
+			codes.append(testDict["forecastID_5pm_test"])
+		else:
+			codes.append(800)
+		print("Timestamp = ", tstamps[i], "Timestring = ", timeStrings[i], "ID = ", codes[i])
+					 
+
+	forecast_String = {"city":{"id":5366524,"name":"Lincoln Village","coord":{"lon":-121.328278,"lat":38.005199},"country":"US","population":0,"sys":{"population":0}},"cod":"200","message":0.0046,"cnt":40,
+		"list":[{"dt":tstamps[0],"main":{"temp":294.66,"temp_min":294.66,"temp_max":295.957,"pressure":1016.7,"sea_level":1026.02,"grnd_level":1016.7,"humidity":38,"temp_kf":-1.29},"weather":[{"id":codes[0],"main":"Clear","description":"clear sky","icon":"01n"}],"clouds":{"all":0},"wind":{"speed":3.91,"deg":236},"sys":{"pod":"n"},"dt_txt":timeStrings[0]},
+		{"dt":tstamps[1],"main":{"temp":288.25,"temp_min":288.25,"temp_max":289.468,"pressure":1017.01,"sea_level":1026.38,"grnd_level":1017.01,"humidity":64,"temp_kf":-1.22},"weather":[{"id":codes[1],"main":"Clear","description":"clear sky","icon":"01n"}],"clouds":{"all":0},"wind":{"speed":2.56,"deg":227.505},"sys":{"pod":"n"},"dt_txt":timeStrings[1]},
+		{"dt":tstamps[2],"main":{"temp":284.3,"temp_min":284.3,"temp_max":285.447,"pressure":1016.07,"sea_level":1025.49,"grnd_level":1016.07,"humidity":89,"temp_kf":-1.15},"weather":[{"id":codes[2],"main":"Clear","description":"clear sky","icon":"01n"}],"clouds":{"all":0},"wind":{"speed":1.76,"deg":205.001},"sys":{"pod":"n"},"dt_txt":timeStrings[2]},
+		{"dt":tstamps[3],"main":{"temp":281.7,"temp_min":281.7,"temp_max":282.777,"pressure":1015.3,"sea_level":1024.9,"grnd_level":1015.3,"humidity":90,"temp_kf":-1.08},"weather":[{"id":codes[3],"main":"Clear","description":"clear sky","icon":"01n"}],"clouds":{"all":0},"wind":{"speed":1.26,"deg":207},"sys":{"pod":"n"},"dt_txt":timeStrings[3]},
+		{"dt":tstamps[4],"main":{"temp":283.77,"temp_min":283.77,"temp_max":284.779,"pressure":1015.74,"sea_level":1025.21,"grnd_level":1015.74,"humidity":90,"temp_kf":-1.01},"weather":[{"id":codes[4],"main":"Clouds","description":"few clouds","icon":"02d"}],"clouds":{"all":24},"wind":{"speed":1.31,"deg":252.502},"sys":{"pod":"d"},"dt_txt":timeStrings[4]},
+		{"dt":tstamps[5],"main":{"temp":291.18,"temp_min":291.18,"temp_max":292.115,"pressure":1016.05,"sea_level":1025.33,"grnd_level":1016.05,"humidity":60,"temp_kf":-0.93},"weather":[{"id":codes[5],"main":"Rain","description":"light rain","icon":"10d"}],"clouds":{"all":0},"wind":{"speed":3.1,"deg":262.501},"rain":{"3h":0.005},"sys":{"pod":"d"},"dt_txt":timeStrings[5]},
+		{"dt":tstamps[6],"main":{"temp":296.35,"temp_min":296.35,"temp_max":297.211,"pressure":1013.95,"sea_level":1023.39,"grnd_level":1013.95,"humidity":44,"temp_kf":-0.86},"weather":[{"id":codes[6],"main":"Clear","description":"clear sky","icon":"01d"}],"clouds":{"all":0},"wind":{"speed":4.04,"deg":225.5},"rain":{},"sys":{"pod":"d"},"dt_txt":timeStrings[6]},
+		{"dt":tstamps[7],"main":{"temp":297.24,"temp_min":297.24,"temp_max":298.034,"pressure":1012.56,"sea_level":1021.95,"grnd_level":1012.56,"humidity":35,"temp_kf":-0.79},"weather":[{"id":codes[7],"main":"Clear","description":"clear sky","icon":"01n"}],"clouds":{"all":0},"wind":{"speed":4.26,"deg":229.501},"rain":{},"sys":{"pod":"n"},"dt_txt":timeStrings[7]},
+		{"dt":tstamps[8],"main":{"temp":291.41,"temp_min":291.41,"temp_max":292.124,"pressure":1013.06,"sea_level":1022.45,"grnd_level":1013.06,"humidity":46,"temp_kf":-0.72},"weather":[{"id":codes[8],"main":"Clear","description":"clear sky","icon":"01n"}],"clouds":{"all":0},"wind":{"speed":3.9,"deg":224.5},"rain":{},"sys":{"pod":"n"},"dt_txt":timeStrings[8]},
+		{"dt":tstamps[9],"main":{"temp":285.47,"temp_min":285.47,"temp_max":286.121,"pressure":1013.65,"sea_level":1023.29,"grnd_level":1013.65,"humidity":70,"temp_kf":-0.65},"weather":[{"id":codes[9],"main":"Clear","description":"clear sky","icon":"01n"}],"clouds":{"all":0},"wind":{"speed":2.96,"deg":213.503},"sys":{"pod":"n"},"dt_txt":timeStrings[9]}]}
+
+	print("Forecast_string = ", json.dumps(forecast_String, sort_keys=True, indent=4))
+	print("")
 
 ################################
 
 if __name__ == '__main__':
 	getWeatherForTop(idcode_test, timeStamp_test)
-	getForecastForTop()
+	getForecastForTop(idcode_test_8am, idcode_test_11am, idcode_test_2pm, idcode_test_5pm, timeStamp_test)
 	#getTopCoverStatus(topCoverCodes)
 	#getTimeOfDay()
 	#fillTable(topCoverCodes, jsonStringForecast, j)
