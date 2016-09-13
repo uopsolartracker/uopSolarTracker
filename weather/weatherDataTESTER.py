@@ -39,18 +39,11 @@ testDict = {
 		"weatherID_test": " ",
 		"timeStamp_test": 0.0,
 		"timeString_test": " ",
+		"bad_weather": 0,
 		"forecastID_8am_test": " ",
 		"forecastID_11am_test": " ",
 		"forecastID_2pm_test": " ",
-		"forecastID_5pm_test": " ",
-		"forecastTimestamp_8am_test": 0.0,
-		"forecastTString_8am_test": " ",		
-		"forecastTimestamp_11am_test": 0.0,
-		"forecastTString_11am_test": " ",
-		"forecastTimestamp_2pm_test": 0.0,
-		"forecastTString_2pm_test": " ",
-		"forecastTimestamp_5pm_test": 0.0,
-		"forecastTString_5pm_test": " "							
+		"forecastID_5pm_test": " "				
 		}
 
 
@@ -149,7 +142,8 @@ def getForecastForTop(current_bad_weather, idcode_test_8am, idcode_test_11am, id
 	
 	testDict["timeStamp_test"] = timeStamp_test 				### TEST
 	#print("Timestamp before setting = ", timeStamp_test)
-
+	
+	testDict["bad_weather"] = current_bad_weather			### TEST
 	
 	### 1) Get the API response of the forecast data
 	#url = forecastURL
@@ -171,7 +165,7 @@ def getForecastForTop(current_bad_weather, idcode_test_8am, idcode_test_11am, id
 		#print("DAY")
 		### 2.2.1) Check weather now
 		#getWeatherForTop(topCoverCodes)
-		if current_bad_weather == 1:		
+		if testDict["bad_weather"] == 1:		
 		#if topCoverCodes['badWeatherNow'] == 1:
 			#print("BADWEATHER")
 			### 2.2.2) # Close the top now if bad weather. TODO: Maybe hard code a 'close top' command to Arduino here or create an interrupt
@@ -535,9 +529,11 @@ def gap_day_time(truthTableVal):
 	""" This code ... """
 	
 	# Get timestamp for current time
-	timeString = datetime.datetime.now()											# Cali date and time datetime string
-	timeFloat = datetime.datetime.timestamp(timeString)								# Convert to float time stamp
-			
+	#timeString = datetime.datetime.now()											# Cali date and time datetime string
+	#timeFloat = datetime.datetime.timestamp(timeString)								# Convert to float time stamp
+	
+	timefloat = testDict["timeStamp_test"]		### TEST	
+		
 	# Eight AM
 	eightAMString = str(datetime.date.today()) + ' 08:00:0'
 	eightAM = datetime.datetime.strptime(eightAMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
@@ -654,20 +650,13 @@ def init_data_TEST():
 
 ### TEST DATA ###
 	testDict["weatherID_test"] = " "
-	testDict["timeStamp_test"] = " "
+	testDict["timeStamp_test"] = 0.0
 	testDict["timeString_test"] = " "
+	testDict["bad_weather"] = 0
 	testDict["forecastID_8am_test"] = " "
 	testDict["forecastID_11am_test"] = " "
 	testDict["forecastID_2pm_test"] = " "
 	testDict["forecastID_5pm_test"] = " "
-	testDict["forecastTimestamp_8am_test"] = 0.0
-	testDict["forecastTString_8am_test"] = " "
-	testDict["forecastTimestamp_11am_test"] = 0.0
-	testDict["forecastTString_11am_test"] = " "
-	testDict["forecastTimestamp_2pm_test"] = 0.0
-	testDict["forecastTString_2pm_test"] = " "
-	testDict["forecastTimestamp_5pm_test"] = 0.0
-	testDict["forecastTString_5pm_test"] = " "
 		
 
 def get_json_weather_TEST():
