@@ -3,7 +3,7 @@
 import logging # We'll need this for all our logging purposes
 from time import strftime, localtime
 
-# TODO: Find a way to name the log based upon the input when we intialize an inheritor
+# TODO: Find a way to put the name of the log into the output, in FORMAT
 # TODO: Once the above is complete, bless this or change as needed
 
 ### Description: A "base" class from which all other objects will inherit. This will keep the logging centralized
@@ -15,7 +15,7 @@ class base:
     # Variable holds the name of the inheritor class
     log_name = ''
     # Formatting the output to be "2016:09:01 18:42:10 -- inheritor_name:logging_level -- the message"
-    FORMAT = ('%(asctime)s -- :%(levelname)s -- %(message)s')
+    FORMAT = '%(asctime)s -- :%(levelname)s -- %(message)s'
     # This actually formats the time stamp, otherwise we would have milliseconds included by default
     DATEFORMAT = '%Y-%m-%d %H:%M:%S'
 
