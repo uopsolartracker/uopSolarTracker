@@ -1,0 +1,22 @@
+# Info to log in to different systems
+
+# Yahoo:
+#	Email:		UOPsolartracker@yahoo.com
+#	Password:	trackersolarUOP
+#	First Name:	University
+#	Last Name:	Pacific
+#	Birthday:	Jan 1, 1990
+#	Phone Number:	209-808-4199
+
+# Weaved:
+#	Email:		UOPsolartracker@yahoo.com
+#	Password:	trackersolarUOP
+
+# Raspberry Pi:
+#	Username:	Pi
+#	Password:	trackersolarUOP
+
+# Github:
+#	Email:		UOPsolartracker@yahoo.com
+#	Username:	uopsolartracker
+#	Password:	trackersolarUOP
