@@ -509,7 +509,7 @@ def gap_day_time(truthTableVal):
 	
 	# Get timestamp for current time
 	timeString = datetime.datetime.now()											# Cali date and time datetime string
-	timeFloat = datetime.datetime.timestamp(timeString)								# Convert to float time stamp
+	timefloat = datetime.datetime.timestamp(timeString)								# Convert to float time stamp
 			
 	# Eight AM
 	eightAMString = str(datetime.date.today()) + ' 08:00:0'

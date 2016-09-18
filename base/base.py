@@ -3,7 +3,7 @@
 import logging # We'll need this for all our logging purposes
 from time import strftime, localtime
 
-# TODO: Find a way to name the classes which inherit from base, without feeding in names for the logging handlers and files
+# TODO: Find a way to put the name of the log into the output, in FORMAT
 # TODO: Once the above is complete, bless this or change as needed
 
 ### Description: A "base" class from which all other objects will inherit. This will keep the logging centralized
@@ -12,13 +12,15 @@ from time import strftime, localtime
 ### Output: None
 ### Example: class MyModule(base.base)
 class base:
-    # Formatting the output to be "2016:09:01 18:42:10 -- module_name:func_name -- the message"
-    FORMAT = '%(asctime)s -- %(module)s:%(funcName)s:%(levelname)s -- %(message)s'
+    # Variable holds the name of the inheritor class
+    log_name = ''
+    # Formatting the output to be "2016:09:01 18:42:10 -- inheritor_name:logging_level -- the message"
+    FORMAT = '%(asctime)s -- :%(levelname)s -- %(message)s'
     # This actually formats the time stamp, otherwise we would have milliseconds included by default
     DATEFORMAT = '%Y-%m-%d %H:%M:%S'
 
 
-    # When intializing the object, we will create handlers for the console and file output streams
+    # When intializing the object, we will create a handler for the file output stream
     # 'Log_inst' is an instanced variable, only available to each instance of the object, not across the entire class inheritance
     # This will therefore keep each object's logging object separate from all the others.
     #
@@ -29,7 +31,8 @@ class base:
     # This is possiible because the variable is used to prepend the name, with the timestamp coming afterwards
     # For example, both "test" and "C:/my/file/path/test" work as names
     def __init__(self,log_filename):
-        self.Log_inst = logging.getLogger(strftime("%a, %d %b %Y %H:%M:%S", localtime()))
+        self.log_name = log_filename
+        self.Log_inst = logging.getLogger(log_filename + '__' + strftime("%Y-%d-%m", localtime()))
         log_filename = log_filename + '__' + strftime("%Y-%d-%m", localtime()) + '.txt'
         logging.basicConfig(level='DEBUG',format=self.FORMAT, datefmt=self.DATEFORMAT,filename=log_filename)
 
