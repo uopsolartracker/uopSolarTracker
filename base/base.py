@@ -13,16 +13,16 @@ from time import strftime, localtime
 ### Example: class MyModule(base.base)
 class base:
     # Variable holds the name of the inheritor class
-    log_name = ''
+    log_name = 'base'
     # Formatting the output to be "2016:09:01 18:42:10 -- inheritor_name:logging_level -- the message"
-    FORMAT = '%(asctime)s -- :%(levelname)s -- %(message)s'
+    log_format = '%(asctime)s -- ' + log_name + ':%(levelname)s -- %(message)s'
     # This actually formats the time stamp, otherwise we would have milliseconds included by default
     DATEFORMAT = '%Y-%m-%d %H:%M:%S'
 
 
     # When intializing the object, we will create a handler for the file output stream
-    # 'Log_inst' is an instanced variable, only available to each instance of the object, not across the entire class inheritance
-    # This will therefore keep each object's logging object separate from all the others.
+    # 'Log_inst' is an instanced variable, only available to each instance of the object, not across the
+    # entire class inheritance. This will therefore keep each object's logging object separate from all the others.
     #
     # The best part of this is we do not need to specify whether to output to the console, file, or both, 
     # since the handlers will automatically filter the logging statements based on level
@@ -32,14 +32,15 @@ class base:
     # For example, both "test" and "C:/my/file/path/test" work as names
     def __init__(self,log_filename):
         self.log_name = log_filename
+        self.log_format = '%(asctime)s -- ' + log_filename + ':%(levelname)s -- %(message)s'
         self.Log_inst = logging.getLogger(log_filename + '__' + strftime("%Y-%d-%m", localtime()))
         log_filename = log_filename + '__' + strftime("%Y-%d-%m", localtime()) + '.txt'
-        logging.basicConfig(level='DEBUG',format=self.FORMAT, datefmt=self.DATEFORMAT,filename=log_filename)
+        logging.basicConfig(level='DEBUG',format=self.log_format, datefmt=self.DATEFORMAT,filename=log_filename)
 
         # Set a handler, at the INFO level to output to the console
         self.Log_Console = logging.StreamHandler() # Output will go to the console
         self.Log_Console.setLevel('INFO') # Set logging level to INFO
-        self.Log_Console.setFormatter(logging.Formatter(self.FORMAT,self.DATEFORMAT))
+        self.Log_Console.setFormatter(logging.Formatter(self.log_format,self.DATEFORMAT))
 
         # Add the handler to Log_inst
         self.Log_inst.addHandler(self.Log_Console)
