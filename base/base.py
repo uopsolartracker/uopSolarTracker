@@ -3,7 +3,7 @@
 import logging # We'll need this for all our logging purposes
 from time import strftime, localtime
 
-# TODO: Find a way to put the name of the log into the output, in FORMAT
+# TODO: Find a way to fully instance the two loggers, so they don't interfere with each other when writing to a file
 # TODO: Once the above is complete, bless this or change as needed
 
 ### Description: A "base" class from which all other objects will inherit. This will keep the logging centralized
