@@ -11,7 +11,7 @@ from time import strftime, localtime
 ### Input: log_filename
 ### Output: None
 ### Example: class MyModule(base.base)
-class base:
+class base(object):
     # Variable holds the name of the inheritor class
     log_name = 'base'
     # Formatting the output to be "2016:09:01 18:42:10 -- inheritor_name:logging_level -- the message"
