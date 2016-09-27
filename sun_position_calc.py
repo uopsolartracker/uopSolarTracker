@@ -9,7 +9,9 @@ import time
 import math
 import cmath
 import sched
+import xlsxwriter
 
+ 
 #constants that will not change throughout the calculation
 pi = 3.14159265358979323846;
 twopi = 2*pi;
@@ -18,7 +20,6 @@ dEarthMeanRadius = 6371.01
 dAstronmicalUnit = 149597890
 dLongitude = -121.31190
 dLatitude =37.97580
-
 
 
 ## --Calculating difference between current Julian Day and JD 2451545.0--
@@ -133,8 +134,8 @@ for l in range(0,9):
 		Month = Month +1;
 		Day = 1;
 		
-	Minutes = float(h[4]);
-	Seconds = float(h[5]);
+	Minutes = float(30);
+	Seconds = float(30);
 	
 	JD_ElapsedJD = ElapsedJD (Year, Month, Day, Hour_List[l], Minutes, Seconds);
 	
@@ -144,10 +145,61 @@ for l in range(0,9):
 	PC_Elevation = ParallaxCorrection (dEarthMeanRadius, dAstronmicalUnit,LC_Azimuth[0],rad);
 	
 
-	Elevation_List.insert (l,round(PC_Elevation,3));
-	Azimuth_List.insert (l,round(LC_Azimuth[1],3));
+	Elevation_List.insert (l,round(PC_Elevation,4));
+	Azimuth_List.insert (l,round(LC_Azimuth[1],4));
 	
-print(Elevation_List, Azimuth_List)
+list_len_Elevation=len(Elevation_List);
+list_len_azimuth=len(LC_Azimuth);
+	
+#----export sun position date to excel----
+
+# Create an new Excel file and add a worksheet.
+workbook = xlsxwriter.Workbook('sun_postion_data'+'_'+str(int(Month))+'_'+str(int(Day))+'_'+str(int(Year))+ '.xlsx')
+worksheet = workbook.add_worksheet()
+
+# Widen the first column to make the text clearer.
+worksheet.set_column('B:B', 20)
+worksheet.set_column('C:C', 20)
+
+
+bold = workbook.add_format({'bold': True})
+worksheet.write('A1', 'Time', bold)
+worksheet.write('B1', 'Elevation Angle(degrees)', bold)
+worksheet.write('C1', 'Azimuth Angle(degrees)', bold)
+
+
+data = (
+     ['8:30am', Elevation_List[0], Azimuth_List[0]],
+     ['9:30am', Elevation_List[1], Azimuth_List[1]],
+     ['10:30am', Elevation_List[2], Azimuth_List[2]],
+     ['11:30am', Elevation_List[3], Azimuth_List[3]],
+	 ['12:30pm', Elevation_List[4], Azimuth_List[4]],
+	 ['1:30pm', Elevation_List[5], Azimuth_List[5]],
+	 ['2:30pm', Elevation_List[6], Azimuth_List[6]],
+	 ['3:30pm', Elevation_List[7], Azimuth_List[7]],
+	 ['4:30pm', Elevation_List[8], Azimuth_List[8]],)
+
+row = 1;
+col = 0;
+
+#Iterates over the data and write it out row by row.
+for time,Ele,Azi in (data):
+	worksheet.write(row, col, time)
+	worksheet.write(row, col + 1, Ele)
+	worksheet.write(row, col + 2, Azi)
+	row += 1
+
+workbook.close()	
+
+	
+	
+	
+	
+	
+
+	
+	
+
 
 	
 	
