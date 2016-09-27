@@ -12,10 +12,8 @@ from time import strftime, localtime
 ### Output: None
 ### Example: class MyModule(base.base)
 class base(object):
-    # Variable holds the name of the inheritor class
-    log_name = 'base'
-    # Formatting the output to be "2016:09:01 18:42:10 -- inheritor_name:logging_level -- the message"
-    log_format = '%(asctime)s -- ' + log_name + ':%(levelname)s -- %(message)s'
+    # Formatting the output to be "2016:09:01 18:42:10 -- inheritor_name:logging_level -- message
+    log_format = '%(asctime)s -- %(name)s:%(levelname)s -- %(message)s'
     # This actually formats the time stamp, otherwise we would have milliseconds included by default
     DATEFORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -31,19 +29,23 @@ class base(object):
     # This is possiible because the variable is used to prepend the name, with the timestamp coming afterwards
     # For example, both "test" and "C:/my/file/path/test" work as names
     def __init__(self,log_filename):
-        self.log_name = log_filename
-        self.log_format = '%(asctime)s -- ' + log_filename + ':%(levelname)s -- %(message)s'
-        self.Log_inst = logging.getLogger(log_filename + '__' + strftime("%Y-%d-%m", localtime()))
-        log_filename = log_filename + '__' + strftime("%Y-%d-%m", localtime()) + '.txt'
-        logging.basicConfig(level='DEBUG',format=self.log_format, datefmt=self.DATEFORMAT,filename=log_filename)
+        # self.log_format = '%(asctime)s -- %(name)s:%(levelname)s -- %(message)s'
+        self.Log_inst = logging.getLogger(log_filename)
+        self.Log_inst.setLevel('INFO')
+
+        # Set a handler, at the DEBUG level to output to a file named for the module it reports from and with a timestamp
+        self.Log_File = logging.FileHandler(log_filename + '__' + strftime("%Y-%d-%m", localtime()) + '.txt')
+        self.Log_File.setLevel('DEBUG') # Set logging level to DEBUG
+        self.Log_File.setFormatter(logging.Formatter(self.log_format,self.DATEFORMAT))
 
         # Set a handler, at the INFO level to output to the console
         self.Log_Console = logging.StreamHandler() # Output will go to the console
-        self.Log_Console.setLevel('INFO') # Set logging level to INFO
+        self.Log_Console.setLevel('DEBUG') # Set logging level to INFO
         self.Log_Console.setFormatter(logging.Formatter(self.log_format,self.DATEFORMAT))
 
-        # Add the handler to Log_inst
+        # Add the handlers to Log_inst
         self.Log_inst.addHandler(self.Log_Console)
+        self.Log_inst.addHandler(self.Log_File)
 
     ### Description: This is a wrapper function to make logging simpler than calling Log.debug or Log.info, etc
     ###
