@@ -1,5 +1,8 @@
 #include <Herkulex.h>
 
+char data;
+int int_data;
+
 // Vertical controlling motor variables
 int vertical_motorID = 0;
 int vertical_change = 0;
@@ -15,8 +18,8 @@ int vertical_angle = 0;
 void setup()  
 {
   delay(2000);  //a delay to have time for serial monitor opening
-  Serial.begin(115200);    // Open serial communications
-  Serial.println("Begin");
+  Serial.begin(9600);    // Open serial communications
+  //Serial.println("Begin");
   Herkulex.begin(57600,10,11); //open serial with rx=10 and tx=11 
   
   Herkulex.reboot(vertical_motorID); //reboot vertical motor
@@ -27,8 +30,8 @@ void setup()
   delay(200);
 
   // send current motor angles to Pi
-  Serial.println('v');
-  Serial.println(Herkulex.getAngle(vertical_motorID));
+  //Serial.println('v');
+  //Serial.println(Herkulex.getAngle(vertical_motorID));
   //Serial.println('h');
   //Serial.println(Herkulex.getAngle(horizontal_motorID));  
 }
@@ -36,27 +39,47 @@ void setup()
 void loop(){
   
   // wait until data comes in from Pi
-  while(!Serial.available())
+  //while(!Serial.available())
+  //{
+  //}
+  if (Serial.available())
   {
+    data = Serial.read();
+    //Serial.print(data);
+    
+    if ((int) data == 150)
+    {
+      //Serial.println("150 reached in Arduino");
+      data = '1';
+    }
+     
+    // Add 10 to data  
+    //int_data = (int) data + 10;
+    //data = (char) int_data;
+        
+    delay(2000);
+    Herkulex.moveOneAngle(vertical_motorID, (int) data, 1000, LED_BLUE); //move motor with 300 speed  
+    
+    Serial.println(data);
+
   }
-  
   // input angle to move by
   //if read 'v', move vertical. if read 'h', move horizontal
-  vertical_change = Serial.read();
+  //vertical_change = Serial.read();
   //horizontal_change = Serial.read();
   
   // get current angle of motors
-  vertical_cur_angle = Herkulex.getAngle(vertical_motorID);
-  vertical_angle = vertical_cur_angle + vertical_change;
+  //vertical_cur_angle = Herkulex.getAngle(vertical_motorID);
+  //vertical_angle = vertical_cur_angle + vertical_change;
   //horizontal_cur_angle = Herkulex.getAngle(horizontal_motorID);
   //horizontal_angle = horizontal_cur_angle + horizontal_change;
   
   // move motors (-160 deg to 160 deg)
-  Herkulex.moveOneAngle(vertical_motorID, vertical_angle, 1000, LED_BLUE); //move motor with 300 speed  
+  //Herkulex.moveOneAngle(vertical_motorID, vertical_angle, 1000, LED_BLUE); //move motor with 300 speed  
   //Herkulex.moveOneAngle(horizontal_motorID, horizontal_angle, 1000, LED_GREEN); //move motor with 300 speed  
   
   // send current angle to Pi
-  Serial.println(Herkulex.getAngle(vertical_motorID));
+  //Serial.println(Herkulex.getAngle(vertical_motorID));
   //Serial.println(Herkulex.getAngle(horizontal_motorID));
   
 }
