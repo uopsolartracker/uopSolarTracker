@@ -35,4 +35,4 @@ Hyst_image = Hysteresis(NMS_image);
 figure
 imshow(uint8(Hyst_image))
 title('Edges')
-imwrite(uint8(Hyst_image),'sun_edges.png')
+imwrite(uint8(Hyst_image),'cat_edges.png')
