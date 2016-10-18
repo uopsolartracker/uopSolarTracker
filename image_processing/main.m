@@ -2,9 +2,10 @@
 % By Daniel Herink
 %% Intensity of Change
 [FileName,FilePath] = uigetfile('sun.jpg');
-image = rgb2gray(imread(strcat(FilePath,FileName)));
+image = imread(strcat(FilePath,FileName));
+image = rgb2gray(image);
 imshow(image)
-sigma = 1;
+sigma = 0.6;
 [vert_Gauss,wk] = Gaussian_Kernel(sigma);
 [deriv_Gauss,wd] = Gaussian_Deriv(sigma);
 temp_horiz = Convolve(image,vert_Gauss);
@@ -34,3 +35,4 @@ Hyst_image = Hysteresis(NMS_image);
 figure
 imshow(uint8(Hyst_image))
 title('Edges')
+imwrite(uint8(Hyst_image),'cat_edges.png')
