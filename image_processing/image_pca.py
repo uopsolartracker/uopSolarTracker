@@ -6,11 +6,22 @@ from matplotlib import pyplot
 
 if __name__ == '__main__':
 	img = cv2.imread('Sun.JPG')
-	if (!img.data || img.empty()):
-		# TODO: Add debug output if file does not load properly
-		exit(-1)
+	
+	# TODO: Add debug output if file does not load properly
+	grayImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	ret,threshImg = cv2.threshold(grayImg, 127, 255, cv2.THRESH_BINARY)
 
-	cv2.cvtColor(img,grayImg, CV_BGR2GRAY)
-	cv2.threshold(grayImg, threshImg, 50, 255, CV_THRESH_BINARY | CV_THRESH_OTSU)
+	kernel = numpy.uint8([[0, 1, 0],[1, 1, 1],[0, 1, 0]])
+	eroded = cv2.erode(threshImg, kernel, iterations = 2)
+	dilated = cv2.erode(eroded, kernel, iterations = 2)
 
+
+	
+	pyplot.figure("Threshold Image")
 	pyplot.imshow(threshImg, cmap = 'gray')
+	pyplot.figure("Eroded Image")
+	pyplot.imshow(eroded, cmap = 'gray')
+	pyplot.figure("Dilated Image")
+	pyplot.imshow(dilated, cmap = 'gray')
+
+	pyplot.show()
