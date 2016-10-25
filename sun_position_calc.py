@@ -18,7 +18,7 @@ pi = 3.14159265358979323846;
 twopi = 2*pi;
 rad = pi/180;
 dEarthMeanRadius = 6371.01
-dAstronmicalUnit = 149597890
+dAstronmicalUnit = 149597890 #Earth center To Sun center in km
 dLongitude = -121.31190
 dLatitude =37.97580
 
@@ -88,8 +88,14 @@ def ParallaxCorrection (dEarthMeanRadius, dAstronmicalUnit,ZenithAngle,rad):
 	Elevation = 90-ZenithAngle;
 	
 	return (Elevation, ZenithAngle)
-
-
+	
+## ---truncate function---
+def truncate (f, n):
+ 	#Truncate a float f to n decimal places without rounding'''
+ 	s = '%.12f' % f
+ 	i, p, d = s.partition('.')
+ 	return ('.'.join([i, (d+'0'*n)[:n]]));
+	
 ### ----------MAIN CODE-------------###
 
 # get timestamp 
@@ -115,7 +121,9 @@ Seconds = float(30); # seconds set to 30
 # creates empty lists for Elevation, Azimuth, and Zenith angles
 Elevation_List= [];
 Azimuth_List= [];
-Zenith_List= [];	
+Zenith_List= [];
+x_azimuth=[];
+y_zenith=[];	
 
 for l in range(0,9):
 
@@ -128,7 +136,7 @@ for l in range(0,9):
 		Month = Month +1; # increase month
 		Day = 1; # day 31st -> 1st
 	
-	# check to see if month is Jan, Mar, May, Jul, Aug or Oct  and day is not 31st
+    # checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is not 31st
 	if  int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) != 31 & Hour_List[l] == 24.0: 
 		Day = Day + 1; # day increased
 	
@@ -178,11 +186,27 @@ for l in range(0,9):
 	PC_Elevation = ParallaxCorrection (dEarthMeanRadius, dAstronmicalUnit,LC_Azimuth[0],rad);
 	
 	# Inserts Elevation and Azimuth Angles into corresponding lists
-	Elevation_List.insert (l,round(PC_Elevation[0],4));
-	Zenith_List.insert (l,round(PC_Elevation[1],4));
-	Azimuth_List.insert (l,round(LC_Azimuth[1],4));
+	#Elevation_List.insert (l,PC_Elevation[0]);
+	Zenith_List.insert (l,PC_Elevation[1]);
+	Azimuth_List.insert (l,LC_Azimuth[1]);
 	
+	#---Converting sun position angle to servo angle range 150 to -150 degrees for azimuth and 0 to -90 or zenith--
 	
+	if Azimuth_List[l] == 150:
+		Azimuth_List[l]=0;
+	else:
+		Azimuth_List[l]= 150-Azimuth_List[l];
+	
+	if Zenith_List[l] > 0:
+		Zenith_List[l]=-Zenith_List[l];
+	
+	x_azimuth.insert(l,0.325*round(Azimuth_List[l]/0.325))
+	y_zenith.insert (l,0.325*round(Zenith_List[l]/0.325))
+	
+	x_azimuth[l]=truncate(x_azimuth[l], 3)
+	y_zenith[l]=truncate(y_zenith[l], 3)
+	
+				
 	
 ##----export sun position date to excel----
 
@@ -198,31 +222,29 @@ worksheet.set_column('D:D', 20)
 # Writing to first row and making text bold
 bold = workbook.add_format({'bold': True})
 worksheet.write('A1', 'Time', bold)
-worksheet.write('B1', 'Elevation Angle', bold)
-worksheet.write('C1', 'Zenith Angle', bold)
-worksheet.write('D1', 'Azimuth Angle', bold)
+worksheet.write('B1', 'Zenith Angle', bold)
+worksheet.write('C1', 'Azimuth Angle', bold)
 
 # Dictionary that has sun position data based on time of day
 data = (
-      	 ['8:30',  Elevation_List[0],Zenith_List[0], Azimuth_List[0]],
-     	 ['9:30',  Elevation_List[1],Zenith_List[1], Azimuth_List[1]],
-     	 ['10:30', Elevation_List[2],Zenith_List[2], Azimuth_List[2]],
-     	 ['11:30', Elevation_List[3],Zenith_List[3], Azimuth_List[3]],
-     	 ['12:30', Elevation_List[4],Zenith_List[4], Azimuth_List[4]],
-	 ['13:30', Elevation_List[5],Zenith_List[5], Azimuth_List[5]],
-	 ['14:30', Elevation_List[6],Zenith_List[6], Azimuth_List[6]],
-	 ['15:30', Elevation_List[7],Zenith_List[7], Azimuth_List[7]],
-	 ['16:30', Elevation_List[8],Zenith_List[8], Azimuth_List[8]],)
+     	 ['8:30',  y_zenith[0], x_azimuth[0]],
+     	 ['9:30',  y_zenith[1], x_azimuth[1]],
+     	 ['10:30', y_zenith[2], x_azimuth[2]],
+      	 ['11:30', y_zenith[3], x_azimuth[3]],
+	 ['12:30', y_zenith[4], x_azimuth[4]],
+	 ['13:30', y_zenith[5], x_azimuth[5]],
+	 ['14:30', y_zenith[6], x_azimuth[6]],
+	 ['15:30', y_zenith[7], x_azimuth[7]],
+	 ['16:30', y_zenith[8], x_azimuth[8]],)
 
 row = 1;
 col = 0;
 
 # iterates over the data and writes it out row by row.
-for time,Ele,Zen,Azi in (data):
+for time,Zen,Azi in (data):
 	worksheet.write(row, col, time)
-	worksheet.write(row, col + 1, Ele)
-	worksheet.write(row, col + 2, Zen)
-	worksheet.write(row, col + 3, Azi)
+	worksheet.write(row, col + 1, Zen)
+	worksheet.write(row, col + 2, Azi)
 	row += 1
 	
 # closes excel sheet
@@ -231,4 +253,6 @@ workbook.close()
 	
 	
 	
-	
+
+
+
