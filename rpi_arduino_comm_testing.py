@@ -27,12 +27,20 @@ while True:
 	#	print("Reached 150 max in pi")
 	#	d = 1
 	
-	val = random.uniform(-150,150)	# Generate random numbers between -150, 150 for simulated data
-	val = .325*round(val/.325)	# Normalize all values to be divisible by .325 (precision of motor)
-	val = truncate(val, 3)		# Truncate vals to 3 decimal points and convert to string to send over serial
-	print(val)
-	ser.write(val.encode('utf-8'))
-	time.sleep(5)			# wait 5 seconds
+	val = input("Angle between -150 - 150: ")
+	#val = 500
+
+	if val == "r":	
+		ser.write(val.encode('utf-8'))
+	else:
+		val = int(val)
+		#val = random.uniform(-150,150)	# Generate random numbers between -150, 150 for simulated data
+		#val = .325*round(val/.325)	# Normalize all values to be divisible by .325 (precision of motor)
+		val = truncate(val, 3)		# Truncate vals to 3 decimal points and convert to string to send over serial
+		print(val)
+		ser.write(val.encode('utf-8'))
+		time.sleep(3)			# wait 5 second
+		
 	#print('write\n')
 	
 	#bytestoread = ser.inWaiting()
