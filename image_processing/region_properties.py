@@ -18,8 +18,8 @@ def RegionProperties(Input,label):
     mu20 = 0
     mu02 = 0
     area = 0
-    for x in range(1,height):
-        for y in range(1,width):
+    for x in range(0,height):
+        for y in range(0,width):
             if(Input[x,y]==label):
                 m00 = m00 + 1
                 m01 = m01 + y
@@ -30,8 +30,8 @@ def RegionProperties(Input,label):
                 area = area + 1
     xc = m10/m00
     yc = m01/m00
-    for x in range(1,height):
-        for y in range(1,width):
+    for x in range(0,height):
+        for y in range(0,width):
             if(Input[x,y]==label):
                 mu01 = mu01 + (y - yc)
                 mu10 = mu10 + (x - xc)
@@ -51,8 +51,8 @@ def PCA(mu00, mu11, mu02, mu20):
     return eig_vals, theta
 
 def GetAxes(xc, yc, theta, eig_vals):
-    line1 = [[yc, yc+math.sin(theta)*math.sqrt(eig_vals[0])],[xc, xc+math.cos(theta)*math.sqrt(eig_vals[0])]]
-    line2 = [[yc, yc+math.sin(theta + math.pi/2)*math.sqrt(eig_vals[1])],[xc, xc+math.cos(theta + math.pi/2)*math.sqrt(eig_vals[1])]]
-    line3 = [[yc, yc+math.sin(theta + math.pi)*math.sqrt(eig_vals[0])],[xc, xc+math.cos(theta + math.pi)*math.sqrt(eig_vals[0])]]
-    line4 = [[yc, yc+math.sin(theta + 3*math.pi/2)*math.sqrt(eig_vals[1])],[xc, xc+math.cos(theta + 3*math.pi/2)*math.sqrt(eig_vals[1])]]
+    line1 = [[yc, yc],[xc, xc-100]]
+    line2 = [[yc, yc-100],[xc, xc]]
+    line3 = [[yc, yc+100],[xc, xc]]
+    line4 = [[yc, yc],[xc, xc+100]]
     return line1, line2, line3, line4
