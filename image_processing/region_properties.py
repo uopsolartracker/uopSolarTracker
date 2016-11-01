@@ -51,8 +51,8 @@ def PCA(mu00, mu11, mu02, mu20):
     return eig_vals, theta
 
 def GetAxes(xc, yc, theta, eig_vals):
-    line1 = [[yc, yc],[xc, xc-100]]
-    line2 = [[yc, yc-100],[xc, xc]]
-    line3 = [[yc, yc+100],[xc, xc]]
-    line4 = [[yc, yc],[xc, xc+100]]
+    line1 = [[yc, yc],[xc, xc-25]]
+    line2 = [[yc, yc-25],[xc, xc]]
+    line3 = [[yc, yc+25],[xc, xc]]
+    line4 = [[yc, yc],[xc, xc+25]]
     return line1, line2, line3, line4
