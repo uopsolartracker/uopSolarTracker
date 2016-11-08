@@ -36,7 +36,7 @@ class region_properties:
     ###     --> Threshold the image
     ###     --> Perform "Principle Component Analysis" on the thresholded image
     ### Inputs: Image of the sun
-    ### Outputs: Pixel location of the "center" of the sun in the image (height, width)
+    ### Outputs: Pixel location of the "center" of the sun in the image, the height and width of the input image
     def GetCenter(img):
         grayImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # Unnecessary for images which are already grayscale
         ret,threshImg = cv2.threshold(grayImg, 60, 255, cv2.THRESH_BINARY)
@@ -44,7 +44,8 @@ class region_properties:
         # TODO: Turn imwrite into a debug output to be stored for later debugging
 
         mu00, mu11, mu02, mu20, xc, yc = RegionProperties(threshImg,255)
-        return xc, yc
+        height, width = Input.shape
+        return xc, yc, height, width
 
     # The purpose of GetAxes() is for debugging, to visually show where the axes are drawn
     #
