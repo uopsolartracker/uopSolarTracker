@@ -123,7 +123,9 @@ Elevation_List= [];
 Azimuth_List= [];
 Zenith_List= [];
 x_azimuth=[];
-y_zenith=[];	
+y_zenith=[];
+motor_azimuth=[];
+motor_zenith=[];	
 
 for l in range(0,9):
 
@@ -190,23 +192,19 @@ for l in range(0,9):
 	Zenith_List.insert (l,PC_Elevation[1]);
 	Azimuth_List.insert (l,LC_Azimuth[1]);
 	
-	#---Converting sun position angle to servo angle range 150 to -150 degrees for azimuth and 0 to -90 or zenith--
+	#---Converting sun position angle to servo angle range motor command for azimuth and zenith--
 	
-	if Azimuth_List[l] == 150:
-		Azimuth_List[l]=0;
-	else:
-		Azimuth_List[l]= 150-Azimuth_List[l];
+	x_azimuth.insert(l,0.3125*round(Azimuth_List[l]/0.3125))
+	y_zenith.insert (l,0.3125*round((Zenith_List[l]+90)/0.3125))
 	
-	if Zenith_List[l] > 0:
-		Zenith_List[l]=-Zenith_List[l];
+	x_azimuth[l]=truncate(x_azimuth[l], 4)
+	y_zenith[l]=truncate(y_zenith[l], 4)
 	
-	x_azimuth.insert(l,0.325*round(Azimuth_List[l]/0.325))
-	y_zenith.insert (l,0.325*round(Zenith_List[l]/0.325))
+	motor_azimuth.insert(l,int(float(x_azimuth[l])/0.3125));
+	motor_zenith.insert(l,int(float(y_zenith[l])/0.3125));
 	
-	x_azimuth[l]=truncate(x_azimuth[l], 3)
-	y_zenith[l]=truncate(y_zenith[l], 3)
 	
-				
+					
 	
 ##----export sun position date to excel----
 
@@ -227,10 +225,10 @@ worksheet.write('C1', 'Azimuth Angle', bold)
 
 # Dictionary that has sun position data based on time of day
 data = (
-     	 ['8:30',  y_zenith[0], x_azimuth[0]],
+    	 ['8:30',  y_zenith[0], x_azimuth[0]],
      	 ['9:30',  y_zenith[1], x_azimuth[1]],
      	 ['10:30', y_zenith[2], x_azimuth[2]],
-      	 ['11:30', y_zenith[3], x_azimuth[3]],
+     	 ['11:30', y_zenith[3], x_azimuth[3]],
 	 ['12:30', y_zenith[4], x_azimuth[4]],
 	 ['13:30', y_zenith[5], x_azimuth[5]],
 	 ['14:30', y_zenith[6], x_azimuth[6]],
@@ -248,11 +246,4 @@ for time,Zen,Azi in (data):
 	row += 1
 	
 # closes excel sheet
-workbook.close()	
-
-	
-	
-	
-
-
-
+workbook.close()
