@@ -195,7 +195,7 @@ for l in range(0,9):
 	#---Converting sun position angle to servo angle range motor command for azimuth and zenith--
 	
 	x_azimuth.insert(l,0.3125*round(Azimuth_List[l]/0.3125))
-	y_zenith.insert (l,0.3125*round((Zenith_List[l]+90)/0.3125))
+	y_zenith.insert (l,0.3125*round((Zenith_List[l]+150)/0.3125))
 	
 	x_azimuth[l]=truncate(x_azimuth[l], 4)
 	y_zenith[l]=truncate(y_zenith[l], 4)
