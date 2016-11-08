@@ -7,14 +7,14 @@ import time
 import math
 import cmath
 import sched  
-import xlsxwriter 
-from xlrd import open_workbook
 
 #----inputs for testing proposes-----
-imageCenter_x=640
-imageCenter_y=480
-sunCenter_x=696
-sunCenter_y=558
+old_X= 100;
+old_Y= 567;
+imageCenter_x=640;
+imageCenter_y=480;
+sunCenter_x=696;
+sunCenter_y=558;
 
 #---Compute left, right, up, down pixel amounts from image center---
 ## left and right
@@ -26,7 +26,8 @@ if imageCenter_x < sunCenter_x:
 	leftPixel=	sunCenter_x-imageCenter_x;
 else:
 	leftPixel=0;
-## up and down	
+
+## up and down
 if imageCenter_y > sunCenter_y:
 	upPixel= imageCenter_y-sunCenter_y;
 else:
@@ -45,12 +46,8 @@ servoX=47;
 servoY=38;
 
 #----pixel per degree----
-horizontal=imageWidth/servoX
-vertical=imageWidth/servoY
-print(horizontal,vertical)
-#----Define variables---
-xChange=0;
-yChange=0;
+horizontal=imageWidth/servoX;
+vertical=imageWidth/servoY;
 
 #******New Position Calculation******
 
@@ -66,50 +63,27 @@ if upPixel != 0:
 if downPixel != 0:
 	yChange=downPixel/vertical;
 
-## ---getting servo position at this moment---
-timeStamp= time.time();
 
-# convert timestamp to humanreadable form
-humanReadable_TS= datetime.datetime.fromtimestamp(timeStamp).strftime('%Y-%m-%d-%H-%M-%S');
-
-# parse human readable to create variables for year, month, day, etc.
-h = humanReadable_TS.split("-");
-
-Hour_Lisit=[];
-List =[];
-
-Year = float (h[0]); # from humanreadable Year
-Month = float(h[1]); # from humanreadable Month
-Day = float(h[2]); # from humanreadable Day
-hour= float(h[3]);
-Minutes = float(30); # minutes set to 30
-string_find= str(int(hour))+ ":" +str(int(Minutes))
-
-book = open_workbook('sun_postion_data'+'_'+str(int(Month))+'_'+str(int(Day))+'_'+str(int(Year))+ '.xlsx')
-for sheet in book.sheets():
-    for rowidx in range(sheet.nrows):
-        row = sheet.row(rowidx)
-        for colidx, cell in enumerate(row):
-            if cell.value == string_find :
-                print (colidx)
-                print (rowidx)
-
-
-	
-##------normalize angles and truncate to 3 decimal places-----
-x_angle = 0.325*round(xChange/0.325)
-y_angle = 0.325*round(yChange/0.325)
+##------normalize angles and truncate to 4 decimal places-----
+x_angle = 0.3125*round(xChange/0.3125)
+y_angle = 0.3125*round(yChange/0.3125)
 
 def truncate (f, n):
- 	#Truncate a float f to n decimal places without rounding'''
  	s = '%.12f' % f
  	i, p, d = s.partition('.')
  	return ('.'.join([i, (d+'0'*n)[:n]]));
 	
-x_angle=truncate(x_angle, 3)
-y_angle=truncate(y_angle, 3)
+x_angle=truncate(x_angle, 4)
+y_angle=truncate(y_angle, 4)
 
-##-----save new Position Angles to excel-----
-print(x_angle,y_angle)
-	
-	
+##-----New position angle-----
+old_X=old_X*0.3125;
+old_Y=old_Y*0.3125;
+
+new_X= old_X+float(x_angle);
+new_Y= old_Y+float(y_angle);
+
+##---- motor command-------
+motor_X=int(new_X/0.3125);
+motor_Y=int(new_Y/0.3125);
+
