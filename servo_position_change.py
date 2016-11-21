@@ -8,18 +8,9 @@ import math
 import cmath
 import sched  
 
-#----inputs for testing proposes-----
-old_j= 100;
-old_i= 567;
-
-#----image size---
-imageWidth=imageCenter_i *2;
-imageHeight=imageCenter_j *2;
-
 #---Compute left, right, up, down pixel amounts from image center---
-
 def pixel_distance(imageCenter_i, imageCenter_j, sunCenter_i, sunCenter_j):
-	
+
 	## left and right
 	if imageCenter_j > sunCenter_j:
 		rightPixel= imageCenter_j-sunCenter_j;
@@ -45,6 +36,7 @@ def pixel_distance(imageCenter_i, imageCenter_j, sunCenter_i, sunCenter_j):
 def acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel):
 	flag1=0;
 	flag2=0;
+	### Checking to see if sun's center is within the range of acceptable error
 	if (rightPixel > 100)  or (leftPixel > 100):
 		flag1= 1;
 	else:
@@ -53,69 +45,69 @@ def acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel):
 		flag2=1;
 	else: 
 		flag2=0;
-	return (flag1, flag2)	
-
-def SunCenteredCheck(flag1, flag2):
-	iChange=0;
-	jChange=0;
-	if (flag1 == 1 or flag2 ==1):
+	### Checking to see if tracker has to be moved
+	if (flag1== 1) or (flag2==1):
 		move=1;
-		#----Servo Angle Movemnet----
-		servo_j=47;
-		servo_i=38;
-
-		#----pixel per degree----
-		horizontal=imageWidth/servo_j;
-		vertical=imageHeight/servo_i;
-		
-		##----Azimuth Angle Change----
-		if rightPixel != 0:
-			jChange= rightPixel/horizontal;
-		if leftPixel != 0:
-			jChange=-(leftPixel/horizontal);
-				
-		##----Zenith Angle Change-----
-		if upPixel != 0:
-			iChange= -(upPixel/vertical);	
-		if downPixel != 0:
-			iChange=downPixel/vertical;
+	elif (flag1== 1) and (flag2==1):
+		move =1;
 	else:
-		move=0;	
-	return(move, iChange, jChange)
+		move=0;
+	return (move)	
+
+def SunCenteredCheck(imageWidth, imageHeight, rightPixel, leftPixel, downPixel, upPixel):
+
+	#----Servo Angle Movemnet----
+	servo_j=47;
+	servo_i=38;
+
+	#----pixel per degree----
+	horizontal=imageWidth/servo_j;
+	vertical=imageHeight/servo_i;
+	
+	##----Azimuth Angle Change----
+	if rightPixel != 0:
+		jChange= rightPixel/horizontal;
+	if leftPixel != 0:
+		jChange=-(leftPixel/horizontal);
+			
+	##----Zenith Angle Change-----
+	if upPixel != 0:
+		iChange= -(upPixel/vertical);	
+	if downPixel != 0:
+		iChange=downPixel/vertical;	
+			
+	return(iChange, jChange)
 
 def truncate (f, n):
 	s = '%.12f' % f
 	i, p, d = s.partition('.')
 	return ('.'.join([i, (d+'0'*n)[:n]]));
 			
-def sendPosition(move, iChange, jChange):
-	motor_i=0;
-	motor_j=0;
-	if move == 1:
-		##------normalize angles and truncate to 4 decimal places-----
-		j_angle = 0.3125*round(jChange/0.3125)
-		i_angle = 0.3125*round(iChange/0.3125)
-			
-		j_angle=truncate(j_angle, 4)
-		i_angle=truncate(i_angle, 4)
+def sendPosition(iChange, jChange, old_i, old_j):
 
-		##-----New position angle-----
-		old_j=old_j*0.3125;
-		old_i=old_i*0.3125;
+	##------normalize angles and truncate to 4 decimal places-----
+	j_angle = 0.3125*round(jChange/0.3125)
+	i_angle = 0.3125*round(iChange/0.3125)
+		
+	j_angle=truncate(j_angle, 4)
+	i_angle=truncate(i_angle, 4)
 
-		new_j= old_j+float(j_angle);
-		new_i= old_i+float(i_angle);
+	##-----New position angle-----
+	old_j=old_j*0.3125;
+	old_i=old_i*0.3125;
 
-		##---- motor command-------
-		motor_j=int(new_j/0.3125);
-		motor_i=int(new_i/0.3125);
-	else:
-		move=0	
-	return(move, motor_i, motor_j)
+	new_j= old_j+float(j_angle);
+	new_i= old_i+float(i_angle);
+
+	##---- motor command-------
+	motor_j=int(new_j/0.3125);
+	motor_i=int(new_i/0.3125);
+	
+	return( motor_i, motor_j)
 
 
-[rightPixel, leftPixel, downPixel, upPixel]=pixel_distance(imageCenter_i, imageCenter_j, sunCenter_i, sunCenter_j)	
-[flag1, flag2]=acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel)
-[move, iChange, jChange]=SunCenteredCheck(flag1, flag2)
-sendPosition(move, iChange, jChange)	
+#[rightPixel, leftPixel, downPixel, upPixel]=pixel_distance(imageCenter_i, imageCenter_j, sunCenter_i, sunCenter_j)	
+#[flag1, flag2]=acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel)
+#[move, iChange, jChange]=SunCenteredCheck(flag1, flag2)
+#sendPosition(move, iChange, jChange)	
 	
