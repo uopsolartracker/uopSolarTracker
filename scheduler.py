@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
-import sched
+import os
 import time
 import datetime
+from apscheduler.schedulers import BlockingScheduler
 
 ### Description: 
 class scheduler(object):
@@ -14,26 +15,28 @@ class scheduler(object):
 
 	# Initialize the scheduling object itself within this class
 	def __init__(self):
-		self.schedule = sched(time.time, time.sleep)
+		self.schedule = BlockingScheduler()
+		getTimeOfDay()
+		self.schedule.add_job(CheckWeather, 'interval', hours=3)
 
-	def periodic(self, interval, action, actionargs=()):
-		self.scheduler.enter(interval, 1, periodic, (scheduler, interval, action, actionargs))
-		action(*actionargs)
+	def CheckWeather(self):
 
-	def StartDay():
+	def GetSunImage(self):
 
-	def EndDay():
+	def StartDay(self):
+		self.schedule.start()
 
-	def CheckWeather():
-
-	def GetSunImage():
+	def EndDay(self):
+		self.schedule.shutdown()
 	
-	### Description: Determines if it is currently daytime (8am - 5pm) or nighttime.
+	### Description: Determines if it is currently daytime (8am - 5pm) or nighttime and stores it in instanced variables
 	### 			 Taken from Tim's weather data parsing functionality. Including it here for a system wide function
+	###				 Probably not needed, but including here for completeness
 	### Flow: 	1) Get todays 8:10AM and 4:50PM time stamp
 	###		2) Get timestamp for current time
-	### Input: 
-	### Output: 
+	###		3) Determine whether day or night
+	### Input: None
+	### Output: None
 	### Example:
 	### 	
 	def getTimeOfDay(self):
@@ -47,10 +50,7 @@ class scheduler(object):
 		self.timeString = datetime.datetime.now()									# Cali date and time datetime string
 		self.timeFloat = datetime.datetime.timestamp(timeString)					# Convert to float time stamp
 
-		### 3) Set index if during day
+		### 3) Set if during day
+		self.isday = 0
 		if self.timeFloat >= self.eightTenAM and self.timeFloat <= self.fourFiftyPM:
-			#print("DAY = ", topCoverCodes['dayTime'])
-			return
-		
-		return
-
+			self.isday = 1
