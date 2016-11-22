@@ -5,7 +5,8 @@ import time
 import datetime
 from apscheduler.schedulers import BlockingScheduler
 
-### Description: 
+### Description: Using the apscheduler, the scheduler class manages the timing of the execution of functions
+###				 
 class scheduler(object):
 	# Used for checking against when we last checked in
 	last_check = 0
@@ -13,19 +14,45 @@ class scheduler(object):
 	TENMINUTES = 600
 	THREEHOURS = 10800
 
-	# Initialize the scheduling object itself within this class
+	### Description: Initialize the scheduling object itself within this class
+	### 			 cron like scheduling is used
+	### 			 (see http://apscheduler.readthedocs.io/en/v3.3.0/modules/triggers/cron.html#module-apscheduler.triggers.cron)
+	### What each option means:
+	###		day='1-7' -- Schedule the function to be run every day, starting on Monday and ending on Sunday
+	###		hour='8-17' -- Schedule the function to run from the hours 08:00 to 17:00 every hour
+	###		hour='0-24/3' -- Schedule the function to run from the hours 05:00 to 24:00 every 3 hours
 	def __init__(self):
-		self.schedule = BlockingScheduler()
+		self.schedule = BlockingScheduler() # Initialize block type scheduler
 		getTimeOfDay()
-		self.schedule.add_job(CheckWeather, 'interval', hours=3)
+		self.schedule.add_job(CheckWeather, 'cron', day='1-7', hour='8-17')
+		self.schedule.add_job(GetSunImage, 'cron', day='1-7', hour='5-20/3')
 
+	### Description: The scheduled function to check the weather
+	### Flow: 	1) 
+	### Input: 
+	### Output: 
+	### Example:
+	### 	This function is not called from the class object, but called by the apscheduler object
 	def CheckWeather(self):
+		# Do weather checking things
+		# Add a debug statement with timestamp
 
+	### Description: The scheduled function to capture sun images
+	### Flow: 	1) 
+	### Input: 
+	### Output: 
+	### Example:
+	### 	This function is not called from the class object, but called by the apscheduler object
 	def GetSunImage(self):
+		# Do image getting things
+		# Add a debug statement with timestamp
 
+	### Description: After adding all the jobs we want to the scheduler, we then start it
 	def StartDay(self):
 		self.schedule.start()
 
+	### Description: To terminate the scheduler, we issue it the shutdown command
+	###				 This will also terminate the program, so only use this if you want to end the program as a whole
 	def EndDay(self):
 		self.schedule.shutdown()
 	
