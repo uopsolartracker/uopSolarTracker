@@ -19,6 +19,14 @@ class scheduler(object):
 	def periodic(self, interval, action, actionargs=()):
 		self.scheduler.enter(interval, 1, periodic, (scheduler, interval, action, actionargs))
 		action(*actionargs)
+
+	def StartDay():
+
+	def EndDay():
+
+	def CheckWeather():
+
+	def GetSunImage():
 	
 	### Description: Determines if it is currently daytime (8am - 5pm) or nighttime.
 	### 			 Taken from Tim's weather data parsing functionality. Including it here for a system wide function
