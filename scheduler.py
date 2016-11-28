@@ -3,7 +3,7 @@
 import os
 import time
 import datetime
-from apscheduler.schedulers import BlockingScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 ### Description: Using the apscheduler, the scheduler class manages the timing of the execution of functions
 ###				 
@@ -16,16 +16,17 @@ class scheduler(object):
 
 	### Description: Initialize the scheduling object itself within this class
 	### 			 cron like scheduling is used
-	### 			 (see http://apscheduler.readthedocs.io/en/v3.3.0/modules/triggers/cron.html#module-apscheduler.triggers.cron)
+	### 			 
 	### What each option means:
 	###		day='1-7' -- Schedule the function to be run every day, starting on Monday and ending on Sunday
 	###		hour='8-17' -- Schedule the function to run from the hours 08:00 to 17:00 every hour
-	###		hour='0-24/3' -- Schedule the function to run from the hours 05:00 to 24:00 every 3 hours
+	###		hour='0-24/3' -- Schedule the function to run from the hours 00:00 to 24:00 every 3 hours
+	### See: http://apscheduler.readthedocs.io/en/v3.3.0/modules/triggers/cron.html#module-apscheduler.triggers.cron
 	def __init__(self):
 		self.schedule = BlockingScheduler() # Initialize block type scheduler
 		getTimeOfDay()
-		self.schedule.add_job(CheckWeather, 'cron', day='1-7', hour='8-17')
-		self.schedule.add_job(GetSunImage, 'cron', day='1-7', hour='5-20/3')
+		self.schedule.add_job(CheckWeather, 'cron', day='1-7', hour='5-19/3')
+		self.schedule.add_job(GetSunImage, 'cron', day='1-7', hour='8-17')
 
 	### Description: The scheduled function to check the weather
 	### Flow: 	1) 
