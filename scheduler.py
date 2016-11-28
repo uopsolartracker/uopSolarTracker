@@ -8,11 +8,6 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 ### Description: Using the apscheduler, the scheduler class manages the timing of the execution of functions
 ###				 
 class scheduler(object):
-	# Used for checking against when we last checked in
-	last_check = 0
-	# The psuedo-constants we will need
-	TENMINUTES = 600
-	THREEHOURS = 10800
 
 	### Description: Initialize the scheduling object itself within this class
 	### 			 cron like scheduling is used
@@ -49,12 +44,12 @@ class scheduler(object):
 		# Add a debug statement with timestamp
 
 	### Description: After adding all the jobs we want to the scheduler, we then start it
-	def StartDay(self):
+	def Start(self):
 		self.schedule.start()
 
 	### Description: To terminate the scheduler, we issue it the shutdown command
 	###				 This will also terminate the program, so only use this if you want to end the program as a whole
-	def EndDay(self):
+	def End(self):
 		self.schedule.shutdown()
 	
 	### Description: Determines if it is currently daytime (8am - 5pm) or nighttime and stores it in instanced variables
