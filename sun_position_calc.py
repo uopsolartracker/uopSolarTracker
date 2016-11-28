@@ -12,8 +12,6 @@ import cmath
 import sched  
 import xlsxwriter 
 
- 
-# constants that will not change throughout the script
 pi = 3.14159265358979323846;
 twopi = 2*pi;
 rad = pi/180;
@@ -21,8 +19,7 @@ dEarthMeanRadius = 6371.01
 dAstronmicalUnit = 149597890 #Earth center To Sun center in km
 dLongitude = -121.31190
 dLatitude =37.97580
-
-
+ 
 ## --Calculating difference between current Julian Day and JD 2451545.0--
 def ElapsedJD (Year, Month, Day, Hours, Minutes, Seconds):
 	DecimalHours = float(Hours + (Minutes + (Seconds /60.0))/60.0)#Time of day in UTC decimal hours
@@ -96,154 +93,177 @@ def truncate (f, n):
  	i, p, d = s.partition('.')
  	return ('.'.join([i, (d+'0'*n)[:n]]));
 	
-### ----------MAIN CODE-------------###
+### ----------MAIN CODE-------------
+def _hourly_position_():
+	# get timestamp 
+	timeStamp= time.time();
 
-# get timestamp 
-timeStamp= time.time();
+	# convert timestamp to humanreadable form
+	humanReadable_TS= datetime.datetime.fromtimestamp(timeStamp).strftime('%Y-%m-%d-%H-%M-%S');
 
-# convert timestamp to humanreadable form
-humanReadable_TS= datetime.datetime.fromtimestamp(timeStamp).strftime('%Y-%m-%d-%H-%M-%S');
+	# parse human readable to create variables for year, month, day, etc.
+	h = humanReadable_TS.split("-");
 
-# parse human readable to create variables for year, month, day, etc.
-h = humanReadable_TS.split("-");
+	Hour_Lisit=[];
+	List =[];
 
-Hour_Lisit=[];
-List =[];
+	Year = float (h[0]); # from humanreadable Year
+	Month = float(h[1]); # from humanreadable Month
+	Day = float(h[2]); # from humanreadable Day
+	#Hour = [8 , 9, 10, 11, 12, 13, 14, 15, 16, 17 ];
 
-Year = float (h[0]); # from humanreadable Year
-Month = float(h[1]); # from humanreadable Month
-Day = float(h[2]); # from humanreadable Day
-#Hour = [8 , 9, 10, 11, 12, 13, 14, 15, 16, 17 ];
-
-Hour_List= [ 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]# list of times from 8am to 5pm in UTC 
-Minutes = float(30); # minutes set to 30
-Seconds = float(30); # seconds set to 30
-# creates empty lists for Elevation, Azimuth, and Zenith angles
-Elevation_List= [];
-Azimuth_List= [];
-Zenith_List= [];
-x_azimuth=[];
-y_zenith=[];
-motor_azimuth=[];
-motor_zenith=[];	
-
-for l in range(0,9):
-
-
-#--- if statements check to see if hr > 24 in UTC and changes day, month, or 
-#    year depending on the situation
-
-	# checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is 31st 
-	if int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) == 31 & Hour_List[l] == 24.0: 
-		Month = Month +1; # increase month
-		Day = 1; # day 31st -> 1st
+	Hour_List= [ 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]# list of times from 8am to 5pm in UTC 
+	Minutes = float(30); # minutes set to 30
+	Seconds = float(30); # seconds set to 30
 	
-    # checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is not 31st
-	if  int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) != 31 & Hour_List[l] == 24.0: 
-		Day = Day + 1; # day increased
+	### constants that will not change throughout the script
+	pi = 3.14159265358979323846;
+	twopi = 2*pi;
+	rad = pi/180;
+	dEarthMeanRadius = 6371.01
+	dAstronmicalUnit = 149597890 #Earth center To Sun center in km
+	dLongitude = -121.31190
+	dLatitude =37.97580
 	
-	# checks to see if month is  Apr, Jun, Sep, or Nov and day is 30th 
-	if int(Month) == (4 | 6 | 9 | 11) & int(Day) == 30 & Hour_List[l] == 24.0:
-		Month = Month +1; # increase month
-		Day = 1; # day 30th -> 1st
-	
-	# checks to see if month is  Apr, Jun, Sep, or Nov and day is not 30th 
-	if int(Month) == (4 | 6 | 9 | 11) & int(Day) != 30 & Hour_List[l] == 24.0: 
-		Day = Day + 1; # day increased
+	# creates empty lists for Elevation, Azimuth, and Zenith angles
+	Elevation_List= [];
+	Azimuth_List= [];
+	Zenith_List= [];
+	x_azimuth=[];
+	y_zenith=[];
+	motor_azimuth=[];
+	motor_zenith=[];	
+
+	for l in range(0,9):
+
+
+	#--- if statements check to see if hr > 24 in UTC and changes day, month, or 
+	#    year depending on the situation
+
+		# checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is 31st 
+		if int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) == 31 & Hour_List[l] == 24.0: 
+			Month = Month +1; # increase month
+			Day = 1; # day 31st -> 1st
 		
-	# checks to see if month is Dec and day s 31st
-	if int(Month) == 12 & int(Day) == 31 & Hour_List[l] == 24.0:
-		Month = 1; # change month to Jan
-		Year = Year +1; # increase year
-		Day = 1; # day 31st -> 1st
+		# checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is not 31st
+		if  int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) != 31 & Hour_List[l] == 24.0: 
+			Day = Day + 1; # day increased
 		
-	# checks to see month is Dec and day is not 31st	
-	if int(Month) == 12 & int(Day) != 31 :
-		Day = Day +1; # increase day
+		# checks to see if month is  Apr, Jun, Sep, or Nov and day is 30th 
+		if int(Month) == (4 | 6 | 9 | 11) & int(Day) == 30 & Hour_List[l] == 24.0:
+			Month = Month +1; # increase month
+			Day = 1; # day 30th -> 1st
 		
-	# checks to see if month is Feb and if it's a leap year
-	if int(Month) == 2 & 0 == (int(Year)%4) & int(Day) == 29 & Hour_List[l] == 24.0:
-		Month = Month +1; # increase year
-		Day = 1; # day 29th -> 1st
+		# checks to see if month is  Apr, Jun, Sep, or Nov and day is not 30th 
+		if int(Month) == (4 | 6 | 9 | 11) & int(Day) != 30 & Hour_List[l] == 24.0: 
+			Day = Day + 1; # day increased
+			
+		# checks to see if month is Dec and day s 31st
+		if int(Month) == 12 & int(Day) == 31 & Hour_List[l] == 24.0:
+			Month = 1; # change month to Jan
+			Year = Year +1; # increase year
+			Day = 1; # day 31st -> 1st
+			
+		# checks to see month is Dec and day is not 31st	
+		if int(Month) == 12 & int(Day) != 31 :
+			Day = Day +1; # increase day
+			
+		# checks to see if month is Feb and if it's a leap year
+		if int(Month) == 2 & 0 == (int(Year)%4) & int(Day) == 29 & Hour_List[l] == 24.0:
+			Month = Month +1; # increase year
+			Day = 1; # day 29th -> 1st
+			
+		# checks to see if month is Feb and not day is not 29th	
+		if int(Month) == 2 & 0 == (int(Year)%4) & int(Day) != 29:
+			Day = Day +1; # increase year
+			
+		# checks to see if month is Feb and if not a leap year
+		if int(Month) == 2 & 0 != (int(Year)%4) & int(Day)==28 & Hour_List[l] == 24.0:
+			Month = Month +1; # increase year
+			Day = 1; # day 28th -> 1st
 		
-	# checks to see if month is Feb and not day is not 29th	
-	if int(Month) == 2 & 0 == (int(Year)%4) & int(Day) != 29:
-		Day = Day +1; # increase year
+		# checks to see if month is Feb an day is not 28th
+		if int(Month) == 2 & 0 != (int(Year)%4) & int(Day)!=28:
+			Day = Day +1; # increase year
+			
 		
-	# checks to see if month is Feb and if not a leap year
-	if int(Month) == 2 & 0 != (int(Year)%4) & int(Day)==28 & Hour_List[l] == 24.0:
-		Month = Month +1; # increase year
-		Day = 1; # day 28th -> 1st
-	
-	# checks to see if month is Feb an day is not 28th
-	if int(Month) == 2 & 0 != (int(Year)%4) & int(Day)!=28:
-		Day = Day +1; # increase year
+		# Calls functions that compute Azimuth and Elevation Angles
+		JD_ElapsedJD = ElapsedJD (Year, Month, Day, Hour_List[l], Minutes, Seconds);
+		EC_EclipticCoordinates = EclipticCoordinates (JD_ElapsedJD[0]);
+		CC_CelestialCoordintes = CelestialCoordinates(EC_EclipticCoordinates[0], EC_EclipticCoordinates[1], twopi);
+		LC_Azimuth = LocalCoordinates (JD_ElapsedJD[0],JD_ElapsedJD[1],dLongitude, rad, CC_CelestialCoordintes[1], CC_CelestialCoordintes[0])
+		PC_Elevation = ParallaxCorrection (dEarthMeanRadius, dAstronmicalUnit,LC_Azimuth[0],rad);
 		
-	
-	# Calls functions that compute Azimuth and Elevation Angles
-	JD_ElapsedJD = ElapsedJD (Year, Month, Day, Hour_List[l], Minutes, Seconds);
-	EC_EclipticCoordinates = EclipticCoordinates (JD_ElapsedJD[0]);
-	CC_CelestialCoordintes = CelestialCoordinates(EC_EclipticCoordinates[0], EC_EclipticCoordinates[1], twopi);
-	LC_Azimuth = LocalCoordinates (JD_ElapsedJD[0],JD_ElapsedJD[1],dLongitude, rad, CC_CelestialCoordintes[1], CC_CelestialCoordintes[0])
-	PC_Elevation = ParallaxCorrection (dEarthMeanRadius, dAstronmicalUnit,LC_Azimuth[0],rad);
-	
-	# Inserts Elevation and Azimuth Angles into corresponding lists
-	#Elevation_List.insert (l,PC_Elevation[0]);
-	Zenith_List.insert (l,PC_Elevation[1]);
-	Azimuth_List.insert (l,LC_Azimuth[1]);
-	
-	#---Converting sun position angle to servo angle range motor command for azimuth and zenith--
-	
-	x_azimuth.insert(l,0.3125*round(Azimuth_List[l]/0.3125))
-	y_zenith.insert (l,0.3125*round((Zenith_List[l]+150)/0.3125))
-	
-	x_azimuth[l]=truncate(x_azimuth[l], 4)
-	y_zenith[l]=truncate(y_zenith[l], 4)
-	
-	motor_azimuth.insert(l,int(float(x_azimuth[l])/0.3125));
-	motor_zenith.insert(l,int(float(y_zenith[l])/0.3125));
-	
-	
-					
+		# Inserts Elevation and Azimuth Angles into corresponding lists
+		#Elevation_List.insert (l,PC_Elevation[0]);
+		Zenith_List.insert (l,PC_Elevation[1]);
+		Azimuth_List.insert (l,LC_Azimuth[1]);
+		
+		#---Converting sun position angle to servo angle range motor command for azimuth and zenith--
+		
+		x_azimuth.insert(l,0.325*round(Azimuth_List[l]/0.325))
+		y_zenith.insert (l,0.325*round((Zenith_List[l]+150)/0.325))
+		
+		x_azimuth[l]=truncate(x_azimuth[l], 4)
+		y_zenith[l]=truncate(y_zenith[l], 4)
+		
+		motor_azimuth.insert(l,int(float(x_azimuth[l])/0.325));
+		motor_zenith.insert(l,int(float(y_zenith[l])/0.325));
+		
+	excel_position(Azimuth_List,Zenith_List,Month,Day, Year);
+		
+	return (motor_azimuth,motor_zenith)
+						
 	
 ##----export sun position date to excel----
+def excel_position(x_azimuth,y_zenith,Month,Day, Year):
+	# Create an new Excel file and add a worksheet.
+	workbook = xlsxwriter.Workbook('sun_postion_data'+'_'+str(int(Month))+'_'+str(int(Day))+'_'+str(int(Year))+ '.xlsx')
+	worksheet = workbook.add_worksheet()
 
-# Create an new Excel file and add a worksheet.
-workbook = xlsxwriter.Workbook('sun_postion_data'+'_'+str(int(Month))+'_'+str(int(Day))+'_'+str(int(Year))+ '.xlsx')
-worksheet = workbook.add_worksheet()
+	# Widen the second and third column to make the text clearer.
+	worksheet.set_column('B:B', 20)
+	worksheet.set_column('C:C', 20)
+	worksheet.set_column('D:D', 20)
 
-# Widen the second and third column to make the text clearer.
-worksheet.set_column('B:B', 20)
-worksheet.set_column('C:C', 20)
-worksheet.set_column('D:D', 20)
+	# Writing to first row and making text bold
+	bold = workbook.add_format({'bold': True})
+	worksheet.write('A1', 'Time', bold)
+	worksheet.write('B1', 'Zenith Angle', bold)
+	worksheet.write('C1', 'Azimuth Angle', bold)
 
-# Writing to first row and making text bold
-bold = workbook.add_format({'bold': True})
-worksheet.write('A1', 'Time', bold)
-worksheet.write('B1', 'Zenith Angle', bold)
-worksheet.write('C1', 'Azimuth Angle', bold)
+	# Dictionary that has sun position data based on time of day
+	data = (
+		 ['8:30',  y_zenith[0], x_azimuth[0]],
+		 ['9:30',  y_zenith[1], x_azimuth[1]],
+		 ['10:30', y_zenith[2], x_azimuth[2]],
+		 ['11:30', y_zenith[3], x_azimuth[3]],
+		 ['12:30', y_zenith[4], x_azimuth[4]],
+		 ['13:30', y_zenith[5], x_azimuth[5]],
+		 ['14:30', y_zenith[6], x_azimuth[6]],
+		 ['15:30', y_zenith[7], x_azimuth[7]],
+		 ['16:30', y_zenith[8], x_azimuth[8]],)
 
-# Dictionary that has sun position data based on time of day
-data = (
-    	 ['8:30',  y_zenith[0], x_azimuth[0]],
-     	 ['9:30',  y_zenith[1], x_azimuth[1]],
-     	 ['10:30', y_zenith[2], x_azimuth[2]],
-     	 ['11:30', y_zenith[3], x_azimuth[3]],
-	 ['12:30', y_zenith[4], x_azimuth[4]],
-	 ['13:30', y_zenith[5], x_azimuth[5]],
-	 ['14:30', y_zenith[6], x_azimuth[6]],
-	 ['15:30', y_zenith[7], x_azimuth[7]],
-	 ['16:30', y_zenith[8], x_azimuth[8]],)
+	row = 1;
+	col = 0;
 
-row = 1;
-col = 0;
+	# iterates over the data and writes it out row by row.
+	for time,Zen,Azi in (data):
+		worksheet.write(row, col, time)
+		worksheet.write(row, col + 1, Zen)
+		worksheet.write(row, col + 2, Azi)
+		row += 1
+		
+	# closes excel sheet
+	workbook.close()	
 
-# iterates over the data and writes it out row by row.
-for time,Zen,Azi in (data):
-	worksheet.write(row, col, time)
-	worksheet.write(row, col + 1, Zen)
-	worksheet.write(row, col + 2, Azi)
-	row += 1
 	
-# closes excel sheet
-workbook.close()
+#_hourly_position_()	
+	
+	
+	
+
+	
+	
+
+
