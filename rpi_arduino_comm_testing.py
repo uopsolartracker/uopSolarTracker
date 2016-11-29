@@ -9,7 +9,7 @@ import random
 d = '1'
 
 port = '/dev/ttyACM0'
-baud = 9600
+baud = 115200
 
 ser = serial.Serial(port, baud, timeout = 6)
 
@@ -32,14 +32,22 @@ while True:
 
 	if val == "r":	
 		ser.write(val.encode('utf-8'))
+	elif val == "stat":
+		ser.write(val.encode('utf-8'))
+	elif val == "v":
+		ser.write(val.encode('utf-8'))
+	elif val == "h":
+		ser.write(val.encode('utf-8'))
 	else:
-		val = int(val)
+		#val = int(val)
+		#val = char(val)
 		#val = random.uniform(-150,150)	# Generate random numbers between -150, 150 for simulated data
 		#val = .325*round(val/.325)	# Normalize all values to be divisible by .325 (precision of motor)
-		val = truncate(val, 3)		# Truncate vals to 3 decimal points and convert to string to send over serial
+		###val = truncate(val, 3)		# Truncate vals to 3 decimal points and convert to string to send over serial
 		print(val)
 		ser.write(val.encode('utf-8'))
-		time.sleep(3)			# wait 5 second
+		
+		###time.sleep(3)			# wait 5 second
 		
 	#print('write\n')
 	
