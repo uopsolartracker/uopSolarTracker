@@ -75,7 +75,7 @@ class weatherData(base)
 	### Output: topCoverCodes
 	### Example:
 	### 	Call getWeatherForTop() from main --> sets topCoverCodes.topCurrentStatus = 0 (good weather) or 1 (bad weather)
-	def getWeatherForTop():
+	def getWeatherForTop(self):
 		""" Sets current weather ID and time """
 
 		print("Inside getWEATHERfortop......................") # Make this a debug output
@@ -116,7 +116,7 @@ class weatherData(base)
 	### Output: topCoverCodes
 	### Example:
 	### 	Call getForecastForTop() from main --> check gap times to see when to open top, assumung there is a gap
-	def getForecastForTop():
+	def getForecastForTop(self):
 		"""Returns a list of codes of weather to open the top cover of the protection unit or not"""
 		
 		print("Inside getForecastForTop...............")	
@@ -172,7 +172,7 @@ class weatherData(base)
 	### Example:
 	### 	Call requestAPI() from getWeatherForTop or getForecastForTop to use the returned JSON data string
 	###	to find current weather or forecast weather at points in time.
-	def requestAPI(url):
+	def requestAPI(self, url):
 		""" Request and read the API page """
 
 		### 1) urlopen returns a bytes object so decode it so it can be read by the JSON module
@@ -183,7 +183,7 @@ class weatherData(base)
 
 		return jsonString
 
-	def getTopCoverStatus():
+	def getTopCoverStatus(self):
 		""" Sets open/close index based on other closeTopCoverCodes indicies and returns closeTopCoverCodes to the main function """
 
 	### Description: Finds all good weather time-gaps and sets a time to allow top to open based on when
@@ -194,7 +194,7 @@ class weatherData(base)
 	### Output: none
 	### Example:
 	### 	Call this function from getForecastForTop() to see when to open the top cover
-	def findOpenTimes(jsonStringForecast):
+	def findOpenTimes(self, jsonStringForecast):
 		""" Top Level to find times to allow th top cover to open """
 
 		print("Inside findOPENtimes")
@@ -226,7 +226,7 @@ class weatherData(base)
 	### Output: topCoverCodes
 	### Example:
 	### 	Call this function from getForecastForTop() to set times when there is good weather during the daytime so top can open
-	def getTimeOfDay():
+	def getTimeOfDay(self):
 		""" Sets time index to 1 if currently between 8:10am and 4:50pm when there is light. This allows top to open if during the day. """
 		
 		### 1) Get todays 8:10AM and 4:50PM timestamp
@@ -260,7 +260,7 @@ class weatherData(base)
 	### Output: true/false
 	### Example:
 	### 	Call this function from findOpenTimes() to set truth table to be processed to find then time-gaps are
-	def fillTable(jsonStringForecast, j):
+	def fillTable(self, jsonStringForecast, j):
 		""" Saves time of day to open top and sets up truth table for when there is bad weather. """ 
 
 		print("Inside FILLTABLE")
@@ -402,7 +402,7 @@ class weatherData(base)
 	### Output: topCoverCodes
 	### Example:
 	### 	Call this function from findOpenTimes() to get the time-gaps of when to open the top
-	def processForecastConditions():
+	def processForecastConditions(self):
 		"""This function sets the time period to allow the top cover to open based on when there is good weather in the daytime."""
 
 		print("Inside processFORECASTCONDITIONS")
@@ -509,7 +509,7 @@ class weatherData(base)
 	### Example:
 	### 	Call this function from processForecastConditions() to set the gap times if doing so
 	###	during the daytime.
-	def gap_day_time(truthTableVal):
+	def gap_day_time(self, truthTableVal):
 		""" This code set gaps times for tope cover when called during the day time. """
 		
 		# Get timestamp for current time
@@ -570,7 +570,7 @@ class weatherData(base)
 	### Output: none
 	### Example:
 	### 	Call this function from processForecastConditions() and fillTable() to clear used data
-	def resetCodesAndTimes(r):
+	def resetCodesAndTimes(self, r):
 		""" This code resets the codes for the truth table and dates and times for upcoming forecasts so will be restarted when forecast called again. """
 
 		print("Inside RESET")
