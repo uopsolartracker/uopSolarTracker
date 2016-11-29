@@ -404,7 +404,7 @@ def processForecastConditions():
 
 		# bad weather == 1
 		# Could have bad weather before a 1 or after so only okay to open if 2 consecutive 0's 
-		# 8AM | 11AM | 2PM | 5PM || Allow Open for that Day
+		# 	8AM   |	  11AM    |   2PM   |   5PM   || Allow Open for that Day
 		# ------------------------------------------------------------------------
 # 0		#    0    |     0     |    0    |    0    || 	8:10am - 4:50pm
 # 1		#    0    |     0     |    0    |    1    || 	8:10am - 1:50pm
@@ -418,7 +418,7 @@ def processForecastConditions():
 		#    1    |     0     |    0    |    1    ||  		     0
 		#    1    |     0     |    1    |    0    ||  		     0
 		#    1    |     0     |    1    |    1    ||  		     0
-#12 		#    1    |     1     |    0    |    0    || 	2:10pm - 4:50pm
+#12 	#    1    |     1     |    0    |    0    || 	2:10pm - 4:50pm
 		#    1    |     1     |    0    |    1    ||  		     0
 		#    1    |     1     |    1    |    0    ||  		     0
 		#    1    |     1     |    1    |    1    ||  		     0	
