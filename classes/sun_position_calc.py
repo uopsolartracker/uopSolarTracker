@@ -13,7 +13,7 @@ import sched
 import xlsxwriter
 from base import base
 
-class sun_position(base)
+class sun_position(base):
 
 	pi = 3.14159265358979323846;
 	twopi = 2*pi;

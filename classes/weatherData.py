@@ -16,7 +16,7 @@ from base import base
 
 #TODO: Make print statements logging statements
 
-class weatherData(base)
+class weatherData(base):
 
 	# Time Defines (seconds)
 	TENMINUTES = 600.0
@@ -50,17 +50,18 @@ class weatherData(base)
 	urlWeatherBase = "http://api.openweathermap.org/data/2.5/weather?q="
 	weatherURL = urlWeatherBase + zipCode + ",us&APPID=" + APIKey					# Current weather URL of OpenWeatherMap API
 
-	### Read in text file of weather codes into a python dictionary
-	idCodeDictionary = {}
-	descriptionCodeDictionary = {}
-	with open('weatherCodes.txt', 'r') as weatherCodes:
-		skipFirstLine = next(weatherCodes)											# Skip first line of text file
-		for line in weatherCodes:
-			splitLine = line.split()
-			descriptionCodeDictionary[int(splitLine[0])] = ", ".join(splitLine[1:])			# Capture description
-			idCodeDictionary[int(splitLine[0])] = ", ".join(splitLine[1])					# Do not capture description
+	def __init__(self):
+		### Read in text file of weather codes into a python dictionary
+		self.idCodeDictionary = {}
+		self.descriptionCodeDictionary = {}
+		with open('weatherCodes.txt', 'r') as weatherCodes:
+			skipFirstLine = next(weatherCodes)											# Skip first line of text file
+			for line in weatherCodes:
+				splitLine = line.split()
+				descriptionCodeDictionary[int(splitLine[0])] = ", ".join(splitLine[1:])			# Capture description
+				idCodeDictionary[int(splitLine[0])] = ", ".join(splitLine[1])					# Do not capture description
 
-	print("Init topCoverCodes = ", json.dumps(topCoverCodes, sort_keys=True, indent=4))
+		print("Init topCoverCodes = ", json.dumps(topCoverCodes, sort_keys=True, indent=4))
 
 	#example http://api.openweathermap.org/data/2.5/weather?q=65065us&APPID=849eb6e48e5b5e037e1cb47efea60d62
 
@@ -608,10 +609,11 @@ class weatherData(base)
 		return
 		
 ################################
+# Used for debugging purposes
 
-if __name__ == '__main__':
-	getWeatherForTop()
-	getForecastForTop()
+# if __name__ == '__main__':
+# 	getWeatherForTop()
+# 	getForecastForTop()
 	#getTopCoverStatus(topCoverCodes)
 	#getTimeOfDay()
 	#fillTable(topCoverCodes, jsonStringForecast, j)
