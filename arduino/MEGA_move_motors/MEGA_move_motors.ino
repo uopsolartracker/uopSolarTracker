@@ -96,6 +96,7 @@ void loop(){
         // Read in the new position and send to motor
         data = Serial.readString();
         Herkulex.moveOne(vertical_motorID, data.toInt(), 1500, 1);
+ 	delay(1000);
         
         // For relative angle (if needed)
         //vertical_cur_angle = Herkulex.getAngle(vertical_motorID);
@@ -121,19 +122,19 @@ void loop(){
       
       if (Serial.available())
       {
-      Serial.println("h");
-      // Read in the new position and send to motor
-      data = Serial.readString();
-      //data = data.toInt();
-      Herkulex.moveOne(horizontal_motorID, data.toInt(), 1500, 2);
+      	Serial.println("h");
+     	 // Read in the new position and send to motor
+     	 data = Serial.readString();
+     	 Herkulex.moveOne(horizontal_motorID, data.toInt(), 1500, 2);
 
-      // For relative angle (if needed)
-      //horizontal_cur_angle = Herkulex.getAngle(vertical_motorID);
-      //horizontal_angle = horizontal_cur_angle + data;
-      //Herkulex.moveOneAngle(horizontal_motorID, horizontal_angle, 1000, 1);
+     	 // For relative angle (if needed)
+     	 //horizontal_cur_angle = Herkulex.getAngle(vertical_motorID);
+      	//horizontal_angle = horizontal_cur_angle + data;
+      	//Herkulex.moveOneAngle(horizontal_motorID, horizontal_angle, 1000, 1);
       
-      // Return current angle of mirror
-      Serial.println(Herkulex.getPosition(horizontal_motorID));
+      	// Return current angle of mirror
+ 	delay(1000);
+     	 Serial.println(Herkulex.getPosition(horizontal_motorID));
       }
     }
     else
