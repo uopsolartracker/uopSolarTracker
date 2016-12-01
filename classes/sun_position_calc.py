@@ -115,8 +115,9 @@ class sun_position(base):
 		Day = float(h[2]); # from humanreadable Day
 		#Hour = [8 , 9, 10, 11, 12, 13, 14, 15, 16, 17 ];
 
-		Hour_List= [ 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]# list of times from 8am to 5pm in UTC 
-		Minutes = float(30); # minutes set to 30
+		#Hour_List= [ 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]# list of times from 8am to 5pm in UTC 
+		Hour=float(h[3])
+		Minutes = float(h[4]); # minutes set to 30
 		Seconds = float(30); # seconds set to 30
 		
 		### constants that will not change throughout the script
@@ -137,81 +138,81 @@ class sun_position(base):
 		motor_azimuth=[];
 		motor_zenith=[];	
 
-		for l in range(0,9):
+		#for l in range(0,9):
 
 
-		#--- if statements check to see if hr > 24 in UTC and changes day, month, or 
-		#    year depending on the situation
+	#--- if statements check to see if hr > 24 in UTC and changes day, month, or 
+	#    year depending on the situation
 
-			# checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is 31st 
-			if int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) == 31 & Hour_List[l] == 24.0: 
-				Month = Month +1; # increase month
-				Day = 1; # day 31st -> 1st
+	# checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is 31st 
+		if int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) == 31 & Hour_List[l] == 24.0: 
+			Month = Month +1; # increase month
+			Day = 1; # day 31st -> 1st
+		
+		# checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is not 31st
+		if  int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) != 31 & Hour_List[l] == 24.0: 
+			Day = Day + 1; # day increased
+		
+		# checks to see if month is  Apr, Jun, Sep, or Nov and day is 30th 
+		if int(Month) == (4 | 6 | 9 | 11) & int(Day) == 30 & Hour_List[l] == 24.0:
+			Month = Month +1; # increase month
+			Day = 1; # day 30th -> 1st
+		
+		# checks to see if month is  Apr, Jun, Sep, or Nov and day is not 30th 
+		if int(Month) == (4 | 6 | 9 | 11) & int(Day) != 30 & Hour_List[l] == 24.0: 
+			Day = Day + 1; # day increased
 			
-			# checks to see if month is Jan, Mar, May, Jul, Aug,or Oct and day is not 31st
-			if  int(Month) == (1 | 3| 5 | 7 | 8 | 10) & int(Day) != 31 & Hour_List[l] == 24.0: 
-				Day = Day + 1; # day increased
+		# checks to see if month is Dec and day s 31st
+		if int(Month) == 12 & int(Day) == 31 & Hour_List[l] == 24.0:
+			Month = 1; # change month to Jan
+			Year = Year +1; # increase year
+			Day = 1; # day 31st -> 1st
 			
-			# checks to see if month is  Apr, Jun, Sep, or Nov and day is 30th 
-			if int(Month) == (4 | 6 | 9 | 11) & int(Day) == 30 & Hour_List[l] == 24.0:
-				Month = Month +1; # increase month
-				Day = 1; # day 30th -> 1st
+		# checks to see month is Dec and day is not 31st	
+		if int(Month) == 12 & int(Day) != 31 :
+			Day = Day +1; # increase day
 			
-			# checks to see if month is  Apr, Jun, Sep, or Nov and day is not 30th 
-			if int(Month) == (4 | 6 | 9 | 11) & int(Day) != 30 & Hour_List[l] == 24.0: 
-				Day = Day + 1; # day increased
-				
-			# checks to see if month is Dec and day s 31st
-			if int(Month) == 12 & int(Day) == 31 & Hour_List[l] == 24.0:
-				Month = 1; # change month to Jan
-				Year = Year +1; # increase year
-				Day = 1; # day 31st -> 1st
-				
-			# checks to see month is Dec and day is not 31st	
-			if int(Month) == 12 & int(Day) != 31 :
-				Day = Day +1; # increase day
-				
-			# checks to see if month is Feb and if it's a leap year
-			if int(Month) == 2 & 0 == (int(Year)%4) & int(Day) == 29 & Hour_List[l] == 24.0:
-				Month = Month +1; # increase year
-				Day = 1; # day 29th -> 1st
-				
-			# checks to see if month is Feb and not day is not 29th	
-			if int(Month) == 2 & 0 == (int(Year)%4) & int(Day) != 29:
-				Day = Day +1; # increase year
-				
-			# checks to see if month is Feb and if not a leap year
-			if int(Month) == 2 & 0 != (int(Year)%4) & int(Day)==28 & Hour_List[l] == 24.0:
-				Month = Month +1; # increase year
-				Day = 1; # day 28th -> 1st
+		# checks to see if month is Feb and if it's a leap year
+		if int(Month) == 2 & 0 == (int(Year)%4) & int(Day) == 29 & Hour_List[l] == 24.0:
+			Month = Month +1; # increase year
+			Day = 1; # day 29th -> 1st
 			
-			# checks to see if month is Feb an day is not 28th
-			if int(Month) == 2 & 0 != (int(Year)%4) & int(Day)!=28:
-				Day = Day +1; # increase year
-				
+		# checks to see if month is Feb and not day is not 29th	
+		if int(Month) == 2 & 0 == (int(Year)%4) & int(Day) != 29:
+			Day = Day +1; # increase year
 			
-			# Calls functions that compute Azimuth and Elevation Angles
-			JD_ElapsedJD = ElapsedJD (Year, Month, Day, Hour_List[l], Minutes, Seconds);
-			EC_EclipticCoordinates = EclipticCoordinates (JD_ElapsedJD[0]);
-			CC_CelestialCoordintes = CelestialCoordinates(EC_EclipticCoordinates[0], EC_EclipticCoordinates[1], twopi);
-			LC_Azimuth = LocalCoordinates (JD_ElapsedJD[0],JD_ElapsedJD[1],dLongitude, rad, CC_CelestialCoordintes[1], CC_CelestialCoordintes[0])
-			PC_Elevation = ParallaxCorrection (dEarthMeanRadius, dAstronmicalUnit,LC_Azimuth[0],rad);
+		# checks to see if month is Feb and if not a leap year
+		if int(Month) == 2 & 0 != (int(Year)%4) & int(Day)==28 & Hour_List[l] == 24.0:
+			Month = Month +1; # increase year
+			Day = 1; # day 28th -> 1st
+		
+		# checks to see if month is Feb an day is not 28th
+		if int(Month) == 2 & 0 != (int(Year)%4) & int(Day)!=28:
+			Day = Day +1; # increase year
 			
-			# Inserts Elevation and Azimuth Angles into corresponding lists
-			#Elevation_List.insert (l,PC_Elevation[0]);
-			Zenith_List.insert (l,PC_Elevation[1]);
-			Azimuth_List.insert (l,LC_Azimuth[1]);
-			
-			#---Converting sun position angle to servo angle range motor command for azimuth and zenith--
-			
-			x_azimuth.insert(l,0.325*round(Azimuth_List[l]/0.325))
-			y_zenith.insert (l,0.325*round((Zenith_List[l]+150)/0.325))
-			
-			x_azimuth[l]=truncate(x_azimuth[l], 4)
-			y_zenith[l]=truncate(y_zenith[l], 4)
-			
-			motor_azimuth.insert(l,int(float(x_azimuth[l])/0.325));
-			motor_zenith.insert(l,int(float(y_zenith[l])/0.325));
+		
+		# Calls functions that compute Azimuth and Elevation Angles
+		JD_ElapsedJD = ElapsedJD (Year, Month, Day, Hour_List[l], Minutes, Seconds);
+		EC_EclipticCoordinates = EclipticCoordinates (JD_ElapsedJD[0]);
+		CC_CelestialCoordintes = CelestialCoordinates(EC_EclipticCoordinates[0], EC_EclipticCoordinates[1], twopi);
+		LC_Azimuth = LocalCoordinates (JD_ElapsedJD[0],JD_ElapsedJD[1],dLongitude, rad, CC_CelestialCoordintes[1], CC_CelestialCoordintes[0])
+		PC_Elevation = ParallaxCorrection (dEarthMeanRadius, dAstronmicalUnit,LC_Azimuth[0],rad);
+		
+		# Inserts Elevation and Azimuth Angles into corresponding lists
+		#Elevation_List.insert (l,PC_Elevation[0]);
+		Zenith_List.insert (0,PC_Elevation[1]);
+		Azimuth_List.insert (0,LC_Azimuth[1]);
+		
+		#---Converting sun position angle to servo angle range motor command for azimuth and zenith--
+		
+		x_azimuth.insert(0,0.325*round(Azimuth_List[0]/0.325))
+		y_zenith.insert (0,0.325*round((Zenith_List[0]+150)/0.325))
+	
+		x_azimuth[0]=truncate(x_azimuth[0], 4)
+		y_zenith[0]=truncate(y_zenith[0], 4)
+		
+		motor_azimuth.insert(0,int(float(x_azimuth[0])/0.325));
+		motor_zenith.insert(0,int(float(y_zenith[0])/0.325));
 			
 		excel_position(Azimuth_List,Zenith_List,Month,Day, Year);
 			
@@ -237,28 +238,28 @@ class sun_position(base):
 
 		# Dictionary that has sun position data based on time of day
 		data = (
-			 ['8:30',  y_zenith[0], x_azimuth[0]],
-			 ['9:30',  y_zenith[1], x_azimuth[1]],
-			 ['10:30', y_zenith[2], x_azimuth[2]],
-			 ['11:30', y_zenith[3], x_azimuth[3]],
-			 ['12:30', y_zenith[4], x_azimuth[4]],
-			 ['13:30', y_zenith[5], x_azimuth[5]],
-			 ['14:30', y_zenith[6], x_azimuth[6]],
-			 ['15:30', y_zenith[7], x_azimuth[7]],
-			 ['16:30', y_zenith[8], x_azimuth[8]],)
+		 ['8:30',  y_zenith[0], x_azimuth[0]],
+		 #['9:30',  y_zenith[1], x_azimuth[1]],
+		 #['10:30', y_zenith[2], x_azimuth[2]],
+		 #['11:30', y_zenith[3], x_azimuth[3]],
+		 #['12:30', y_zenith[4], x_azimuth[4]],
+		 #['13:30', y_zenith[5], x_azimuth[5]],
+		 #['14:30', y_zenith[6], x_azimuth[6]],
+		 #['15:30', y_zenith[7], x_azimuth[7]],
+		 #['16:30', y_zenith[8], x_azimuth[8]],
+		 )
 
 		row = 1;
 		col = 0;
 
-		# iterates over the data and writes it out row by row.
+			# iterates over the data and writes it out row by row.
 		for time,Zen,Azi in (data):
 			worksheet.write(row, col, time)
 			worksheet.write(row, col + 1, Zen)
 			worksheet.write(row, col + 2, Azi)
-			row += 1
-			
-		# closes excel sheet
-		workbook.close()	
+			#row += 1
+			# closes excel sheet
+			workbook.close()	
 
 		
 	#_hourly_position_()	
@@ -268,5 +269,7 @@ class sun_position(base):
 
 	
 	
+
+
 
 
