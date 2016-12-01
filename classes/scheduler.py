@@ -22,7 +22,7 @@ class scheduler(base):
 		self.schedule = BlockingScheduler() # Initialize block type scheduler
 		getTimeOfDay()
 		self.schedule.add_job(CheckWeather, 'cron', day='1-7', hour='5-19/3')
-		self.schedule.add_job(GetSunImage, 'cron', day='1-7', hour='8-17')
+		self.schedule.add_job(GetSunImage, 'cron', day='1-7', hour='8-17', minute='*/1')
 
 	### Description: The scheduled function to check the weather
 	### Flow: 	1) 

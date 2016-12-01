@@ -201,7 +201,7 @@ def AdjustTracker(move,img,height, width, rightPixel, leftPixel, downPixel, upPi
 [ser]=serialConnectionCheck();
 wifiConnectionCheck();
 
-__init__(self);
+# __init__(self);
 #[CoverStatus]=ProtectionUnitCover();
 #if CoverStatus == 1:
 	#HourlySunPosition(ser);
