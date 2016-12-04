@@ -91,7 +91,7 @@ class servo_positioning(base):
 		i, p, d = s.partition('.')
 		return ('.'.join([i, (d+'0'*n)[:n]]));
 				
-	def sendPosition(self, iChange, jChange, old_i, old_j):
+	def sendPosition(self, move,iChange, jChange, old_i, old_j):
 
 		##------normalize angles and truncate to 4 decimal places-----
 		j_angle = 0.3125*round(jChange/0.3125)
@@ -100,16 +100,12 @@ class servo_positioning(base):
 		j_angle=truncate(j_angle, 4)
 		i_angle=truncate(i_angle, 4)
 
-		##-----New position angle-----
-		old_j=old_j*0.3125;
-		old_i=old_i*0.3125;
-
-		new_j= old_j+float(j_angle);
-		new_i= old_i+float(i_angle);
+		j_angle=float(j_angle)
+		i_angle=float(i_angle)
 
 		##---- motor command-------
-		motor_j=int(new_j/0.3125);
-		motor_i=int(new_i/0.3125);
+		motor_j=old_j+int(j_angle/0.325);
+		motor_i=old_i+int(i_angle/0.325);
 		
 		self.LogM(10, "Sending new coordinates to the motors: ({i}, {j})".format(i=motor_i,j=motor_j))
 		return( motor_i, motor_j)

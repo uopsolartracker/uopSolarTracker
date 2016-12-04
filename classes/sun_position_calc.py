@@ -10,7 +10,7 @@ import time
 import math
 import cmath
 import sched  
-import xlsxwriter
+#import xlsxwriter
 from base import base
 
 class sun_position(base):
@@ -97,7 +97,7 @@ class sun_position(base):
 	 	return ('.'.join([i, (d+'0'*n)[:n]]));
 		
 	### ----------MAIN CODE-------------
-	def _hourly_position_():
+	def hourly_position():
 		# get timestamp 
 		timeStamp= time.time();
 
@@ -214,7 +214,7 @@ class sun_position(base):
 		motor_azimuth.insert(0,int(float(x_azimuth[0])/0.325));
 		motor_zenith.insert(0,int(float(y_zenith[0])/0.325));
 			
-		excel_position(Azimuth_List,Zenith_List,Month,Day, Year);
+		#excel_position(Azimuth_List,Zenith_List,Month,Day, Year);
 			
 		return (motor_azimuth,motor_zenith)
 							

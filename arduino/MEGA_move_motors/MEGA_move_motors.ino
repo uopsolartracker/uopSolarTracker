@@ -20,7 +20,7 @@ void setup()
 {
   delay(2000);  //a delay to have time for serial monitor opening
   Serial.begin(115200);          // Open serial communications
-  Serial.println("Begin");
+  //Serial.println("Begin");
   Herkulex.beginSerial1(115200); //open serial port 1
  
   Herkulex.reboot(vertical_motorID); //reboot vertical motor
@@ -48,14 +48,14 @@ void loop(){
     //Serial.print("Horizontal A at Loop Start= ");
     //Serial.println(Herkulex.getAngle(horizontal_motorID));
     //Serial.print("Horizontal P at Loop Start= ");
-    //Serial.println(Herkulex.getPosition(horizontal_motorID));
+    Serial.println(Herkulex.getPosition(horizontal_motorID));
     
     data = Serial.readString();  // read each byte (char) of incoming data
     //Serial.println(data);
     
     if (data == "r")
     {
-      Serial.println("Reboot");
+      //Serial.println("Reboot");
       Herkulex.reboot(vertical_motorID);
       Herkulex.reboot(horizontal_motorID);
       delay(1000);
@@ -64,17 +64,17 @@ void loop(){
     }
     else if (data == "stat")
     {
-      Serial.println("Vertical Motor Stat = ");
-      Serial.println(Herkulex.stat(vertical_motorID));
+      //Serial.println("Vertical Motor Stat = ");
+      //Serial.println(Herkulex.stat(vertical_motorID));
       
-      Serial.println("Horizontal Motor Stat = ");
-      Serial.println(Herkulex.stat(horizontal_motorID));
+      //Serial.println("Horizontal Motor Stat = ");
+      //Serial.println(Herkulex.stat(horizontal_motorID));
     }
     else if (data == "p")    // position request
     {
-      Serial.println("v");
-      Serial.println(Herkulex.getPosition(vertical_motorID));
-      Serial.println('h');
+      //Serial.println("v");
+      //Serial.println(Herkulex.getPosition(vertical_motorID));
+      //Serial.println('h');
       Serial.println(Herkulex.getPosition(horizontal_motorID));
     }
     else if (data == "v")  // move vertical angle motor
@@ -85,14 +85,14 @@ void loop(){
         // Timeout if position data is not received
         if (millis() - startTime > TIMEOUT)
         {
-          Serial.println("Timeout");
+          Serial.println("Timeout-Reached");
           break;
         }
       }
       
       if (Serial.available())
       {
-        Serial.println("v");
+        //Serial.println("v");
         // Read in the new position and send to motor
         data = Serial.readString();
         Herkulex.moveOne(vertical_motorID, data.toInt(), 1500, 1);
@@ -115,14 +115,14 @@ void loop(){
         // Timeout if position data is not received
         if (millis() - startTime > TIMEOUT)
         {
-          Serial.println("Timeout");
+          Serial.println("Timeout-Reached");
           break;
         }
       }
       
       if (Serial.available())
       {
-      	Serial.println("h");
+      	//Serial.println("h");
      	 // Read in the new position and send to motor
      	 data = Serial.readString();
      	 Herkulex.moveOne(horizontal_motorID, data.toInt(), 1500, 2);
@@ -134,20 +134,20 @@ void loop(){
       
       	// Return current angle of mirror
  	delay(1000);
-     	 Serial.println(Herkulex.getPosition(horizontal_motorID));
+     	Serial.println(Herkulex.getPosition(horizontal_motorID));
       }
     }
     else
     {
-      Serial.println("Got data");
-      Serial.println(data);
+      //Serial.println("Got data");
+      //Serial.println(data);
     
       delay(10); 
       //Herkulex.moveSpeedOne(vertical_motorID, 300, 672, 1); //move motor with 300 speed  
       Herkulex.moveOne(vertical_motorID, data.toInt(), 1500, 1); //move to position 200 in 1500 milliseconds
       Herkulex.setLed(vertical_motorID, 0x6);
       delay(2000);
-      Serial.print("Vertical Position = ");
+      //Serial.print("Vertical Position = ");
       Serial.println(Herkulex.getPosition(vertical_motorID));
       
       delay(2000);
@@ -155,7 +155,7 @@ void loop(){
       //Herkulex.moveSpeedOne(horizontal_motorID, -300, 672, 2); //move motor with -300 speed
       Herkulex.moveOne(horizontal_motorID, data.toInt(), 1500, 2); //move to 820 position in 500 milliseconds
       delay(2000);
-      Serial.print("Horizontal Position = ");
+      //Serial.print("Horizontal Position = ");
       Serial.println(Herkulex.getPosition(horizontal_motorID));
     
     }

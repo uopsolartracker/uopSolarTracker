@@ -7,19 +7,19 @@ import serial
 import urllib
 import time
 import datetime
+import cv2
 
 from weatherData import *
 from sun_position_calc import *
-#from region_properties import*
 from servo_position_change import *
 from scheduler import*
-
+from region_properties import region_properties
 
 #----- Set up serial connection with Uno-------  
 def serialConnectionCheck():            
 	### Turn the Serial Protocol ON
 	port = '/dev/ttyACM0'
-	baud = 9600
+	baud = 115200
 	ser = serial.Serial(port, baud, timeout = 6)
 	return ser
 
@@ -43,7 +43,7 @@ def wifiConnectionCheck():
 
 #------Connect to camera-------
 def cameraConnetion():
-
+	img = cv2.imread('sun_gray.bmp')
 	return(img) 
 
 #-----Open or Close Protection Unit------
@@ -88,140 +88,125 @@ def getTime():
 	
 #----Getting SunPosition every hour 8:30AM-4:30PM--------
 def HourlySunPosition(ser):
-	[motor_azimuth,motor_zenith]=_hourly_position_();
-	#[Hour,Minute]=getTime();
-	#[x_azimuth,y_zenith]=_hourly_position_();
-	#if  Hour == 8: # Time is 8:30AM
-		#val_vertical=str(y_zenith[0]);	
-		#val_horizontal=str(x_azimuth[0]);	
-	#elif  Hour == 9: # Time is 9:30AM
-		#val_vertical=str(y_zenith[1]);	
-		#val_horizontal=str(x_azimuth[1]);
-	#elif  Hour == 10: # Time is 10:30AM
-		#val_vertical=str(y_zenith[2]);	
-		#val_horizontal=str(x_azimuth[2]);
-	#elif Hour == 11: # Time is 11:30AM
-		#val_vertical=str(y_zenith[3]);	
-		#val_horizontal=str(x_azimuth[3]);
-	#elif Hour == 12: # Time is 12:30PM
-		#val_vertical=str(y_zenith[4]);	
-		#val_horizontal=str(x_azimuth[4]);
-	#elif Hour == 13:# Time is 1:30PM
-		#val_vertical=str(y_zenith[5]);	
-		#val_horizontal=str(x_azimuth[5]);
-	#elif Hour == 14:# Time is 2:30PM
-		#val_vertical=str(y_zenith[6]);	
-		#val_horizontal=str(x_azimuth[6]);
-	#elif Hour == 15: # Time is 3:30PM
-		#val_vertical=str(y_zenith[7]);	
-		#val_horizontal=str(x_azimuth[7]);
-	#elif Hour == 16: # Time is 4:30PM
-		#val_vertical=str(y_zenith[8]);	
-		#val_horizontal=str(x_azimuth[8]);
+	[motor_azimuth,motor_zenith]=hourly_position()
+	val_vertical=str(motor_zenith[0])	
+	val_horizontal=str(motor_azimuth[0])
 	
-	val_vertical=str(y_zenith[0]);	
-	val_horizontal=str(x_azimuth[0]);	
 	### Move Tracker	
-	[old_i, old_j]= MotorMovementTracker(ser,val_vertical,val_horizontal);
-	return(old_i, old_j)
+	[old_i, old_j]= MotorMovementTracker(ser,val_vertical,val_horizontal)
 	
-		
-#-----Moving Solar Tracker------
-def	 MotorMovementTracker( ser,val_vertical,val_horizontal):
+	return(old_i, old_j)
+def MotorMovementTracker( ser,val_vertical,val_horizontal):
 	### Move Tracker
 	import time
-	motor_ver='v';
-	motor_hor='h';
+	motor_ver='v'
+	motor_hor='h'
 	
 	ser.write(motor_ver.encode('utf-8'))
-	time.sleep(1)
-	[ver_pos]=ser.write(val_vertical.encode('utf-8'))
+	time.sleep(2)
+	ser.write(val_vertical.encode('utf-8'))
+	time.sleep(2)
+	ver_pos=ser.read(10)
 	time.sleep(2)
 	ser.write(motor_hor.encode('utf-8'))
-	time.sleep(1)
-	[hor_pos]=ser.write(val_horizontal.encode('utf-8'))
+	time.sleep(2)
+	ser.write(val_horizontal.encode('utf-8'))
+	time.sleep(2)
+	hor_pos=ser.read(10)
 	time.sleep(2)
 
-	[var, old_i]=str.split(ver_pos)
-	[var, old_j]=str.split(hor_pos)
-	
-	return (int(old_i), int(old_j))
+	#feedback into string
+	ver_pos=str(ver_pos)
+	hor_pos=str(hor_pos)
+	# split string to get position
+	old_i=ver_pos.split('\\r\\n')
+	old_j=hor_pos.split('\\r\\n')
+	old_i=int(old_i[1])
+	old_j=int(old_j[1])
+	return (old_i,old_j)
+
 
 #-----Check to see if sun is centered in first image-----
 def CheckSunCentered(ser,old_i, old_j):
 	### Get image from camera
-	[img]=cameraConnetion()
+	img=cameraConnetion()
 	
-	### Find center of sun in image using image processing 
-	#[xC, yC, height, width]=GetCenter(img);
+	### Find center of sun in image using image processing
+	rp = region_properties()
+	[xC, yC, height, width]=rp.GetCenter(img);
 	#xC=234
 	#yC=560
 	#height=960
 	#width=1200
 	
 	### Check if sun is in scope
-	[rightPixel, leftPixel, downPixel, upPixel]=pixel_distance(height/2, width/2, xC, yC);
-	move=acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel);
+	[rightPixel, leftPixel, downPixel, upPixel]=pixel_distance(height/2, width/2, xC, yC)
+	move=acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel)
 	
 	### Call function to see if image is centered
-	AdjustTracker(old_i,old_jmove,img,height, width, rightPixel, leftPixel, downPixel, upPixel,ser);
+	AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, downPixel, upPixel,ser)
 
 #---- Adjusts Tracker until sun is centered in image----
 def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, downPixel, upPixel, ser):
-	while (move == 1):
+	#while (move == 1):
 		### Get position of servos on mirror
-		[iChange, jChange]=SunCenteredCheck(height, width, rightPixel, leftPixel, downPixel, upPixel);
+		[iChange, jChange]=SunCenteredCheck(height, width, rightPixel, leftPixel, downPixel, upPixel)
 		
 		### Get old angle from servo motor
 		
 		### Calculate how far to move
-		[motor_i, motor_j]=sendPosition(move, iChange, jChange,old_i, old_j);	
+		[motor_i, motor_j]=sendPosition(move, iChange, jChange,old_i, old_j)	
 		
 		### Send move to Uno
 		import time
 		motor_ver='v';
 		motor_hor='h';
-		motor_feedback='p';
-		
-		ser.write(motor_ver.encode('utf-8'))# specifing vertical motor
-		time.sleep(1)
-		ser.write(motor_i.encode('utf-8'))# sending vertical position
+		val_vertical=str(motor_i)
+		val_horizontal=str(motor_j)
+		ser.write(motor_ver.encode('utf-8'))
 		time.sleep(2)
-		[old_i]=ser.write(motor_feedback.encode('utf-8'))
-		time.sleep(1)
-		ser.write(motor_hor.encode('utf-8'))# specifing horizontal motor
-		time.sleep(1)
-		ser.write(motor_j.encode('utf-8'))# sending horizontal posistion
+		ser.write(val_vertical.encode('utf-8'))
 		time.sleep(2)
-		[old_j]=ser.write(motor_feedback.encode('utf-8'))
+		ver_pos=ser.read(10)
+		time.sleep(2)
+		ser.write(motor_hor.encode('utf-8'))
+		time.sleep(2)
+		ser.write(val_horizontal.encode('utf-8'))
+		time.sleep(2)
+		hor_pos=ser.read(10)
+		time.sleep(2)
 		
-		[var, old_i]=str.split(old_i);
-		[var, old_j]=str.split(old_j);
+		ver_pos=str(ver_pos)
+		hor_pos=str(hor_pos)
+		# split string to get position
+		old_i=ver_pos.split('\\r\\n')
+		old_j=hor_pos.split('\\r\\n')
+		print(old_i)
+		old_i=int(old_i[1])
+		old_j=int(old_j[1])
 		
-		old_i=int(old_i);
-		old_j=int(old_j);
 		### Get image from camera
-		[img]=cameraConnetion();
+		#img=cameraConnetion();
 		
 		### Find center of sun in image using image processing 
-		[xC, yC, height, width]=GetCenter(img);
+		#[xC, yC, height, width]=GetCenter(img);
 		#xC=234
 		#yC=560
 		#height=960
 		#width=1200
 		
 		### Check if sun is in scope
-		[rightPixel, leftPixel, downPixel, upPixel]=pixel_distance(height/2, width/2, xC, yC);
-		move=acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel);
+		#[rightPixel, leftPixel, downPixel, upPixel]=pixel_distance(height/2, width/2, xC, yC);
+		#move=acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel);
 				
 	### Save good image on computer
-	img.save(img)
+	#img.save(img)
 
 ### Function Calls
 [ser]=serialConnectionCheck();
 wifiConnectionCheck();
 
-__init__(self);
+
 #[CoverStatus]=ProtectionUnitCover();
 #if CoverStatus == 1:
 	#HourlySunPosition(ser,);

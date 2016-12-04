@@ -52,6 +52,7 @@ def acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel):
 		move =1;
 	else:
 		move=0;
+	move=1;
 	return (move)	
 
 def SunCenteredCheck(imageWidth, imageHeight, rightPixel, leftPixel, downPixel, upPixel):
@@ -83,7 +84,7 @@ def truncate (f, n):
 	i, p, d = s.partition('.')
 	return ('.'.join([i, (d+'0'*n)[:n]]));
 			
-def sendPosition(iChange, jChange, old_i, old_j):
+def sendPosition(move,iChange, jChange, old_i, old_j):
 
 	##------normalize angles and truncate to 4 decimal places-----
 	j_angle = 0.325*round(jChange/0.325)
@@ -92,9 +93,12 @@ def sendPosition(iChange, jChange, old_i, old_j):
 	j_angle=truncate(j_angle, 4)
 	i_angle=truncate(i_angle, 4)
 
+	j_angle=float(j_angle)
+	i_angle=float(i_angle)
+
 	##---- motor command-------
-	motor_j=old_j+int(new_j/0.325);
-	motor_i=old_i+int(new_i/0.325);
+	motor_j=old_j+int(j_angle/0.325);
+	motor_i=old_i+int(i_angle/0.325);
 	
 	return( motor_i, motor_j)
 
