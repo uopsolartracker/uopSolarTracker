@@ -14,7 +14,7 @@ class region_properties:
     ###     --> Perform Principle Component Analysis on the image, using the label as the pixels to operate on
     ### Input: Image, pixel intensity
     ### Output: Pixel location of the "center" (height, width)
-    def RegionProperties(Input,label):
+    def RegionProperties(Input, label):
         height, width = Input.shape # image assumed to be grayscale
         m00 = 0
         m01 = 0

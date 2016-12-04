@@ -11,6 +11,7 @@
 # Weaved:
 #	Email:		UOPsolartracker@yahoo.com
 #	Password:	trackersolarUOP
+#	Device Name	solartrackerPi
 
 # Raspberry Pi:
 #	Username:	Pi
