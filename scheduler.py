@@ -31,7 +31,9 @@ class scheduler(object):
 	### 	This function is not called from the class object, but called by the apscheduler object
 	def CheckWeather(self):
 		# Do weather checking things
+		[CoverStatus]=ProtectionUnitCover();
 		# Add a debug statement with timestamp
+		#return CoverStatus
 
 	### Description: The scheduled function to capture sun images
 	### Flow: 	1) 
@@ -41,6 +43,9 @@ class scheduler(object):
 	### 	This function is not called from the class object, but called by the apscheduler object
 	def GetSunImage(self):
 		# Do image getting things
+		if CoverStatus == 1:
+			[old_i, old_j]=HourlySunPosition(ser);
+			CheckSunCentered(ser,old_i, old_j);
 		# Add a debug statement with timestamp
 
 	### Description: After adding all the jobs we want to the scheduler, we then start it
