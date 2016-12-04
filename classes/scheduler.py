@@ -49,6 +49,7 @@ class scheduler(base):
 		# Do image getting things
 		# Add a debug statement with timestamp
 		if CoverStatus == 1:
+			ser=serialConnectionCheck();
 			[old_i, old_j]=HourlySunPosition(ser);
 			CheckSunCentered(ser,old_i, old_j);
 		self.LogM(20, "Scheduled aquisition of the sun ending")
