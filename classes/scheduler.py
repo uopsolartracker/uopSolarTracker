@@ -34,20 +34,22 @@ class scheduler(base):
 		self.LogM(20, "Scheduled check for weather starting")
 		# Do weather checking things
 		# Add a debug statement with timestamp
-
+		[CoverStatus]=ProtectionUnitCover();
 		self.LogM(20, "Scheduled check for weather ending")
-
+	return(CoverStatus)
 	### Description: The scheduled function to capture sun images
 	### Flow: 	1) 
 	### Input: 
 	### Output: 
 	### Example:
 	### 	This function is not called from the class object, but called by the apscheduler object
-	def GetSunImage(self):
+	def GetSunImage(self, CoverStatus):
 		self.LogM(20, "Scheduled aquisition of the sun starting")
 		# Do image getting things
 		# Add a debug statement with timestamp
-
+		if CoverStatus == 1:
+			[old_i, old_j]=HourlySunPosition(ser);
+			CheckSunCentered(ser,old_i, old_j);
 		self.LogM(20, "Scheduled aquisition of the sun ending")
 
 	### Description: After adding all the jobs we want to the scheduler, we then start it
