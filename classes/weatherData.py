@@ -79,7 +79,7 @@ class weatherData(base):
 	def getWeatherForTop(self):
 		""" Sets current weather ID and time """
 
-		print("Inside getWEATHERfortop......................") # Make this a debug output
+		self.LogM(20, "Starting check for weather")
 
 		# Get time of day
 		getTimeOfDay()
@@ -97,8 +97,10 @@ class weatherData(base):
 		# Check ID against ID code file to see if bad weather, x = bad weather in text file
 		if self.idCodeDictionary[weatherID] == 'x':
 			self.topCoverCodes['badWeatherNow'] = 1
+			self.LogM(20, "Found bad weather")
 		elif self.idCodeDictionary[weatherID] == '-':
 			self.topCoverCodes['badWeatherNow'] = 0
+			self.LogM(20, "Found bad weather")
 		
 		self.topCoverCodes['currentWeatherTime'] = weatherLocalTimestamp
 				

@@ -16,6 +16,7 @@ class region_properties(base):
     ### Input: Image, pixel intensity
     ### Output: Pixel location of the "center" (height, width)
     def RegionProperties(Input,label):
+        self.LogM(20, "Starting the region properties analysis to find the coordinates for the center of the sun")
         height, width = Input.shape # image assumed to be grayscale
         m00 = 0
         m01 = 0
@@ -29,6 +30,7 @@ class region_properties(base):
         xc = m10/m00
         yc = m01/m00
 
+        self.LogM(10, "Found coordinates are ({x}, {y})".format(x=xc, y=yc))
         return xc, yc
 
     ### Description: Finds the "center" of an image of the sun
@@ -39,13 +41,17 @@ class region_properties(base):
     ### Inputs: Image of the sun
     ### Outputs: Pixel location of the "center" of the sun in the image, the height and width of the input image
     def GetCenter(img):
+        self.LogM(20, "Starting to process image to find the center of the sun")
         grayImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # Unnecessary for images which are already grayscale
         ret,threshImg = cv2.threshold(grayImg, 60, 255, cv2.THRESH_BINARY)
-        # cv2.imwrite('sun_thresh.bmp',threshImg)
-        # TODO: Turn imwrite into a debug output to be stored for later debugging
+
+        # The imwrite is stored for debugging
+        timeString = datetime.datetime.now()
+        cv2.imwrite('processed_images\sun_thresh' + timeString + '.bmp',threshImg)
 
         mu00, mu11, mu02, mu20, xc, yc = RegionProperties(threshImg,255)
         height, width = Input.shape
+        self.LogM(20, "Returning the center as ({x} ,{y}) and the height and width as {h}x{w}".format(x=xc,y=yc,h=height,w=width))
         return xc, yc, height, width
 
     # The purpose of GetAxes() is for debugging, to visually show where the axes are drawn

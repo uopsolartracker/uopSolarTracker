@@ -31,8 +31,11 @@ class scheduler(base):
 	### Example:
 	### 	This function is not called from the class object, but called by the apscheduler object
 	def CheckWeather(self):
+		self.LogM(20, "Scheduled check for weather starting")
 		# Do weather checking things
 		# Add a debug statement with timestamp
+
+		self.LogM(20, "Scheduled check for weather ending")
 
 	### Description: The scheduled function to capture sun images
 	### Flow: 	1) 
@@ -41,16 +44,21 @@ class scheduler(base):
 	### Example:
 	### 	This function is not called from the class object, but called by the apscheduler object
 	def GetSunImage(self):
+		self.LogM(20, "Scheduled aquisition of the sun starting")
 		# Do image getting things
 		# Add a debug statement with timestamp
 
+		self.LogM(20, "Scheduled aquisition of the sun ending")
+
 	### Description: After adding all the jobs we want to the scheduler, we then start it
 	def Start(self):
+		self.LogM(20, "Starting the scheduler")
 		self.schedule.start()
 
 	### Description: To terminate the scheduler, we issue it the shutdown command
 	###				 This will also terminate the program, so only use this if you want to end the program as a whole
 	def End(self):
+		self.LogM(20, "Ending the scheduler: shutting down")
 		self.schedule.shutdown()
 	
 	### Description: Determines if it is currently daytime (8am - 5pm) or nighttime and stores it in instanced variables
@@ -64,17 +72,6 @@ class scheduler(base):
 	### Example:
 	### 	
 	def getTimeOfDay(self):
-		### 1) Get todays 8:10AM and 4:50PM timestamp
-		self.eightTenAMString = str(datetime.date.today()) + ' 08:10:0'
-		self.eightTenAM = datetime.datetime.strptime(eightTenAMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
-		self.fourFiftyPMString = str(datetime.date.today()) + ' 16:50:0'
-		self.fourFiftyPM = datetime.datetime.strptime(fourFiftyPMString, "%Y-%m-%d %H:%M:%S").timestamp()	# float type
-
-		### 2) Get timestamp for current time
+		### Get timestamp for current time
 		self.timeString = datetime.datetime.now()									# Cali date and time datetime string
 		self.timeFloat = datetime.datetime.timestamp(timeString)					# Convert to float time stamp
-
-		### 3) Set if during day
-		self.isday = 0
-		if self.timeFloat >= self.eightTenAM and self.timeFloat <= self.fourFiftyPM:
-			self.isday = 1

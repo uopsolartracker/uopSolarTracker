@@ -13,7 +13,7 @@ class servo_positioning(base):
 
 	#---Compute left, right, up, down pixel amounts from image center---
 	def pixel_distance(self, imageCenter_i, imageCenter_j, sunCenter_i, sunCenter_j):
-
+		self.LogM(10, "Finding the pixel distances between the sun's center and the center of the sun")
 		## left and right
 		if imageCenter_j > sunCenter_j:
 			rightPixel= imageCenter_j-sunCenter_j;
@@ -33,7 +33,9 @@ class servo_positioning(base):
 			downPixel=	sunCenter_i-imageCenter_i;
 		else:
 			downPixel=0;
-		return (rightPixel, leftPixel, downPixel, upPixel)		
+
+		self.LogM(10, "Found the distances as right={r}, left={l}, down={d}, and up={u}".format(r=rightPixel,l=leftPixel,d=downPixel,u=upPixel))
+		return (rightPixel, leftPixel, downPixel, upPixel)
 
 
 	def acceptedErrorCheck(self, rightPixel, leftPixel, downPixel, upPixel):
@@ -51,10 +53,13 @@ class servo_positioning(base):
 		### Checking to see if tracker has to be moved
 		if (flag1== 1) or (flag2==1):
 			move=1;
+			self.LogM(10, "The mirror needs to be moved")
 		elif (flag1== 1) and (flag2==1):
 			move =1;
+			self.LogM(10, "The mirror needs to be moved")
 		else:
 			move=0;
+			self.LogM(10, "The mirror does not need to be moved")
 		return (move)	
 
 	def SunCenteredCheck(self, imageWidth, imageHeight, rightPixel, leftPixel, downPixel, upPixel):
@@ -106,6 +111,7 @@ class servo_positioning(base):
 		motor_j=int(new_j/0.3125);
 		motor_i=int(new_i/0.3125);
 		
+		self.LogM(10, "Sending new coordinates to the motors: ({i}, {j})".format(i=motor_i,j=motor_j))
 		return( motor_i, motor_j)
 
 
