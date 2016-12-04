@@ -36,7 +36,8 @@ class scheduler(base):
 		# Add a debug statement with timestamp
 		[CoverStatus]=ProtectionUnitCover();
 		self.LogM(20, "Scheduled check for weather ending")
-	return(CoverStatus)
+		return(CoverStatus)
+		
 	### Description: The scheduled function to capture sun images
 	### Flow: 	1) 
 	### Input: 
