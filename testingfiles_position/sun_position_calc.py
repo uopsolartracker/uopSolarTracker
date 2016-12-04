@@ -10,7 +10,7 @@ import time
 import math
 import cmath
 import sched  
-import xlsxwriter 
+# import xlsxwriter 
 
 pi = 3.14159265358979323846;
 twopi = 2*pi;
@@ -94,7 +94,7 @@ def truncate (f, n):
  	return ('.'.join([i, (d+'0'*n)[:n]]));
 	
 ### ----------MAIN CODE-------------
-def _hourly_position_():
+def hourly_position():
 	# get timestamp 
 	timeStamp= time.time();
 
@@ -114,7 +114,9 @@ def _hourly_position_():
 
 	#Hour_List= [ 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]# list of times from 8am to 5pm in UTC 
 	Hour= float(h[3]);
+	#Hour= float(21);
 	Minutes = float(h[4]); # minutes set to 30
+	#Minutes = float(50);
 	Seconds = float(30); # seconds set to 30
 	
 	### constants that will not change throughout the script
@@ -211,7 +213,7 @@ def _hourly_position_():
 	motor_azimuth.insert(0,int(float(x_azimuth[0])/0.325));
 	motor_zenith.insert(0,int(float(y_zenith[0])/0.325));
 		
-	excel_position(Azimuth_List,Zenith_List,Month,Day, Year);
+	#excel_position(Azimuth_List,Zenith_List,Month,Day, Year);
 		
 	return (motor_azimuth,motor_zenith)
 						
@@ -260,7 +262,7 @@ def excel_position(x_azimuth,y_zenith,Month,Day, Year):
 	workbook.close()	
 
 	
-_hourly_position_()	
+	
 	
 	
 	
