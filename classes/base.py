@@ -31,7 +31,7 @@ class base(object):
         self.Log_inst.setLevel('INFO')
 
         # Set a handler, at the DEBUG level to output to a file named for the module it reports from and with a timestamp
-        log_filename = '\\logs\\' + log_filename + '__' + strftime("%Y-%d-%m", localtime()) + '.txt'
+        log_filename = '\\logs\\' + log_filename + '__' + strftime("%Y-%m-%d", localtime()) + '.txt'
         self.Log_File = logging.FileHandler(log_filename)
         self.Log_File.setLevel('DEBUG') # Set logging level to DEBUG
         self.Log_File.setFormatter(logging.Formatter(self.log_format,self.DATEFORMAT))
