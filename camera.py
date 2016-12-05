@@ -19,7 +19,10 @@ class camera(base):
 		filename = strftime("%Y-%m-%d__%H_%S", localtime()) + ".png"
 		self.LogM(20, "Going to capture an image named '" + filename + "' with the camera")
 		subprocess.call(["camera/startCapture" + filename, i])
+		self.LogM(10, "Going to move '" + filename + "' to images/ folder")
 		os.rename("camera/" + filename, "images/" + filename)
+		self.LogM(10, "Moved '" + filename + "' to images/ folder")
 
+	# In future versions, use this to get the status of the camera, and store it in instanced variables
 	def get_status(self):
 		pass
