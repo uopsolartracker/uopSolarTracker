@@ -52,7 +52,6 @@ def acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel):
 		move =1;
 	else:
 		move=0;
-	move=1;
 	return (move)	
 
 def SunCenteredCheck(imageWidth, imageHeight, rightPixel, leftPixel, downPixel, upPixel):

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 import os               																				
 import math
 import cmath
@@ -12,24 +13,25 @@ import cv2
 from weatherData import *
 from sun_position_calc import *
 from servo_position_change import *
-from scheduler import*
+#from scheduler import*
 from region_properties import region_properties
 
-#----- Set up serial connection with Uno-------  
+def cameraConnetion():
+	img = cv2.imread('sun_gray.bmp')
+	print("Image has been Taken")
+	return(img) 
+
 def serialConnectionCheck():            
 	### Turn the Serial Protocol ON
 	port = '/dev/ttyACM0'
 	baud = 115200
 	ser = serial.Serial(port, baud, timeout = 6)
+	print("Serial Connection Setup")
 	return ser
-
-#----- Make sure WIFI is working-------
 def wifiConnectionCheck():
 	### Test wifi connection
-	print ("test 1")
 	loop_value = 1
 	while loop_value == 1:
-		print ("test 2")
 		try:
 			urllib.request.urlopen("http://google.com")
 			loop_value=0
@@ -39,20 +41,19 @@ def wifiConnectionCheck():
 		import time
 		time.sleep(5)
 	else:
-		print( "Up and running." )
-
-#------Connect to camera-------
-def cameraConnetion():
-	img = cv2.imread('sun_gray.bmp')
-	return(img) 
-
-#-----Open or Close Protection Unit------
+		print( "Wifi Connection is Up and Running." )
 def ProtectionUnitCover(ser):
 	### Get Weather codes
 	topWeatherCodes=getWeatherForTop();
 	WeatherStatus= topWeatherCodes['badWeatherNow']
 	CoverStatus= topWeatherCodes['topCurrentStatus']
-
+	print("Weather Status:")
+	print(WeatherStatus)
+	print("Cover Staus:")
+	if CoverStatus == 1:
+		print("Cover is Open")
+	else:
+		print("Cover is Closed")
 	if WeatherStatus == 1 and CoverStatus == 1 : # Cover is open and weather is bad
 		### Close Protection Unit 
 		CoverStatus=0;
@@ -64,29 +65,7 @@ def ProtectionUnitCover(ser):
 		CoverStatus=1;
 		motor_pro= str(100)
 		ser.write(motor_pro.encode('utf-8'))
-		
 	return(CoverStatus)
-	
-#----This will be replaced by the schedular-------
-def getTime():
-	import time
-	import datetime
-	
-	# get timestamp 
-	timeStamp= time.time();
-
-	# convert timestamp to humanreadable form
-	humanReadable_TS= datetime.datetime.fromtimestamp(timeStamp).strftime('%Y-%m-%d-%H-%M-%S');
-
-	# parse human readable to create variables for year, month, day, etc.
-	h = humanReadable_TS.split("-");
-	# Hour
-	
-	Hour= h[3];
-	Minute=h[4];
-	return (Hour, Minute)
-	
-#----Getting SunPosition every hour 8:30AM-4:30PM--------
 def HourlySunPosition(ser):
 	[motor_azimuth,motor_zenith]=hourly_position()
 	val_vertical=str(motor_zenith[0])	
@@ -99,6 +78,10 @@ def HourlySunPosition(ser):
 def MotorMovementTracker( ser,val_vertical,val_horizontal):
 	### Move Tracker
 	import time
+	print("Vertical Movement of Motor 1:")
+	print(val_vertical)
+	print("Horizontal Movemrnt of Motor 2:")
+	print(val_horizontal)
 	motor_ver='v'
 	motor_hor='h'
 	
@@ -114,39 +97,42 @@ def MotorMovementTracker( ser,val_vertical,val_horizontal):
 	time.sleep(2)
 	hor_pos=ser.read(10)
 	time.sleep(2)
-
+	
 	#feedback into string
 	ver_pos=str(ver_pos)
 	hor_pos=str(hor_pos)
 	# split string to get position
 	old_i=ver_pos.split('\\r\\n')
 	old_j=hor_pos.split('\\r\\n')
+	
 	old_i=int(old_i[1])
 	old_j=int(old_j[1])
+
 	return (old_i,old_j)
 
-
-#-----Check to see if sun is centered in first image-----
 def CheckSunCentered(ser,old_i, old_j):
-	old_i=700;
-	old_j=700;
 	### Get image from camera
 	img=cameraConnetion()
 	
 	### Find center of sun in image using image processing
 	rp = region_properties()
 	[xC, yC, height, width]=rp.GetCenter(img);
+	print("Image is being processed:")
 	#xC=234
 	#yC=560
 	#height=960
 	#width=1200
 	
 	### Check if sun is in scope
+	print("Checking to see if sun is centered in image:")
 	[rightPixel, leftPixel, downPixel, upPixel]=pixel_distance(height/2, width/2, xC, yC)
 	move=acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel)
-	
-	### Call function to see if image is centered
-	AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, downPixel, upPixel,ser)
+	if move ==1:
+		print("Image is centered")
+	else :
+		print("Image is not centered. Adjust motors.")
+		### Call function to see if image is centered
+		AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, downPixel, upPixel,ser)
 
 #---- Adjusts Tracker until sun is centered in image----
 def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, downPixel, upPixel, ser):
@@ -158,7 +144,10 @@ def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, dow
 		
 		### Calculate how far to move
 		[motor_i, motor_j]=sendPosition(move, iChange, jChange,old_i, old_j)	
-		
+		print("New Vertical Movement of Motor 1:")
+		print(motor_i)
+		print("New Horizontal Movemrnt of Motor 2:")
+		print(motor_j)
 		### Send move to Uno
 		import time
 		motor_ver='v';
@@ -181,11 +170,12 @@ def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, dow
 		ver_pos=str(ver_pos)
 		hor_pos=str(hor_pos)
 		# split string to get position
-		old_i=ver_pos.split('\\r\\n')
-		old_j=hor_pos.split('\\r\\n')
-		print(old_i)
-		old_i=int(old_i[1])
-		old_j=int(old_j[1])
+		#old_i=ver_pos.split('\\r\\n')
+		#print(old_i)
+		#old_j=hor_pos.split('\\r\\n')
+		
+		#old_i=int(old_i[1])
+		#old_j=int(old_j[1])
 		
 		### Get image from camera
 		#img=cameraConnetion();
@@ -203,17 +193,21 @@ def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, dow
 				
 	### Save good image on computer
 	#img.save(img)
-
-### Function Calls
-ser=serialConnectionCheck();
-wifiConnectionCheck();
-CoverStatus=ProtectionUnitCover(ser);
-
-#[CoverStatus]=ProtectionUnitCover();
-if CoverStatus == 1:
-	HourlySunPosition(ser,);
+ser=serialConnectionCheck() 
+wifiConnectionCheck()
+#CoverStatus=ProtectionUnitCover(ser)
+#if CoverStatus == 1:
+flag=0;
+while(flag !=3):
+	[old_i,old_j]=HourlySunPosition(ser);
+	time.sleep(3)
+	old_i=600
+	old_j=600
 	CheckSunCentered(ser,old_i, old_j);
-	
+	flag=flag+1;
+	time.sleep(300)
 
-### Interrupts
-#TODO: Make interrupt on time 1hr after nextAPI point when stops raining to allow top cover to open
+
+
+
+

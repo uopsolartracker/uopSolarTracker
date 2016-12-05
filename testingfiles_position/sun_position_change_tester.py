@@ -15,6 +15,7 @@ from servo_position_change import *
 
 def cameraConnetion():
 	img = cv2.imread('sun_gray.bmp')
+	print("Image Taken")
 	return(img) 
 
 def serialConnectionCheck():            
@@ -22,6 +23,7 @@ def serialConnectionCheck():
 	port = '/dev/ttyACM0'
 	baud = 115200
 	ser = serial.Serial(port, baud, timeout = 6)
+	print("Serial Connection Setup")
 	return ser
 def CheckSunCentered(ser,old_i, old_j):
 	### Get image from camera
@@ -29,6 +31,7 @@ def CheckSunCentered(ser,old_i, old_j):
 	
 	### Find center of sun in image using image processing
 	rp = region_properties()
+	print("Image is being processed:")
 	[xC, yC, height, width]=rp.GetCenter(img);
 	#xC=234
 	#yC=560
@@ -38,9 +41,12 @@ def CheckSunCentered(ser,old_i, old_j):
 	### Check if sun is in scope
 	[rightPixel, leftPixel, downPixel, upPixel]=pixel_distance(height/2, width/2, xC, yC)
 	move=acceptedErrorCheck(rightPixel, leftPixel, downPixel, upPixel)
-	
-	### Call function to see if image is centered
-	AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, downPixel, upPixel,ser)
+	if move ==1:
+		print("Image is centered")
+	else :
+		print("Image is not centered. Adjust motors.")
+		### Call function to see if image is centered
+		AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, downPixel, upPixel,ser)
 
 #---- Adjusts Tracker until sun is centered in image----
 def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, downPixel, upPixel, ser):
@@ -52,7 +58,10 @@ def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, dow
 		
 		### Calculate how far to move
 		[motor_i, motor_j]=sendPosition(move, iChange, jChange,old_i, old_j)	
-		
+		print("New Vertical Movement of Motor 1:")
+		print(motor_i)
+		print("New Horizontal Movemrnt of Motor 2:")
+		print(motor_j)
 		### Send move to Uno
 		import time
 		motor_ver='v';

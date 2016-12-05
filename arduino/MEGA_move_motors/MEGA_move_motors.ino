@@ -92,7 +92,7 @@ void loop(){
       
       if (Serial.available())
       {
-        //Serial.println("v");
+        Serial.println("v");
         // Read in the new position and send to motor
         data = Serial.readString();
         Herkulex.moveOne(vertical_motorID, data.toInt(), 1500, 1);
@@ -122,7 +122,7 @@ void loop(){
       
       if (Serial.available())
       {
-      	//Serial.println("h");
+      	Serial.println("h");
      	 // Read in the new position and send to motor
      	 data = Serial.readString();
      	 Herkulex.moveOne(horizontal_motorID, data.toInt(), 1500, 2);
