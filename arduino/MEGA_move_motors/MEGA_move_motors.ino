@@ -8,6 +8,8 @@ int vertical_change = 0;
 int vertical_cur_angle = 0;
 int vertical_angle = 0;
 
+int protectionID = 1;
+
 // Horizontal controlling motor variables
 int horizontal_motorID = 0;
 int horizontal_change = 0;
@@ -24,7 +26,13 @@ void setup()
   Herkulex.beginSerial1(115200); //open serial port 1
  
   Herkulex.reboot(vertical_motorID); //reboot vertical motor
+  delay(50);  //a delay to have time for serial monitor opening
+
   Herkulex.reboot(horizontal_motorID); //reboot horizontal motor
+  delay(50);  //a delay to have time for serial monitor opening
+
+  Herkulex.reboot(protectionID); //reboot horizontal motor
+  delay(50);  //a delay to have time for serial monitor opening
   
   delay(500); 
   Herkulex.initialize(); //initialize motors TODO: Check if this works for two motors on the bus
@@ -32,6 +40,8 @@ void setup()
   
   Herkulex.setLed(vertical_motorID, 0x6);
   Herkulex.setLed(horizontal_motorID, 0x6);
+  Herkulex.setLed(protectionID, 0x6);
+  
   
 }
 
@@ -58,6 +68,7 @@ void loop(){
       //Serial.println("Reboot");
       Herkulex.reboot(vertical_motorID);
       Herkulex.reboot(horizontal_motorID);
+      Herkulex.reboot(protectionID);
       delay(1000);
       Herkulex.initialize();
       delay(100);
@@ -75,7 +86,7 @@ void loop(){
       //Serial.println("v");
       //Serial.println(Herkulex.getPosition(vertical_motorID));
       //Serial.println('h');
-      Serial.println(Herkulex.getPosition(horizontal_motorID));
+      //Serial.println(Herkulex.getPosition(horizontal_motorID));
     }
     else if (data == "v")  // move vertical angle motor
     {
@@ -92,7 +103,7 @@ void loop(){
       
       if (Serial.available())
       {
-        Serial.println("v");
+        //Serial.println("v");
         // Read in the new position and send to motor
         data = Serial.readString();
         Herkulex.moveOne(vertical_motorID, data.toInt(), 1500, 1);
@@ -104,7 +115,7 @@ void loop(){
         //Herkulex.moveOneAngle(vertical_motorID, vertical_angle, 1000, 1);
         
         // Return current angle of mirror
-        Serial.println(Herkulex.getPosition(vertical_motorID));
+        //Serial.println(Herkulex.getPosition(vertical_motorID));
       }
     }
     else if (data == "h")
@@ -122,7 +133,7 @@ void loop(){
       
       if (Serial.available())
       {
-      	Serial.println("h");
+      	//Serial.println("h");
      	 // Read in the new position and send to motor
      	 data = Serial.readString();
      	 Herkulex.moveOne(horizontal_motorID, data.toInt(), 1500, 2);
@@ -134,7 +145,37 @@ void loop(){
       
       	// Return current angle of mirror
  	delay(1000);
-     	Serial.println(Herkulex.getPosition(horizontal_motorID));
+     	//Serial.println(Herkulex.getPosition(horizontal_motorID));
+      }
+    }
+    else if (data == "u")  // move vertical angle motor
+    {
+      unsigned long startTime = millis();
+      while(!Serial.available())
+      {
+        // Timeout if position data is not received
+        if (millis() - startTime > TIMEOUT)
+        {
+          Serial.println("Timeout-Reached");
+          break;
+        }
+      }
+      
+      if (Serial.available())
+      {
+        //Serial.println("u");
+        // Read in the new position and send to motor
+        data = Serial.readString();
+        Herkulex.moveOne(protectionID, data.toInt(), 1500, 1);
+ 	delay(1000);
+        
+        // For relative angle (if needed)
+        //vertical_cur_angle = Herkulex.getAngle(vertical_motorID);
+        //vertical_angle = vertical_cur_angle + data  ;
+        //Herkulex.moveOneAngle(vertical_motorID, vertical_angle, 1000, 1);
+        
+        // Return current angle of mirror
+        //Serial.println(Herkulex.getPosition(vertical_motorID));
       }
     }
     else
@@ -142,21 +183,21 @@ void loop(){
       //Serial.println("Got data");
       //Serial.println(data);
     
-      delay(10); 
+      //delay(10); 
       //Herkulex.moveSpeedOne(vertical_motorID, 300, 672, 1); //move motor with 300 speed  
-      Herkulex.moveOne(vertical_motorID, data.toInt(), 1500, 1); //move to position 200 in 1500 milliseconds
-      Herkulex.setLed(vertical_motorID, 0x6);
-      delay(2000);
+      //Herkulex.moveOne(vertical_motorID, data.toInt(), 1500, 1); //move to position 200 in 1500 milliseconds
+      //Herkulex.setLed(vertical_motorID, 0x6);
+      //delay(2000);
       //Serial.print("Vertical Position = ");
-      Serial.println(Herkulex.getPosition(vertical_motorID));
+      //Serial.println(Herkulex.getPosition(vertical_motorID));
       
-      delay(2000);
+      //delay(2000);
 
       //Herkulex.moveSpeedOne(horizontal_motorID, -300, 672, 2); //move motor with -300 speed
-      Herkulex.moveOne(horizontal_motorID, data.toInt(), 1500, 2); //move to 820 position in 500 milliseconds
-      delay(2000);
+      //Herkulex.moveOne(horizontal_motorID, data.toInt(), 1500, 2); //move to 820 position in 500 milliseconds
+      //delay(2000);
       //Serial.print("Horizontal Position = ");
-      Serial.println(Herkulex.getPosition(horizontal_motorID));
+      //Serial.println(Herkulex.getPosition(horizontal_motorID));
     
     }
   }

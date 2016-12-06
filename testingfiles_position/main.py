@@ -105,10 +105,10 @@ def MotorMovementTracker( ser,val_vertical,val_horizontal):
 	old_i=ver_pos.split('\\r\\n')
 	old_j=hor_pos.split('\\r\\n')
 	
-	old_i=int(old_i[1])
-	old_j=int(old_j[1])
+	#old_i=int(old_i[1])
+	#old_j=int(old_j[1])
 
-	return (old_i,old_j)
+	return (int(val_vertical),int(val_horizontal))
 
 def CheckSunCentered(ser,old_i, old_j):
 	### Get image from camera
@@ -146,7 +146,7 @@ def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, dow
 		[motor_i, motor_j]=sendPosition(move, iChange, jChange,old_i, old_j)	
 		print("New Vertical Movement of Motor 1:")
 		print(motor_i)
-		print("New Horizontal Movemrnt of Motor 2:")
+		print("New Horizontal Movement of Motor 2:")
 		print(motor_j)
 		### Send move to Uno
 		import time
@@ -195,17 +195,18 @@ def AdjustTracker(old_i,old_j,move,img,height, width, rightPixel, leftPixel, dow
 	#img.save(img)
 ser=serialConnectionCheck() 
 wifiConnectionCheck()
+print("Checking Weather");
 #CoverStatus=ProtectionUnitCover(ser)
 #if CoverStatus == 1:
 flag=0;
-while(flag !=3):
+while(flag !=10):
 	[old_i,old_j]=HourlySunPosition(ser);
 	time.sleep(3)
-	old_i=600
-	old_j=600
+	old_i=old_i+30;
+	old_j=old_j-30;
 	CheckSunCentered(ser,old_i, old_j);
 	flag=flag+1;
-	time.sleep(300)
+	time.sleep(60)
 
 
 
