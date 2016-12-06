@@ -15,5 +15,5 @@ class uploader(base):
 	### 	uploader.upload("sun_image.png")
 	def upload(self, filename):
 		self.LogM(20, "Uploading '" + filename + "' image to Dropbox")
-		subprocess.call(["Dropbox-Uploader/dropbox_uploader.sh upload " + filename " /Images/", i])
+		subprocess.call(["Dropbox-Uploader/dropbox_uploader.sh upload", filename, "/Images/"])
 		self.LogM(10, "File uploaded")

@@ -18,7 +18,7 @@ class camera(base):
 	def capture_image(self):
 		filename = strftime("%Y-%m-%d__%H_%S", localtime()) + ".png"
 		self.LogM(20, "Going to capture an image named '" + filename + "' with the camera")
-		subprocess.call(["camera/startCapture" + filename, i])
+		subprocess.call(["camera/startCapture", filename])
 		self.LogM(10, "Going to move '" + filename + "' to images/ folder")
 		os.rename("camera/" + filename, "images/" + filename)
 		self.LogM(10, "Moved '" + filename + "' to images/ folder")
