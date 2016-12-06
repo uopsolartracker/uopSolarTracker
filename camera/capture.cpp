@@ -50,11 +50,12 @@ int main (int argc, char * argv[])
 
 int time1,time2,timeSave;
 int count=0;
+int my_count = 0;
 
 int bMain=1;
 char buf[1024]={0};
 
-std::string fileName ="IMAGE.PNG";
+std::string fileName = argv[1]; // Use the name given through the command line
 
 int width=1080;
 int height=940;
@@ -295,6 +296,7 @@ printf("%s",KNRM);
 
 		time2 = GetTickCount();
 		count++;
+		my_count++;
 		if(time2-time1 > 1000 )
 		{
 			ASIGetDroppedFrames(CamNum, &iDropped);
@@ -316,6 +318,8 @@ printf("%s",KNRM);
 			cvSet(pRgb, CV_RGB(180, 180, 180));
 			cvResetImageROI(pRgb);
 		}
+		if(my_count>1)
+			bMain = 0;
 	}
 END:
 
