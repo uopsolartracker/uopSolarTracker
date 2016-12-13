@@ -26,6 +26,7 @@ while True:
 	#if d == '150':
 	#	print("Reached 150 max in pi")
 	#	d = 1
+	#
 	
 	val = input("Angle between -150 - 150: ")
 	#val = 500
